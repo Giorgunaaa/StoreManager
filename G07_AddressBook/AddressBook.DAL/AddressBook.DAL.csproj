@@ -33,6 +33,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SqlClient, Version=4.6.1.5, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SqlClient.4.8.5\lib\net461\System.Data.SqlClient.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,9 +54,17 @@
       <Project>{6721086b-6eb4-46ab-8064-7b4293a7fa3f}</Project>
       <Name>AddressBook.DTO</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DatabaseHelper.Generic\DatabaseHelper.Generic.csproj">
+      <Project>{63db9544-b9a7-4ac1-b4e4-5e8dedeab164}</Project>
+      <Name>DatabaseHelper.Generic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DatabaseHelper\DatabaseHelper.csproj">
+      <Project>{cd596350-6225-476f-9e99-17c7c6eab1a2}</Project>
+      <Name>DatabaseHelper</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Tasks.txt" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
