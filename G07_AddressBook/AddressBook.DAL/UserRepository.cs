@@ -6,7 +6,7 @@ using AddressBook.DTO;
 namespace AddressBook.DAL
 {
 	//todo: დავამატოთ ყველა საჭირო ფუნქცია ბაზის პროცედურების მიხედვით.
-	public sealed class UserRepository : RepositoryBase
+	public sealed class UserRepository : RepositoryBase<User>
 	{
 		public void Register(User user)
 		{
