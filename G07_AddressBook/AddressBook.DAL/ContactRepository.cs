@@ -8,17 +8,16 @@ namespace AddressBook.DAL
 {
     public sealed class ContactRepository : RepositoryBase<Contact>
     {
-        RepositoryBase<Contact> _repository;
-        public void Insert(Contact contact)
-        {
-            _repository.Insert(contact )
-     
-                new SqlParameter("FirstName", contact.FirstName),
-                new SqlParameter("LastName", contact.LastName),
-                new SqlParameter("Phone", contact.Phone),
-                new SqlParameter("Email", contact.Email),
-                new SqlParameter("Address", contact.Address));
-        }
+        //public void Insert(Contact contact)
+        //{
+        //    _repository.Insert(contact )
+
+        //        new SqlParameter("FirstName", contact.FirstName),
+        //        new SqlParameter("LastName", contact.LastName),
+        //        new SqlParameter("Phone", contact.Phone),
+        //        new SqlParameter("Email", contact.Email),
+        //        new SqlParameter("Address", contact.Address));
+        //}
 
         public void Update(Contact contact)
         {
@@ -44,10 +43,26 @@ namespace AddressBook.DAL
 
         public IEnumerable<Contact> Search(string text)
         {
-            _database.ExecuteReader(
-                "SearchContact_SP",
-                CommandType.StoredProcedure,
-                new SqlParameter("Text", text);
+            throw new System.NotImplementedException();
+        }
+
+        protected override IEnumerable<SqlParameter> GetInsertParameters(Contact entity)
+        {
+	        yield return new SqlParameter("FirstName", contact.FirstName);
+	        yield return new SqlParameter("LastName", contact.LastName);
+	        yield return new SqlParameter("Phone", contact.Phone);
+	        yield return new SqlParameter("Email", contact.Email);
+	        yield return new SqlParameter("Address", contact.Address);
+        }
+
+        protected override IEnumerable<SqlParameter> GetUpdateParameters(Contact entity)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override IEnumerable<SqlParameter> GetDeleteParameters(Contact entity)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

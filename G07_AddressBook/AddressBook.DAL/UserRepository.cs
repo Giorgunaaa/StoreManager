@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using AddressBook.DTO;
@@ -9,15 +10,9 @@ namespace AddressBook.DAL
     //todo: დავამატოთ ყველა საჭირო ფუნქცია ბაზის პროცედურების მიხედვით.
     public sealed class UserRepository : RepositoryBase<User>
     {
-        RepositoryBase<User> repository;
         public void Register(User user)
         {
-            //repository.Insert(entity<user>((new SqlParameter("Email", user.Email), new SqlParameter("Password", user.Password).ToString());
-            _database.ExecuteNonQuery(
-                  "InsertUser_SP",
-                   CommandType.StoredProcedure,
-                   new SqlParameter("Email", user.Email),
-                   new SqlParameter("Password", user.Password)).ToString();
+            base.Insert(user);
         }
 
         public string Login(string email, string password)
@@ -37,6 +32,22 @@ namespace AddressBook.DAL
                 CommandType.StoredProcedure,
                 new SqlParameter("Password", currentPassword),
                 new SqlParameter("NewPassword", password));
+        }
+
+        protected override IEnumerable<SqlParameter> GetInsertParameters(User entity)
+        {
+            yield return new SqlParameter("Email", entity.Email);
+            yield return new SqlParameter("Password", entity.Password);
+        }
+
+        protected override IEnumerable<SqlParameter> GetUpdateParameters(User entity)
+        {
+	        throw new NotImplementedException();
+        }
+
+        protected override IEnumerable<SqlParameter> GetDeleteParameters(User entity)
+        {
+	        throw new NotImplementedException();
         }
     }
 }

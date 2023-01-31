@@ -4,6 +4,7 @@ using System;
 using System.Data.SqlClient;
 using System.Data;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AddressBook.DAL
 {
@@ -24,14 +25,15 @@ namespace AddressBook.DAL
 		{
 			_database.ExecuteNonQuery(
 				$"Insert{EntityName}_SP",
-				CommandType.StoredProcedure)
+				CommandType.StoredProcedure,
+				GetInsertParameters(entity).ToArray());
 		}
 
 		public void Update(T entity)
 		{
 			_database.ExecuteNonQuery(
 				$"Update{EntityName}_SP",
-				CommandType.StoredProcedure);			
+				CommandType.StoredProcedure);
 		}
 
 		public void Delete(int id)
@@ -40,5 +42,9 @@ namespace AddressBook.DAL
 				$"Delete{EntityName}_SP",
 				CommandType.StoredProcedure);				
 		}
+
+		protected abstract IEnumerable<SqlParameter> GetInsertParameters(T entity);
+		protected abstract IEnumerable<SqlParameter> GetUpdateParameters(T entity);
+		protected abstract IEnumerable<SqlParameter> GetDeleteParameters(T entity);
 	}
 }
