@@ -48,11 +48,11 @@ namespace AddressBook.DAL
 
         protected override IEnumerable<SqlParameter> GetInsertParameters(Contact entity)
         {
-	        yield return new SqlParameter("FirstName", contact.FirstName);
-	        yield return new SqlParameter("LastName", contact.LastName);
-	        yield return new SqlParameter("Phone", contact.Phone);
-	        yield return new SqlParameter("Email", contact.Email);
-	        yield return new SqlParameter("Address", contact.Address);
+	        yield return new SqlParameter("FirstName", entity.FirstName);
+	        yield return new SqlParameter("LastName", entity.LastName);
+	        yield return new SqlParameter("Phone", entity.Phone);
+	        yield return new SqlParameter("Email", entity.Email);
+	        yield return new SqlParameter("Address", entity.Address);
         }
 
         protected override IEnumerable<SqlParameter> GetUpdateParameters(Contact entity)
