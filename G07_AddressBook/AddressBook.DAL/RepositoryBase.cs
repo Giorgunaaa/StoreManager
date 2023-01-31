@@ -3,6 +3,7 @@ using DatabaseHelper;
 using System;
 using System.Data.SqlClient;
 using System.Data;
+using System.Collections.Generic;
 
 namespace AddressBook.DAL
 {
@@ -14,7 +15,7 @@ namespace AddressBook.DAL
 
 		protected RepositoryBase()
 		{
-			_database = new MsSqlDatabase("");
+			_database = new MsSqlDatabase(@"server=DESKTOP-VPHH4BG; database=G07_AC_AddressBook; integrated security=true");
 		}
 
 		protected string EntityName => typeof(T).Name;
@@ -23,7 +24,7 @@ namespace AddressBook.DAL
 		{
 			_database.ExecuteNonQuery(
 				$"Insert{EntityName}_SP",
-				CommandType.StoredProcedure);
+				CommandType.StoredProcedure)
 		}
 
 		public void Update(T entity)
