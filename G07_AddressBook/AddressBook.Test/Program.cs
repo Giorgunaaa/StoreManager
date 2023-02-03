@@ -1,4 +1,9 @@
-﻿using System;
+﻿using AddressBook.DTO;
+using AddressBook.DAL;
+using DatabaseHelper;
+using System;
+using System.Data.SqlClient;
+using System.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +15,7 @@ namespace AddressBook.Test
 	{
 		static void Main(string[] args)
 		{
+			var a= new Contact
 		}
 	}
 }

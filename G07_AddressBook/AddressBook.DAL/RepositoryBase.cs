@@ -8,8 +8,6 @@ using System.Linq;
 
 namespace AddressBook.DAL
 {
-	// დაასრულეთ და გატესტეთ შემდეგი ფუნქციონალი: Insert, Update, Delete.
-	// ეს ფუნქციები უნდა მუშაობდეს ყველა მემკვიდრე კლასებისთვის.
 	public abstract class RepositoryBase<T>
 	{
 		protected MsSqlDatabase _database;
@@ -34,14 +32,16 @@ namespace AddressBook.DAL
 			_database.ExecuteNonQuery(
 				$"Update{EntityName}_SP",
 				CommandType.StoredProcedure);
-		}
+                GetUpdateParameters(entity).ToArray());
+        }
 
 		public void Delete(int id)
 		{
 			_database.ExecuteNonQuery(
 				$"Delete{EntityName}_SP",
-				CommandType.StoredProcedure);				
-		}
+				CommandType.StoredProcedure);
+                GetDeleteParameters(entity).ToArray());
+        }
 
 		protected abstract IEnumerable<SqlParameter> GetInsertParameters(T entity);
 		protected abstract IEnumerable<SqlParameter> GetUpdateParameters(T entity);

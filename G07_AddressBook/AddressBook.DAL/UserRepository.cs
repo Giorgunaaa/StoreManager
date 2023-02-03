@@ -7,7 +7,6 @@ using DatabaseHelper.Generic;
 
 namespace AddressBook.DAL
 {
-    //todo: დავამატოთ ყველა საჭირო ფუნქცია ბაზის პროცედურების მიხედვით.
     public sealed class UserRepository : RepositoryBase<User>
     {
         public void Register(User user)
@@ -26,12 +25,7 @@ namespace AddressBook.DAL
 
         public void SetPassword(string currentPassword, string password)
         {
-            //repository.update(user entity)
-            _database.ExecuteNonQuery(
-                "SetUserPassword_SP",
-                CommandType.StoredProcedure,
-                new SqlParameter("Password", currentPassword),
-                new SqlParameter("NewPassword", password));
+            base.Update(user);
         }
 
         protected override IEnumerable<SqlParameter> GetInsertParameters(User entity)
@@ -42,12 +36,13 @@ namespace AddressBook.DAL
 
         protected override IEnumerable<SqlParameter> GetUpdateParameters(User entity)
         {
-	        throw new NotImplementedException();
+            yield return new SqlParameter("Email", entity.Email);
+            yield return new SqlParameter("Password", entity.Password);
         }
 
         protected override IEnumerable<SqlParameter> GetDeleteParameters(User entity)
         {
-	        throw new NotImplementedException();
+            return new SqlParameter("ID", entity.Id);
         }
     }
 }

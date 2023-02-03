@@ -1,6 +1,5 @@
 ﻿namespace AddressBook.DTO
 {
-	//todo: გადმოვიტანოთ ბაზიდან ველები.
 	public sealed class User
     {
 	    public int Id { get; set; }
