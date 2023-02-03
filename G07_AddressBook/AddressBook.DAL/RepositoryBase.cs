@@ -8,6 +8,11 @@ using System.Linq;
 
 namespace AddressBook.DAL
 {
+	public static class TokenManager
+	{
+		public static Func<string> GetToken;
+	}
+
 	public abstract class RepositoryBase<T>
 	{
 		protected MsSqlDatabase _database;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AddressBook.DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +17,8 @@ namespace AddressBook.App
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+
+			TokenManager.GetToken = () => LocalStorage.Token;
 			Application.Run(new Form1());
 		}
 	}

@@ -42,7 +42,7 @@ namespace AddressBook.DAL
 
         protected override IEnumerable<SqlParameter> GetDeleteParameters(User entity)
         {
-            return new SqlParameter("ID", entity.Id);
+            yield return new SqlParameter("ID", entity.Id);
         }
     }
 }
