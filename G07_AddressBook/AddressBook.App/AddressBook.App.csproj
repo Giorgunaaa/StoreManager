@@ -35,6 +35,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SqlClient, Version=4.5.0.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SqlClient.4.6.1\lib\net461\System.Data.SqlClient.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,8 +56,17 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="LocalStorage.cs" />
+    <Compile Include="LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -64,6 +76,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -81,6 +94,18 @@
     <ProjectReference Include="..\AddressBook.DAL\AddressBook.DAL.csproj">
       <Project>{45F6E70E-FA52-401C-9F83-B1D4EE76DC98}</Project>
       <Name>AddressBook.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AddressBook.DTO\AddressBook.DTO.csproj">
+      <Project>{6721086b-6eb4-46ab-8064-7b4293a7fa3f}</Project>
+      <Name>AddressBook.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DatabaseHelper.Generic\DatabaseHelper.Generic.csproj">
+      <Project>{63db9544-b9a7-4ac1-b4e4-5e8dedeab164}</Project>
+      <Name>DatabaseHelper.Generic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DatabaseHelper\DatabaseHelper.csproj">
+      <Project>{cd596350-6225-476f-9e99-17c7c6eab1a2}</Project>
+      <Name>DatabaseHelper</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

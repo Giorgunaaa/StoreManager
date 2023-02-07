@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="ContactRepository.cs" />
     <Compile Include="RepositoryBase.cs" />
+    <Compile Include="TokenManager.cs" />
     <Compile Include="UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

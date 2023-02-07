@@ -19,7 +19,14 @@ namespace AddressBook.App
 			Application.SetCompatibleTextRenderingDefault(false);
 
 			TokenManager.GetToken = () => LocalStorage.Token;
-			Application.Run(new Form1());
+
+			LoginForm loginForm = new LoginForm();
+			DialogResult result = loginForm.ShowDialog();
+
+			if (result == DialogResult.OK)
+			{
+				Application.Run(new Form1());
+			}
 		}
 	}
 }

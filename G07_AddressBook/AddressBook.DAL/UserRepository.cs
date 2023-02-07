@@ -25,7 +25,7 @@ namespace AddressBook.DAL
 
         public void SetPassword(string currentPassword, string password)
         {
-            base.Update(user);
+            //base.Update(user);
         }
 
         protected override IEnumerable<SqlParameter> GetInsertParameters(User entity)

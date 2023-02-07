@@ -20,6 +20,7 @@ namespace AddressBook.DAL
             yield return new SqlParameter("Phone", entity.Phone);
             yield return new SqlParameter("Email", entity.Email);
             yield return new SqlParameter("Address", entity.Address);
+            yield return new SqlParameter("Token", TokenManager.GetToken());
         }
 
         protected override IEnumerable<SqlParameter> GetUpdateParameters(Contact entity)
