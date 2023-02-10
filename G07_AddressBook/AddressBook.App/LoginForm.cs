@@ -34,5 +34,10 @@ namespace AddressBook.App
 
 			DialogResult = DialogResult.OK;
 		}
+
+		private void btnRegistration_Click(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

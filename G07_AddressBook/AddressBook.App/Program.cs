@@ -25,7 +25,7 @@ namespace AddressBook.App
 
 			if (result == DialogResult.OK)
 			{
-				Application.Run(new Form1());
+				Application.Run(new MainForm());
 			}
 		}
 	}

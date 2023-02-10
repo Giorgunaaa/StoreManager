@@ -34,6 +34,7 @@
 			this.txtPassword = new System.Windows.Forms.TextBox();
 			this.btnOk = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
+			this.btnRegistration = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// lblEmail
@@ -82,7 +83,7 @@
 			this.btnOk.Location = new System.Drawing.Point(166, 73);
 			this.btnOk.Name = "btnOk";
 			this.btnOk.Size = new System.Drawing.Size(75, 23);
-			this.btnOk.TabIndex = 4;
+			this.btnOk.TabIndex = 5;
 			this.btnOk.Text = "Login";
 			this.btnOk.UseVisualStyleBackColor = true;
 			this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
@@ -94,9 +95,19 @@
 			this.btnCancel.Location = new System.Drawing.Point(247, 73);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(75, 23);
-			this.btnCancel.TabIndex = 5;
+			this.btnCancel.TabIndex = 6;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
+			// 
+			// btnRegistration
+			// 
+			this.btnRegistration.Location = new System.Drawing.Point(12, 73);
+			this.btnRegistration.Name = "btnRegistration";
+			this.btnRegistration.Size = new System.Drawing.Size(75, 23);
+			this.btnRegistration.TabIndex = 4;
+			this.btnRegistration.Text = "Registration";
+			this.btnRegistration.UseVisualStyleBackColor = true;
+			this.btnRegistration.Click += new System.EventHandler(this.btnRegistration_Click);
 			// 
 			// LoginForm
 			// 
@@ -105,6 +116,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
 			this.ClientSize = new System.Drawing.Size(334, 108);
+			this.Controls.Add(this.btnRegistration);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnOk);
 			this.Controls.Add(this.txtPassword);
@@ -130,5 +142,6 @@
 		private System.Windows.Forms.TextBox txtPassword;
 		private System.Windows.Forms.Button btnOk;
 		private System.Windows.Forms.Button btnCancel;
+		private System.Windows.Forms.Button btnRegistration;
 	}
 }
