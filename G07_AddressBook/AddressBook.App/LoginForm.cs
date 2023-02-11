@@ -37,7 +37,22 @@ namespace AddressBook.App
 
 		private void btnRegistration_Click(object sender, EventArgs e)
 		{
-
+				
 		}
-	}
+
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblEmail_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtEmail_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+    }
 }
