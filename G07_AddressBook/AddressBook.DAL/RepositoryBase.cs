@@ -12,7 +12,7 @@ namespace AddressBook.DAL
 
 		protected RepositoryBase()
 		{
-			_database = new MsSqlDatabase(@"server=.\SQLSERVER; database=G07_AC_AddressBook; integrated security=true");
+			_database = new MsSqlDatabase(@"server=.DESKTOP-KNBRI5T\SQLEXPRESS; database=G07_AC_AddressBook; integrated security=true");
 		}
 
 		protected string EntityName => typeof(T).Name;
