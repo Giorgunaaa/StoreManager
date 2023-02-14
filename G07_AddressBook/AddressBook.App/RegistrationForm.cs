@@ -15,6 +15,7 @@ namespace AddressBook.App
 		public RegistrationForm()
 		{
 			InitializeComponent();
+            
 		}
 
         private void RegistrationForm_Load(object sender, EventArgs e)
@@ -33,6 +34,16 @@ namespace AddressBook.App
         }
 
         private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
         {
 
         }

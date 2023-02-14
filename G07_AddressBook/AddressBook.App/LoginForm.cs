@@ -37,7 +37,8 @@ namespace AddressBook.App
 
 		private void btnRegistration_Click(object sender, EventArgs e)
 		{
-				
+			RegistrationForm registrationForm = new RegistrationForm();
+			registrationForm.ShowDialog();
 		}
 
         private void LoginForm_Load(object sender, EventArgs e)
