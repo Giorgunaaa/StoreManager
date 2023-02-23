@@ -1,4 +1,6 @@
-﻿namespace Extensions;
+﻿using System.Linq;
+
+namespace Extensions;
 
 public static class MyEnumerable
 {
@@ -51,4 +53,20 @@ public static class MyEnumerable
             yield return item;
         }
     }
+
+    public static IEnumerable<T> MyDistinct<T>(this IEnumerable<T> enumerable)
+    {
+        if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
+
+        HashSet<T> result = new HashSet<T>();
+
+        foreach (var item in enumerable)
+        {
+            result.Add(item);
+        }
+
+        return result;
+    }
+
+
 }
