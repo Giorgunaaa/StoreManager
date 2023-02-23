@@ -54,6 +54,23 @@ public static class MyEnumerable
         }
     }
 
+    public static IEnumerable<T> MyExcept<T>(this IEnumerable<T> firstEnumerable, IEnumerable<T> secondEnumerable)
+    {
+        if (firstEnumerable == null) throw new ArgumentNullException(nameof(firstEnumerable));
+        if (secondEnumerable == null) throw new ArgumentNullException(nameof(secondEnumerable));
+
+        firstEnumerable = firstEnumerable.MyDistinct();
+        secondEnumerable = secondEnumerable.MyDistinct();
+
+        foreach (var item in firstEnumerable)
+        {
+            if (!secondEnumerable.Contains(item))
+            {
+                yield return item;
+            }
+        }
+    }
+
     public static IEnumerable<T> MyDistinct<T>(this IEnumerable<T> enumerable)
     {
         if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
