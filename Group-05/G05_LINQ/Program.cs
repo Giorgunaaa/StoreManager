@@ -3,24 +3,32 @@ int[] y = { 4, 5, 7, 9, 10, 11, 12 };
 
 #region მეორე ეტაპის ამოცანები
 
-var result1 = x.First();
-var result2 = x.First(n => n > 2);
-var result3 = x.FirstOrDefault();
-var result4 = x.FirstOrDefault(n => n > 2);
-var result5 = x.Last();
-var result6 = x.Last(n => n > 2);
-var result7 = x.LastOrDefault();
-var result8 = x.LastOrDefault(n => n > 2);
-var result9 = x.Single();
-var result10 = x.Single(n => n > 2);
-var result11 = x.SingleOrDefault();
-var result12 = x.SingleOrDefault(n => n > 2);
+//var result1 = x.MyFirst();
+//var result2 = x.MyFirst(n => n > 2);
+//var result3 = x.MyFirstOrDefault();
+//var result4 = x.MyFirstOrDefault(n => n > 2);
+//var result5 = x.MyLast();
+//var result6 = x.MyLast(n => n < 2);
+//var result7 = x.MyLastOrDefault();
+//var result8 = x.MyLastOrDefault(n => n < 2);
+//var result9 = x.MySingle();
+//var result10 = x.MySingle(n => n > 4);
+//var result11 = x.MySingleOrDefault();
+//var result12 = x.SingleOrDefault(n => n > 4);
 
-var result13 = x.Any();
-var result14 = x.Any(n => n > 2);
-var result15 = x.All(n => n > 2);
+var result13 = x.MyAny();
+var result14 = x.MyAny(n => n > 2);
+var result15 = x.MyAll(n => n > 2);
 
 #endregion
+
+
+Console.WriteLine(result13);
+Console.WriteLine(result14);
+Console.WriteLine(result15);
+
+
+
 
 #region პირველი ეტაპის ამოცანები
 /*
@@ -51,7 +59,7 @@ result5.ToList().ForEach(Console.WriteLine);
 //As example use MyWhere method.
 
 //-----------------------------------------------------------
-var products = DataProvider.GetTestData();
+//var products = DataProvider.GetTestData();
 //products.ToList().ForEach(Console.WriteLine);
 
 //var result = products
