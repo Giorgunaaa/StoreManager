@@ -35,4 +35,20 @@ public static class MyEnumerable
 
         return result;
     }
+
+    public static IEnumerable<T> MyConcat<T>(this IEnumerable<T> firstEnumerable, IEnumerable<T> secondEnumerable)
+    {
+        if (firstEnumerable == null) throw new ArgumentNullException(nameof(firstEnumerable));
+        if (secondEnumerable == null) throw new ArgumentNullException(nameof(secondEnumerable));
+
+        foreach (var item in firstEnumerable)
+        {
+            yield return item;
+        }
+
+        foreach (var item in secondEnumerable)
+        {
+            yield return item;
+        }
+    }
 }
