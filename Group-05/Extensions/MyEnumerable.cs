@@ -1,10 +1,9 @@
-﻿using System;
-using System.Linq;
-
-namespace Extensions;
+﻿namespace Extensions;
 
 public static class MyEnumerable
 {
+    //todo: remove enumerable word from parameter names.
+
     public static IEnumerable<T> MyWhere<T>(this IEnumerable<T> source, Predicate<T> predicate)
     {
         if (source == null) throw new ArgumentNullException(nameof(source));
@@ -24,7 +23,7 @@ public static class MyEnumerable
         if (firstEnumerable == null) throw new ArgumentNullException(nameof(firstEnumerable));
         if (secondEnumerable == null) throw new ArgumentNullException(nameof(secondEnumerable));
 
-        HashSet<T> result = new HashSet<T>();
+        HashSet<T> result = new();
 
         foreach (var item in firstEnumerable)
         {
@@ -89,13 +88,13 @@ public static class MyEnumerable
         }
     }
 
-    public static IEnumerable<T> MyDistinct<T>(this IEnumerable<T> enumerable)
+    public static IEnumerable<T> MyDistinct<T>(this IEnumerable<T> source)
     {
-        if (enumerable == null) throw new ArgumentNullException(nameof(enumerable));
+        if (source == null) throw new ArgumentNullException(nameof(source));
 
-        HashSet<T> result = new HashSet<T>();
+        HashSet<T> result = new();
 
-        foreach (var item in enumerable)
+        foreach (var item in source)
         {
             result.Add(item);
         }
@@ -103,14 +102,9 @@ public static class MyEnumerable
         return result;
     }
 
-    public static T MyFirst<T>(this IEnumerable<T> source)
-    {
-        if (source == null) throw new ArgumentNullException(nameof(source));
-
-        return source.ToArray()[0];
-
-        throw new ArgumentNullException(nameof(source));
-    }
+    //todo: Think about same approach for other methods too.
+    public static T MyFirst<T>(this IEnumerable<T> source) =>
+	    source.MyFirst(_ => true);
 
     public static T MyFirst<T>(this IEnumerable<T> source, Predicate<T> predicate)
     {
@@ -128,14 +122,8 @@ public static class MyEnumerable
         throw new ArgumentNullException(nameof(source));
     }
 
-    public static T? MyFirstOrDefault<T>(this IEnumerable<T> source)
-    {
-        if (source == null) throw new ArgumentNullException(nameof(source));
-
-        if (source.Count() > 0) return source.MyFirst();
-
-        return default(T);
-    }
+    public static T? MyFirstOrDefault<T>(this IEnumerable<T> source) => 
+	    source.MyFirstOrDefault(_ => true);
 
     public static T? MyFirstOrDefault<T>(this IEnumerable<T> source, Predicate<T> predicate)
     {
@@ -150,7 +138,7 @@ public static class MyEnumerable
             }
         }
 
-        return default(T);
+        return default;
     }
 
     public static T MyLast<T>(this IEnumerable<T> source)
