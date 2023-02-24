@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "G05_LINQ", "G05_LINQ\G05_LINQ.csproj", "{14877E5A-94CF-4D8B-AEDF-C4E7CD872FB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "G05_LINQ", "G05_LINQ\G05_LINQ.csproj", "{14877E5A-94CF-4D8B-AEDF-C4E7CD872FB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extensions", "Extensions\Extensions.csproj", "{7C7B5995-9F15-487E-A137-5E561BE40370}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Extensions", "Extensions\Extensions.csproj", "{7C7B5995-9F15-487E-A137-5E561BE40370}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLinqTests", "MyLinqTests\MyLinqTests.csproj", "{2EBDCB58-DAEE-4D7C-873A-39CADBA6C25A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{7C7B5995-9F15-487E-A137-5E561BE40370}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C7B5995-9F15-487E-A137-5E561BE40370}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C7B5995-9F15-487E-A137-5E561BE40370}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EBDCB58-DAEE-4D7C-873A-39CADBA6C25A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EBDCB58-DAEE-4D7C-873A-39CADBA6C25A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EBDCB58-DAEE-4D7C-873A-39CADBA6C25A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EBDCB58-DAEE-4D7C-873A-39CADBA6C25A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

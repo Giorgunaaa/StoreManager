@@ -4,7 +4,7 @@ public static class MyEnumerable
 {
     //todo: remove enumerable word from parameter names.
 
-    public static IEnumerable<T> MyWhere<T>(this IEnumerable<T> source, Predicate<T> predicate)
+    public static IEnumerable<T> MyWhere<T>(this IEnumerable<T> source, Func<T, bool> predicate)
     {
         if (source == null) throw new ArgumentNullException(nameof(source));
         if (predicate == null) throw new ArgumentNullException(nameof(predicate));
