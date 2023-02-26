@@ -141,14 +141,8 @@ public static class MyEnumerable
         return default;
     }
 
-    public static T MyLast<T>(this IEnumerable<T> source)
-    {
-        if (source == null) throw new ArgumentNullException(nameof(source));
-
-        return source.ToList()[source.Count() - 1];
-
-        throw new InvalidOperationException(nameof(source));
-    }
+    public static T MyLast<T>(this IEnumerable<T> source) =>
+        source.MyLast(_ => true);
 
     public static T MyLast<T>(this IEnumerable<T> source, Func<T, bool> predicate)
     {
@@ -166,14 +160,8 @@ public static class MyEnumerable
         throw new InvalidOperationException(nameof(source));
     }
 
-    public static T? MyLastOrDefault<T>(this IEnumerable<T> source)
-    {
-        if (source == null) throw new ArgumentNullException(nameof(source));
-
-        if (source.Count() > 0) return source.MyLast();
-
-        return default(T);
-    }
+    public static T? MyLastOrDefault<T>(this IEnumerable<T> source) =>
+        source.MyLastOrDefault(_ => true);
 
     public static T? MyLastOrDefault<T>(this IEnumerable<T> source, Func<T, bool> predicate)
     {
@@ -252,12 +240,8 @@ public static class MyEnumerable
         return default;
     }
 
-    public static bool MyAny<T>(this IEnumerable<T> source)
-    {
-        if (source == null) throw new ArgumentNullException(nameof(source));
-        if (source.Count() > 0) return true;
-        return false;
-    }
+    public static bool MyAny<T>(this IEnumerable<T> source) =>
+        source.MyAny(_ => true);
 
     public static bool MyAny<T>(this IEnumerable<T> source, Func<T, bool> predicate)
     {
@@ -279,17 +263,14 @@ public static class MyEnumerable
         if (source == null) throw new ArgumentNullException(nameof(source));
         if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 
-        int count = 0;
-
         foreach (var item in source)
         {
-            if (predicate(item))
+            if (!predicate(item))
             {
-                count++;
+                return false;
             }
         }
 
-        if (count == source.Count()) return true;
-        return false;
+        return true;
     }
 }
