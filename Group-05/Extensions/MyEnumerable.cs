@@ -104,9 +104,9 @@ public static class MyEnumerable
 
     //todo: Think about same approach for other methods too.
     public static T MyFirst<T>(this IEnumerable<T> source) =>
-	    source.MyFirst(_ => true);
+        source.MyFirst(_ => true);
 
-    public static T MyFirst<T>(this IEnumerable<T> source, Predicate<T> predicate)
+    public static T MyFirst<T>(this IEnumerable<T> source, Func<T, bool> predicate)
     {
         if (source == null) throw new ArgumentNullException(nameof(source));
         if (predicate == null) throw new ArgumentNullException(nameof(predicate));
@@ -119,13 +119,13 @@ public static class MyEnumerable
             }
         }
 
-        throw new ArgumentNullException(nameof(source));
+        throw new InvalidOperationException(nameof(source));
     }
 
-    public static T? MyFirstOrDefault<T>(this IEnumerable<T> source) => 
-	    source.MyFirstOrDefault(_ => true);
+    public static T? MyFirstOrDefault<T>(this IEnumerable<T> source) =>
+        source.MyFirstOrDefault(_ => true);
 
-    public static T? MyFirstOrDefault<T>(this IEnumerable<T> source, Predicate<T> predicate)
+    public static T? MyFirstOrDefault<T>(this IEnumerable<T> source, Func<T, bool> predicate)
     {
         if (source == null) throw new ArgumentNullException(nameof(source));
         if (predicate == null) throw new ArgumentNullException(nameof(predicate));
@@ -147,10 +147,10 @@ public static class MyEnumerable
 
         return source.ToList()[source.Count() - 1];
 
-        throw new ArgumentNullException(nameof(source));
+        throw new InvalidOperationException(nameof(source));
     }
 
-    public static T MyLast<T>(this IEnumerable<T> source, Predicate<T> predicate)
+    public static T MyLast<T>(this IEnumerable<T> source, Func<T, bool> predicate)
     {
         if (source == null) throw new ArgumentNullException(nameof(source));
         if (predicate == null) throw new ArgumentNullException(nameof(predicate));
@@ -163,7 +163,7 @@ public static class MyEnumerable
             }
         }
 
-        throw new ArgumentNullException(nameof(source));
+        throw new InvalidOperationException(nameof(source));
     }
 
     public static T? MyLastOrDefault<T>(this IEnumerable<T> source)
@@ -175,7 +175,7 @@ public static class MyEnumerable
         return default(T);
     }
 
-    public static T? MyLastOrDefault<T>(this IEnumerable<T> source, Predicate<T> predicate)
+    public static T? MyLastOrDefault<T>(this IEnumerable<T> source, Func<T, bool> predicate)
     {
         if (source == null) throw new ArgumentNullException(nameof(source));
         if (predicate == null) throw new ArgumentNullException(nameof(predicate));
@@ -197,10 +197,10 @@ public static class MyEnumerable
 
         if (source.Count() == 1) return source.ToArray()[0];
 
-        throw new ArgumentNullException(nameof(source));
+        throw new InvalidOperationException(nameof(source));
     }
 
-    public static T MySingle<T>(this IEnumerable<T> source, Predicate<T> predicate)
+    public static T MySingle<T>(this IEnumerable<T> source, Func<T, bool> predicate)
     {
         if (source == null) throw new ArgumentNullException(nameof(source));
         if (predicate == null) throw new ArgumentNullException(nameof(predicate));
@@ -217,7 +217,7 @@ public static class MyEnumerable
 
         if (result.Count == 1) return result[0];
 
-        throw new ArgumentNullException(nameof(source));
+        throw new InvalidOperationException(nameof(source));
     }
 
     public static T? MySingleOrDefault<T>(this IEnumerable<T> source)
@@ -227,10 +227,10 @@ public static class MyEnumerable
 
         if (source.Count() == 1) return source.ToArray()[0];
 
-        throw new ArgumentNullException(nameof(source));
+        return default;
     }
 
-    public static T? MySingleOrDefault<T>(this IEnumerable<T> source, Predicate<T> predicate)
+    public static T? MySingleOrDefault<T>(this IEnumerable<T> source, Func<T, bool> predicate)
     {
         if (source == null) throw new ArgumentNullException(nameof(source));
         if (predicate == null) throw new ArgumentNullException(nameof(predicate));
@@ -249,7 +249,7 @@ public static class MyEnumerable
 
         if (result.Count == 1) return result[0];
 
-        throw new ArgumentNullException(nameof(source));
+        return default;
     }
 
     public static bool MyAny<T>(this IEnumerable<T> source)
@@ -259,7 +259,7 @@ public static class MyEnumerable
         return false;
     }
 
-    public static bool MyAny<T>(this IEnumerable<T> source, Predicate<T> predicate)
+    public static bool MyAny<T>(this IEnumerable<T> source, Func<T, bool> predicate)
     {
         if (source == null) throw new ArgumentNullException(nameof(source));
         if (predicate == null) throw new ArgumentNullException(nameof(predicate));
@@ -274,7 +274,7 @@ public static class MyEnumerable
         return false;
     }
 
-    public static bool MyAll<T>(this IEnumerable<T> source, Predicate<T> predicate)
+    public static bool MyAll<T>(this IEnumerable<T> source, Func<T, bool> predicate)
     {
         if (source == null) throw new ArgumentNullException(nameof(source));
         if (predicate == null) throw new ArgumentNullException(nameof(predicate));
