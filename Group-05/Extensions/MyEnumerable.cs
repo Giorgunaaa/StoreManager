@@ -18,19 +18,19 @@ public static class MyEnumerable
         }
     }
 
-    public static IEnumerable<T> MyUnion<T>(this IEnumerable<T> firstEnumerable, IEnumerable<T> secondEnumerable)
+    public static IEnumerable<T> MyUnion<T>(this IEnumerable<T> source1, IEnumerable<T> source2)
     {
-        if (firstEnumerable == null) throw new ArgumentNullException(nameof(firstEnumerable));
-        if (secondEnumerable == null) throw new ArgumentNullException(nameof(secondEnumerable));
+        if (source1 == null) throw new ArgumentNullException(nameof(source1));
+        if (source2 == null) throw new ArgumentNullException(nameof(source2));
 
         HashSet<T> result = new();
 
-        foreach (var item in firstEnumerable)
+        foreach (var item in source1)
         {
             result.Add(item);
         }
 
-        foreach (var item in secondEnumerable)
+        foreach (var item in source2)
         {
             result.Add(item);
         }
@@ -38,50 +38,50 @@ public static class MyEnumerable
         return result;
     }
 
-    public static IEnumerable<T> MyConcat<T>(this IEnumerable<T> firstEnumerable, IEnumerable<T> secondEnumerable)
+    public static IEnumerable<T> MyConcat<T>(this IEnumerable<T> source1, IEnumerable<T> source2)
     {
-        if (firstEnumerable == null) throw new ArgumentNullException(nameof(firstEnumerable));
-        if (secondEnumerable == null) throw new ArgumentNullException(nameof(secondEnumerable));
+        if (source1 == null) throw new ArgumentNullException(nameof(source1));
+        if (source2 == null) throw new ArgumentNullException(nameof(source2));
 
-        foreach (var item in firstEnumerable)
+        foreach (var item in source1)
         {
             yield return item;
         }
 
-        foreach (var item in secondEnumerable)
+        foreach (var item in source2)
         {
             yield return item;
         }
     }
 
-    public static IEnumerable<T> MyExcept<T>(this IEnumerable<T> firstEnumerable, IEnumerable<T> secondEnumerable)
+    public static IEnumerable<T> MyExcept<T>(this IEnumerable<T> source1, IEnumerable<T> source2)
     {
-        if (firstEnumerable == null) throw new ArgumentNullException(nameof(firstEnumerable));
-        if (secondEnumerable == null) throw new ArgumentNullException(nameof(secondEnumerable));
+        if (source1 == null) throw new ArgumentNullException(nameof(source1));
+        if (source2 == null) throw new ArgumentNullException(nameof(source2));
 
-        firstEnumerable = firstEnumerable.MyDistinct();
-        secondEnumerable = secondEnumerable.MyDistinct();
+        source1 = source1.MyDistinct();
+        source2 = source2.MyDistinct();
 
-        foreach (var item in firstEnumerable)
+        foreach (var item in source1)
         {
-            if (!secondEnumerable.Contains(item))
+            if (!source2.Contains(item))
             {
                 yield return item;
             }
         }
     }
 
-    public static IEnumerable<T> MyIntersect<T>(this IEnumerable<T> firstEnumerable, IEnumerable<T> secondEnumerable)
+    public static IEnumerable<T> MyIntersect<T>(this IEnumerable<T> source1, IEnumerable<T> source2)
     {
-        if (firstEnumerable == null) throw new ArgumentNullException(nameof(firstEnumerable));
-        if (secondEnumerable == null) throw new ArgumentNullException(nameof(secondEnumerable));
+        if (source1 == null) throw new ArgumentNullException(nameof(source1));
+        if (source2 == null) throw new ArgumentNullException(nameof(source2));
 
-        firstEnumerable = firstEnumerable.MyDistinct();
-        secondEnumerable = secondEnumerable.MyDistinct();
+        source1 = source1.MyDistinct();
+        source2 = source2.MyDistinct();
 
-        foreach (var item in firstEnumerable)
+        foreach (var item in source1)
         {
-            if (secondEnumerable.Contains(item))
+            if (source2.Contains(item))
             {
                 yield return item;
             }
