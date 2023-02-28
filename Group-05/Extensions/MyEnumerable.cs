@@ -179,63 +179,52 @@ public static class MyEnumerable
         return default(T);
     }
 
-    public static T MySingle<T>(this IEnumerable<T> source)
-    {
-        if (source == null) throw new ArgumentNullException(nameof(source));
-
-        if (source.Count() == 1) return source.ToArray()[0];
-
-        throw new InvalidOperationException(nameof(source));
-    }
+    public static T MySingle<T>(this IEnumerable<T> source) =>
+        source.MySingle(_ => true);
 
     public static T MySingle<T>(this IEnumerable<T> source, Func<T, bool> predicate)
     {
         if (source == null) throw new ArgumentNullException(nameof(source));
         if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 
-        List<T> result = new List<T>();
+        T? result = default;
+        int count = 0;
 
         foreach (var item in source)
         {
             if (predicate(item))
             {
-                result.Add(item);
+                count++;
+                result = item;
             }
         }
 
-        if (result.Count == 1) return result[0];
+        if (count == 1) return result;
 
         throw new InvalidOperationException(nameof(source));
     }
 
-    public static T? MySingleOrDefault<T>(this IEnumerable<T> source)
-    {
-        if (source == null) throw new ArgumentNullException(nameof(source));
-        if (source.Count() == 0) return default(T);
-
-        if (source.Count() == 1) return source.ToArray()[0];
-
-        return default;
-    }
+    public static T? MySingleOrDefault<T>(this IEnumerable<T> source) =>
+       source.MySingleOrDefault(_ => true);
 
     public static T? MySingleOrDefault<T>(this IEnumerable<T> source, Func<T, bool> predicate)
     {
         if (source == null) throw new ArgumentNullException(nameof(source));
         if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 
-        if (source.Count() == 0) return default(T);
-
-        List<T> result = new List<T>();
+        T? result = default;
+        int count = 0;
 
         foreach (var item in source)
         {
             if (predicate(item))
             {
-                result.Add(item);
+                count++;
+                result = item;
             }
         }
 
-        if (result.Count == 1) return result[0];
+        if (count == 1) return result;
 
         return default;
     }
