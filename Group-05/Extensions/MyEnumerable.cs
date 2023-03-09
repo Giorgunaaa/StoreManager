@@ -262,4 +262,15 @@ public static class MyEnumerable
 
         return true;
     }
+
+    public static IEnumerable<TResult> MySelect<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selectExecuter)
+    {
+        if (source == null) throw new ArgumentNullException(nameof(source));
+        if (selectExecuter == null) throw new ArgumentNullException(nameof(selectExecuter));
+
+        foreach (TSource item in source)
+        {
+            yield return selectExecuter(item);
+        }
+    }
 }

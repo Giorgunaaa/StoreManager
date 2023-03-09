@@ -187,7 +187,7 @@ namespace MyLinqTests
 
             Assert.Equal(resultExpected, resultActual);
 
-            Func<int, bool> resultPredicate = x => x > 5;
+            Func<int, bool> resultPredicate = x => x > -10;
             resultExpected = source.Single(resultPredicate);
             resultActual = source.MySingle(resultPredicate);
 
@@ -218,7 +218,7 @@ namespace MyLinqTests
         [InlineData(new[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 })]
         [InlineData(new[] { 1, 2, 12, 3, 4, 5, 3, 1 })]
         [InlineData(new[] { -1, -10, 6, 3, 2, -1 })]
-        public void MyAny(int[] source)
+        public void MyAnyTest(int[] source)
         {
             var resultExpected = source.Any();
             var resultActual = source.MyAny();
@@ -237,11 +237,25 @@ namespace MyLinqTests
         [InlineData(new[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 })]
         [InlineData(new[] { 1, 2, 12, 3, 4, 5, 3, 1 })]
         [InlineData(new[] { -1, -10, 6, 3, 2, -1 })]
-        public void MyAll(int[] source)
+        public void MyAllTest(int[] source)
         {
             Func<int, bool> resultPredicate = x => x > 5;
             var resultExpected = source.All(resultPredicate);
             var resultActual = source.MyAll(resultPredicate);
+
+            Assert.Equal(resultExpected, resultActual);
+        }
+
+        [Theory]
+        [InlineData(new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })]
+        [InlineData(new[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 })]
+        [InlineData(new[] { 1, 2, 12, 3, 4, 5, 3, 1 })]
+        [InlineData(new[] { -1, -10, 6, 3, 2, -1 })]
+        public void MySelectTest(int[] source)
+        {
+            Func<int, bool> resultPredicate = x => x > 5;
+            var resultExpected = source.Select(resultPredicate);
+            var resultActual = source.MySelect(resultPredicate);
 
             Assert.Equal(resultExpected, resultActual);
         }

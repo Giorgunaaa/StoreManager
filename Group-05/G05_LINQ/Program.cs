@@ -22,7 +22,6 @@ var result15 = x.MyAll(n => n > 2);
 
 #endregion
 
-
 Console.WriteLine(result13);
 Console.WriteLine(result14);
 Console.WriteLine(result15);
