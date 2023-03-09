@@ -161,7 +161,7 @@ namespace MyLinqTests
         [InlineData(new[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 })]
         [InlineData(new[] { 1, 2, 12, 3, 4, 5, 3, 1 })]
         [InlineData(new[] { -1, -10, 6, 3, 2, -1 })]
-        public void MyLastTestOrDefault(int[] source)
+        public void MyLastOrDefaultTest(int[] source)
         {
             var resultExpected = source.LastOrDefault();
             var resultActual = source.MyLastOrDefault();
@@ -176,10 +176,10 @@ namespace MyLinqTests
         }
 
         [Theory]
-        [InlineData(new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })]
-        [InlineData(new[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 })]
-        [InlineData(new[] { 1, 2, 12, 3, 4, 5, 3, 1 })]
-        [InlineData(new[] { -1, -10, 6, 3, 2, -1 })]
+        [InlineData(new[] { 0 })]
+        [InlineData(new[] { 9 })]
+        [InlineData(new[] { 1 })]
+        [InlineData(new[] { -1 })]
         public void MySingleTest(int[] source)
         {
             var resultExpected = source.Single();
@@ -195,10 +195,10 @@ namespace MyLinqTests
         }
 
         [Theory]
-        [InlineData(new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })]
-        [InlineData(new[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 })]
-        [InlineData(new[] { 1, 2, 12, 3, 4, 5, 3, 1 })]
-        [InlineData(new[] { -1, -10, 6, 3, 2, -1 })]
+        [InlineData(new[] { 9 })]
+        [InlineData(new[] { 0 })]
+        [InlineData(new[] { 1 })]
+        [InlineData(new[] { -1 })]
         public void MySingleOrDefaultTest(int[] source)
         {
             var resultExpected = source.SingleOrDefault();
