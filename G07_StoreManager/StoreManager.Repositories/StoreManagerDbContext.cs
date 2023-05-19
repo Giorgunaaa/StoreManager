@@ -6,7 +6,7 @@ namespace StoreManager.Repositories
 	public class StoreManagerDbContext : DbContext
     {
         private const string ConnectionString =
-            @"server = LAPTOP-KJO35V1P; database = Northwind; integrated security = true; TrustServerCertificate = true";
+            @"server = LAPTOP-KJO35V1P; database = G07_StoreManager; integrated security = true; TrustServerCertificate = true";
 
         public StoreManagerDbContext() : base(GetOptions()) { }
 
