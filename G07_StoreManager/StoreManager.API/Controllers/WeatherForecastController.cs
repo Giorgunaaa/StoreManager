@@ -1,24 +1,25 @@
 using Microsoft.AspNetCore.Mvc;
+using StoreManager.Services;
 
 namespace StoreManager.API.Controllers
 {
 	[ApiController]
 	[Route("[controller]")]
 	public class WeatherForecastController : ControllerBase
-	{
+    {
+        private readonly IMyClass _myClass;
+
+        public WeatherForecastController(IMyClass myClass)
+        {
+            _myClass = myClass;
+        }
+
 		private static readonly string[] Summaries = new[]
 		{
-		"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-	};
+		    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+	    };
 
-		private readonly ILogger<WeatherForecastController> _logger;
-
-		public WeatherForecastController(ILogger<WeatherForecastController> logger)
-		{
-			_logger = logger;
-		}
-
-		[HttpGet(Name = "GetWeatherForecast")]
+        [HttpGet(Name = "GetWeatherForecast")]
 		public IEnumerable<WeatherForecast> Get()
 		{
 			return Enumerable.Range(1, 5).Select(index => new WeatherForecast
