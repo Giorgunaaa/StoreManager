@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace StoreManager.DTO
-{
+namespace StoreManager.DTO;
+
     public sealed class Employee : Person
     {
         [MaxLength(30)]
@@ -11,4 +11,3 @@ namespace StoreManager.DTO
 
         public ICollection<Employee>? ReportsFrom { get; set; }
     }
-}
