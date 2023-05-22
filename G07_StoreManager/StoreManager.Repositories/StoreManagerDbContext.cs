@@ -12,7 +12,6 @@ public class StoreManagerDbContext : DbContext
 
     public DbSet<Product> Products { get; set; } = null!;
     public DbSet<Category> Categories { get; set; } = null!;
-    public DbSet<Person> People { get; set; } = null!;
     public DbSet<Employee> Employees { get; set; } = null!;
     public DbSet<Customer> Customers { get; set; } = null!;
 
@@ -20,9 +19,8 @@ public class StoreManagerDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<Person>().ToTable("People");
-        modelBuilder.Entity<Employee>().ToTable("People");
-        modelBuilder.Entity<Customer>().ToTable("People");
+        modelBuilder.Entity<Employee>().ToTable("Employees");
+        modelBuilder.Entity<Customer>().ToTable("Customers");
     }
 
     private static DbContextOptions GetOptions()
