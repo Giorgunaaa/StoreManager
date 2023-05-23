@@ -6,20 +6,26 @@ namespace StoreManager.API.Controllers
 	[ApiController]
 	[Route("[controller]")]
 	public class WeatherForecastController : ControllerBase
-    {
-        private readonly IMyClass _myClass;
-
-        public WeatherForecastController(IMyClass myClass)
-        {
-            _myClass = myClass;
-        }
-
+	{
+		private readonly INumberGenerator _numberGenerator;
 		private static readonly string[] Summaries = new[]
 		{
-		    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-	    };
+			"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+		};
 
-        [HttpGet(Name = "GetWeatherForecast")]
+		public WeatherForecastController()
+		{
+			_numberGenerator = new NumberGeneratorService();
+		}
+
+		[HttpGet]
+		[Route("GetNumber")]
+		public int GetNumber()
+		{
+			return _numberGenerator.GetNumber();
+		}
+
+		[HttpGet(Name = "GetWeatherForecast")]
 		public IEnumerable<WeatherForecast> Get()
 		{
 			return Enumerable.Range(1, 5).Select(index => new WeatherForecast
