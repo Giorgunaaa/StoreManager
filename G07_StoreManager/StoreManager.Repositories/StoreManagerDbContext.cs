@@ -18,6 +18,7 @@ public class StoreManagerDbContext : DbContext
     public DbSet<Country> Countries { get; set; } = null!;
     public DbSet<Order> Orders { get; set; } = null!;
     public DbSet<OrderDetails> OrderDetails { get; set; } = null!;
+    public DbSet<ProductDinamicField> ProductDinamicFields { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -12,7 +12,7 @@ using StoreManager.Repositories;
 namespace StoreManager.Repositories.Migrations
 {
     [DbContext(typeof(StoreManagerDbContext))]
-    [Migration("20230525193613_init")]
+    [Migration("20230525213337_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -206,7 +206,7 @@ namespace StoreManager.Repositories.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("varchar");
 
-                    b.Property<string>("Prosition")
+                    b.Property<string>("Position")
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
@@ -302,6 +302,35 @@ namespace StoreManager.Repositories.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("StoreManager.DTO.ProductDinamicField", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SerializedValue")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)")
+                        .HasColumnName("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductDinamicFields");
+                });
+
             modelBuilder.Entity("CategoryProduct", b =>
                 {
                     b.HasOne("StoreManager.DTO.Category", null)
@@ -382,6 +411,17 @@ namespace StoreManager.Repositories.Migrations
                         .IsRequired();
 
                     b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("StoreManager.DTO.ProductDinamicField", b =>
+                {
+                    b.HasOne("StoreManager.DTO.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Product");
                 });

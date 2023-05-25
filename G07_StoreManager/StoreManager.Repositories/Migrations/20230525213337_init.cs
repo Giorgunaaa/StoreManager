@@ -66,7 +66,7 @@ namespace StoreManager.Repositories.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Prosition = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    Position = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     ReportsToId = table.Column<int>(type: "int", nullable: true),
                     FirstName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
@@ -174,6 +174,27 @@ namespace StoreManager.Repositories.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProductDinamicFields",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductDinamicFields", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductDinamicFields_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CityEmployee",
                 columns: table => new
                 {
@@ -257,6 +278,11 @@ namespace StoreManager.Repositories.Migrations
                 name: "IX_Orders_EmployeeId",
                 table: "Orders",
                 column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductDinamicFields_ProductId",
+                table: "ProductDinamicFields",
+                column: "ProductId");
         }
 
         /// <inheritdoc />
@@ -270,6 +296,9 @@ namespace StoreManager.Repositories.Migrations
 
             migrationBuilder.DropTable(
                 name: "OrderDetails");
+
+            migrationBuilder.DropTable(
+                name: "ProductDinamicFields");
 
             migrationBuilder.DropTable(
                 name: "Categories");
