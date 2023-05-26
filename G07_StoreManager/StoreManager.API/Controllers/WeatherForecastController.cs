@@ -8,15 +8,16 @@ namespace StoreManager.API.Controllers
 	public class WeatherForecastController : ControllerBase
 	{
 		private readonly INumberGenerator _numberGenerator;
+
 		private static readonly string[] Summaries = new[]
 		{
 			"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 		};
 
-		public WeatherForecastController()
-		{
-			_numberGenerator = new NumberGeneratorService();
-		}
+		public WeatherForecastController(INumberGenerator numberGenerator)
+        {
+            _numberGenerator = numberGenerator;
+        }
 
 		[HttpGet]
 		[Route("GetNumber")]
