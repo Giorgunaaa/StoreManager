@@ -5,7 +5,6 @@ namespace StoreManager.DTO;
 
 public class OrderDetails
 {
-
     [Key]
     public int OrderId { get; set; }
 
@@ -15,6 +14,9 @@ public class OrderDetails
     [Required]
     [Column(TypeName = "money")]
     public decimal Price { get; set; }
+
+    [Required]
+    public int Quantity { get; set; }
 
     [Column(TypeName = "decimal(18, 2)")]
     public decimal Discount { get; set; }

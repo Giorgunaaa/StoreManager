@@ -8,8 +8,9 @@ public class Order
     [Key]
     public int Id { get; set; }
 
+    [Required]
     [Column(TypeName = "datetime")]
-    public DateTime? OrderDate { get; set; }
+    public DateTime OrderDate { get; set; }
 
     [Column(TypeName = "datetime")]
     public DateTime? ShippedDate { get; set; }
@@ -17,7 +18,9 @@ public class Order
     [MaxLength(150)]
     public string? ShipAddress { get; set; }
 
-    public Employee? Employee { get; set; }
+    [Required] 
+    public Employee Employee { get; set; } = null!;
 
-    public Customer? Customer { get; set; }
+    [Required] 
+    public Customer Customer { get; set; } = null!;
 }
