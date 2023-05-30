@@ -18,9 +18,9 @@ public class Order
     [MaxLength(150)]
     public string? ShipAddress { get; set; }
 
-    [Required] 
+    [Required]
     public Employee Employee { get; set; } = null!;
 
-    [Required] 
+    [Required]
     public Customer Customer { get; set; } = null!;
 }
