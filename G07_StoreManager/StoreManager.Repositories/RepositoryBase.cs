@@ -15,8 +15,8 @@ public abstract class RepositoryBase<T> : IRepository<T> where T : class
         _dbSet = context.Set<T>();
     }
 
-    public T Get(int id) =>
-        _dbSet.Find(id) ?? throw new KeyNotFoundException($"Record with key {id} not found");
+    public T Get(params object?[]? keyValues) =>
+        _dbSet.Find(keyValues) ?? throw new KeyNotFoundException($"Record with key {keyValues} not found");
 
     public IQueryable<T> Set(Expression<Func<T, bool>> predicate) =>
         _dbSet.Where(predicate);
@@ -33,8 +33,8 @@ public abstract class RepositoryBase<T> : IRepository<T> where T : class
         _context.Entry(entity).State = EntityState.Modified;
     }
 
-    public void Delete(int id) =>
-        Delete(Get(id));
+    public void Delete(params object?[]? keyValues) =>
+        Delete(Get(keyValues));
 
     public void Delete(T entity)
     {
