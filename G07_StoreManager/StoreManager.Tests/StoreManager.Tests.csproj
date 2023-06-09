@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -20,6 +20,12 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StoreManager.DTO\StoreManager.DTO.csproj" />
+    <ProjectReference Include="..\StoreManager.Facade\StoreManager.Facade.csproj" />
+    <ProjectReference Include="..\StoreManager.Repositories\StoreManager.Repositories.csproj" />
   </ItemGroup>
 
 </Project>
