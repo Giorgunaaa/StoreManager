@@ -9,7 +9,5 @@ public class CategoryRepositoryTests : RepositoryUnitTestBase
 	public CategoryRepositoryTests(ICategoryRepository categoryRepository)
 	{
 		_categoryRepository = categoryRepository ?? throw new ArgumentNullException(nameof(categoryRepository));
-		//todo: research how to implement DI in unit tests.	
-
 	}
 }
