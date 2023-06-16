@@ -1,6 +1,6 @@
 namespace StoreManager.Tests;
 
-public class RepositoryUnitTestBase : UnitTestBase
+public abstract class RepositoryUnitTestBase : UnitTestBase
 {
 
 }

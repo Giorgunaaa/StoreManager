@@ -9,12 +9,7 @@ public class Startup
 {
     public void ConfigureServices(IServiceCollection services)
     {
-        var options = new DbContextOptionsBuilder<StoreManagerDbContext>()
-        .UseInMemoryDatabase(databaseName: "MyTestDatabase")
-        .Options;
-
-        services.AddScoped(_ => new StoreManagerDbContext(options));
-
+        services.AddDbContext<StoreManagerDbContext>(options => options.UseInMemoryDatabase(databaseName: "MyTestDatabase"));
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ICityRepository, CityRepository>();
         services.AddScoped<ICountryRepository, CountryRepository>();
