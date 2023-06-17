@@ -5,6 +5,7 @@ namespace StoreManager.Facade.Interfaces;
 public interface IRepository<TEntity> where TEntity : class
 {
     TEntity Get(params object?[]? keyValues);
+    public IEnumerable<TEntity> GetAll();
     IQueryable<TEntity> Set(Expression<Func<TEntity, bool>> predicate);
     IQueryable<TEntity> Set();
 
