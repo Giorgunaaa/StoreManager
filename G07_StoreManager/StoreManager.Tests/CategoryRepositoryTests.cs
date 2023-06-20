@@ -1,5 +1,6 @@
 using StoreManager.DTO;
 using StoreManager.Facade.Interfaces;
+using Xunit.Sdk;
 
 namespace StoreManager.Tests;
 
@@ -63,6 +64,41 @@ public class CategoryRepositoryTests : RepositoryUnitTestBase
         _categoryRepository.SaveChanges();
 
         Assert.Null(_categoryRepository.Set(x => x.Id == newCategory.Id).SingleOrDefault());
+    }
+
+    [Theory]
+    [InlineData("Category 1", "Description 1")]
+    [InlineData("Category 2", "Description 2")]
+    [InlineData("Category 3", "Description 3")]
+    [InlineData("Category 4", "Description 4")]
+    public void GetById(string name, string description)
+    {
+        var newCategory = GetTestRecord(name, description);
+        _categoryRepository.Insert(newCategory);
+        _categoryRepository.SaveChanges();
+
+        var retrievedCategory = _categoryRepository.Get(1);
+
+        Assert.True(retrievedCategory.Id == 1);
+    }
+
+    [Theory]
+    [InlineData("Category 1", "Description 1")]
+    [InlineData("Category 2", "Description 2")]
+    [InlineData("Category 3", "Description 3")]
+    [InlineData("Category 4", "Description 4")]
+    public void Set(string name, string description) // Incomplete 
+    {
+        var newCategory = GetTestRecord(name, description);
+        List<Category> expectedSet = new();
+        expectedSet.Add(newCategory);
+
+        _categoryRepository.Insert(newCategory);
+        _categoryRepository.SaveChanges();
+
+        var retrievedCategories = _categoryRepository.Set();
+
+        Assert.True(expectedSet == retrievedCategories); 
     }
 
     private static Category GetTestRecord(string name, string description)
