@@ -1,18 +1,21 @@
-using StoreManager.DTO;
+﻿using StoreManager.DTO;
 using StoreManager.Facade.Interfaces;
-using StoreManager.Repositories;
 using Xunit.Sdk;
 
 namespace StoreManager.Tests;
 
-public class CategoryRepositoryTests : RepositoryUnitTestBase
+abstract class Tests<TEntity,TRepository> 
+    where TEntity : class, new()
+    where TRepository : IRepository<TEntity>
 {
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly TRepository _repository;
 
-    public CategoryRepositoryTests(IUnitOfWork unitOfWork)
+    public Tests(TRepository repository)
     {
-        _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        _repository = repository ?? throw new ArgumentNullException(nameof(repository));
     }
+
+    protected abstract bool ValidateInsertEntry(TEntity entity);
 
     [Theory]
     [InlineData("Category 1", "Description 1")]
@@ -21,11 +24,11 @@ public class CategoryRepositoryTests : RepositoryUnitTestBase
     [InlineData("Category 4", "Description 4")]
     public void Insert(string name, string description)
     {
-        Category category = GetTestRecord(name, description);
-        _unitOfWork.CategoryRepository.Insert(category);
-        _unitOfWork.SaveChanges();
+        TEntity entity = new();
+        _repository.Insert(entity);
+        _repository.SaveChanges();
 
-        Assert.True(category.Id > 0);
+        Assert.True(ValidateInsertEntry(entity));
     }
 
     [Theory]
