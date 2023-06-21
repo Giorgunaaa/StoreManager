@@ -13,5 +13,5 @@ public interface IRepository<TEntity> where TEntity : class
     void Delete(TEntity entity);
     void Delete(params object?[]? keyValues);
 
-    int SaveChanges();
+    //int SaveChanges();
 }

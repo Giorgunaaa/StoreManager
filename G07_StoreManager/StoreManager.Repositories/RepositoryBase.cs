@@ -45,6 +45,6 @@ public abstract class RepositoryBase<T> : IRepository<T> where T : class
         _dbSet.Remove(entity);
     }
 
-    public int SaveChanges() =>
-        _context.SaveChanges();
+    //public int SaveChanges() =>
+    //    _context.SaveChanges();
 }
