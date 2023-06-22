@@ -1,34 +1,53 @@
-﻿using Microsoft.EntityFrameworkCore;
-using StoreManager.Facade.Interfaces;
+﻿using StoreManager.Facade.Interfaces;
 
-namespace StoreManager.Repositories
+namespace StoreManager.Repositories;
+
+public class UnitOfWork : IUnitOfWork
 {
-    public interface IUnitOfWork : IDisposable
-    {
-        ICategoryRepository CategoryRepository { get; }
+    private readonly StoreManagerDbContext _context;
+    private readonly ICategoryRepository _categoryRepository;
+    private readonly ICityRepository _cityRepository;
+    private readonly ICountryRepository _countryRepository;
+    private readonly ICustomerRepository _customerRepository;
+    private readonly IEmployeeRepository _employeeRepository;
+    private readonly IOrderDetailsRepository _orderDetailsRepository;
+    private readonly IOrderRepository _orderRepository;
+    private readonly IProductRepository _productRepository;
 
-        int SaveChanges();
+    protected UnitOfWork(StoreManagerDbContext context)
+    {
+        _context = context ?? throw new ArgumentNullException(nameof(context));
+        _categoryRepository = new CategoryRepository(context);
+        _cityRepository = new CityRepository(context);
+        _countryRepository = new CountryRepository(context);
+        _customerRepository = new CustomerRepository(context);
+        _employeeRepository = new EmployeeRepository(context);
+        _orderDetailsRepository = new OrderDetailsRepository(context);
+        _orderRepository = new OrderRepository(context);
+        _productRepository = new ProductRepository(context);
     }
 
-    public class UnitOfWork : IUnitOfWork
+    //todo: we need to implement lazy loading for such properties.
+    public ICategoryRepository CategoryRepository => _categoryRepository;
+
+    public ICityRepository CityRepository => _cityRepository;
+
+    public ICountryRepository CountryRepository => _countryRepository;
+
+    public ICustomerRepository CustomerRepository => _customerRepository;
+
+    public IEmployeeRepository EmployeeRepository => _employeeRepository;
+
+    public IOrderDetailsRepository OrderDetailsRepository => _orderDetailsRepository;
+
+    public IOrderRepository OrderRepository => _orderRepository;
+
+    public IProductRepository ProductRepository => _productRepository;
+
+    public int SaveChanges()
     {
-        private readonly StoreManagerDbContext _context;
-        private readonly ICategoryRepository _categoryRepository;
-
-        protected UnitOfWork(StoreManagerDbContext context)
-        {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
-            _categoryRepository = new CategoryRepository(_context);
-        }
-
-        //todo: we need to implement lazy loading for such properties.
-        public ICategoryRepository CategoryRepository => _categoryRepository;
-
-        public int SaveChanges()
-        {
-            return _context.SaveChanges();
-        }
-
-        public void Dispose() => _context.Dispose();
+        return _context.SaveChanges();
     }
+
+    public void Dispose() => _context.Dispose();
 }
