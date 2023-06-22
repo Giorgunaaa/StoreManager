@@ -18,5 +18,6 @@ public class Startup
         services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
         services.AddScoped<IOrderRepository, OrderRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddSingleton<IUnitOfWork, UnitOfWork>();
     }
 }
