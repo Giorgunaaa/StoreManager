@@ -26,7 +26,6 @@ abstract class Tests<TEntity,TRepository>
     {
         TEntity entity = new();
         _repository.Insert(entity);
-        _repository.SaveChanges();
 
         Assert.True(ValidateInsertEntry(entity));
     }
@@ -38,11 +37,11 @@ abstract class Tests<TEntity,TRepository>
     [InlineData("Category 4", "Description 4")]
     public void Update(string name, string description)
     {
-        var newCategory = GetTestRecord(name, description);
-        _categoryRepository.Insert(newCategory);
-        _categoryRepository.SaveChanges();
+        TEntity entity = new();
+        _repository.Insert(entity);
+        
 
-        newCategory.Name = "New Category 1";
+        _repository.Name = "New Category 1";
         newCategory.Description = "New Test Description.";
         _categoryRepository.Update(newCategory);
         _categoryRepository.SaveChanges();

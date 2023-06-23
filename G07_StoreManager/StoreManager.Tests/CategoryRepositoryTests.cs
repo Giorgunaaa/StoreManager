@@ -35,16 +35,16 @@ public class CategoryRepositoryTests : RepositoryUnitTestBase
     [InlineData("Category 4", "Description 4")]
     public void Update(string name, string description)
     {
-        var newCategory = GetTestRecord(name, description);
-        _categoryRepository.Insert(newCategory);
-        _categoryRepository.SaveChanges();
+        Category newCategory = GetTestRecord(name, description);
+        _unitOfWork.CategoryRepository.Insert(newCategory);
+        _unitOfWork.SaveChanges();
 
         newCategory.Name = "New Category 1";
         newCategory.Description = "New Test Description.";
-        _categoryRepository.Update(newCategory);
-        _categoryRepository.SaveChanges();
+        _unitOfWork.CategoryRepository.Update(newCategory);
+        _unitOfWork.SaveChanges();
 
-        var updatedCategory = _categoryRepository.Set(x => x.Id == newCategory.Id).Single();
+        var updatedCategory = _unitOfWork.CategoryRepository.Set(x => x.Id == newCategory.Id).Single();
 
         Assert.True(updatedCategory.Name == "New Category 1" && updatedCategory.Description == "New Test Description.");
     }
@@ -56,15 +56,12 @@ public class CategoryRepositoryTests : RepositoryUnitTestBase
     [InlineData("Category 4", "Description 4")]
     public void Delete(string name, string description)
     {
-        var newCategory = GetTestRecord(name, description);
-        _categoryRepository.Insert(newCategory);
-        _categoryRepository.SaveChanges();
+        Category category = GetTestRecord(name, description);
+        
+        _unitOfWork.CategoryRepository.Delete(category);
+        _unitOfWork.SaveChanges();
 
-        var existingCategory = _categoryRepository.Set(x => x.Id == newCategory.Id).Single();
-        _categoryRepository.Delete(existingCategory);
-        _categoryRepository.SaveChanges();
-
-        Assert.Null(_categoryRepository.Set(x => x.Id == newCategory.Id).SingleOrDefault());
+        Assert.Null(_unitOfWork.CategoryRepository.Set(x => x.Id == category.Id).SingleOrDefault());
     }
 
     [Theory]
@@ -74,11 +71,11 @@ public class CategoryRepositoryTests : RepositoryUnitTestBase
     [InlineData("Category 4", "Description 4")]
     public void GetById(string name, string description)
     {
-        var newCategory = GetTestRecord(name, description);
-        _categoryRepository.Insert(newCategory);
-        _categoryRepository.SaveChanges();
+        Category newCategory = GetTestRecord(name, description);
+        _unitOfWork.CategoryRepository.Insert(newCategory);
+        _unitOfWork.SaveChanges();
 
-        var retrievedCategory = _categoryRepository.Get(1);
+        var retrievedCategory = _unitOfWork.CategoryRepository.Get(1);
 
         Assert.True(retrievedCategory.Id == 1);
     }
@@ -90,14 +87,14 @@ public class CategoryRepositoryTests : RepositoryUnitTestBase
     [InlineData("Category 4", "Description 4")]
     public void Set(string name, string description) // Incomplete 
     {
-        var newCategory = GetTestRecord(name, description);
+        Category newCategory = GetTestRecord(name, description);
         List<Category> expectedSet = new();
         expectedSet.Add(newCategory);
 
-        _categoryRepository.Insert(newCategory);
-        _categoryRepository.SaveChanges();
+        _unitOfWork.CategoryRepository.Insert(newCategory);
+        _unitOfWork.SaveChanges();
 
-        var retrievedCategories = _categoryRepository.Set();
+        var retrievedCategories = _unitOfWork.CategoryRepository.Set();
 
         Assert.True(expectedSet == retrievedCategories);
     }
