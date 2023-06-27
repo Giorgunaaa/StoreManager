@@ -14,7 +14,7 @@ public class UnitOfWork : IUnitOfWork
 	private readonly IOrderRepository _orderRepository;
 	private readonly IProductRepository _productRepository;
 
-	protected UnitOfWork(StoreManagerDbContext context)
+	public UnitOfWork(StoreManagerDbContext context)
 	{
 		_context = context ?? throw new ArgumentNullException(nameof(context));
 		//_categoryRepository = new CategoryRepository(context);
