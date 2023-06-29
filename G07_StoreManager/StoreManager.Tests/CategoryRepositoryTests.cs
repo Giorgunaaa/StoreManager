@@ -1,8 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using StoreManager.DTO;
 using StoreManager.Facade.Interfaces;
-using StoreManager.Repositories;
-using Xunit.Sdk;
 
 namespace StoreManager.Tests;
 
