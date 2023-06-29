@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using StoreManager.DTO;
 using StoreManager.Facade.Interfaces;
 using StoreManager.Repositories;
@@ -34,21 +35,57 @@ public class CategoryRepositoryTests : RepositoryUnitTestBase
     [InlineData("Category 2", "Description 2")]
     [InlineData("Category 3", "Description 3")]
     [InlineData("Category 4", "Description 4")]
+    public void NotInserted(string name, string description)
+    {
+        Category category = GetTestRecord(name, description);
+        category.Id = 1;
+
+        Assert.Throws<ArgumentException>(() =>
+        {
+            _unitOfWork.CategoryRepository.Insert(category);
+            _unitOfWork.SaveChanges();
+        });
+    }
+
+    [Theory]
+    [InlineData("Category 1", "Description 1")]
+    [InlineData("Category 2", "Description 2")]
+    [InlineData("Category 3", "Description 3")]
+    [InlineData("Category 4", "Description 4")]
     public void Update(string name, string description)
     {
         Category newCategory = GetTestRecord(name, description);
         _unitOfWork.CategoryRepository.Insert(newCategory);
         _unitOfWork.SaveChanges();
 
-        newCategory.Name = "New Category 1";
-        newCategory.Description = "New Test Description.";
+        newCategory.Name = $"New {name}";
+        newCategory.Description = $"New test {description}.";
         _unitOfWork.CategoryRepository.Update(newCategory);
         _unitOfWork.SaveChanges();
 
         Category updatedCategory = _unitOfWork.CategoryRepository.Set(x => x.Id == newCategory.Id).Single();
 
         Assert.NotNull(updatedCategory);
-        Assert.True(updatedCategory.Name == "New Category 1" && updatedCategory.Description == "New Test Description.");
+        Assert.True(updatedCategory.Name == newCategory.Name && updatedCategory.Description == newCategory.Description);
+    }
+
+    [Theory]
+    [InlineData("Category 1", "Description 1")]
+    [InlineData("Category 2", "Description 2")]
+    [InlineData("Category 3", "Description 3")]
+    [InlineData("Category 4", "Description 4")]
+    public void NotUpdated(string name, string description)
+    {
+        Category newCategory = GetTestRecord(name, description);
+
+        newCategory.Name = name;
+        newCategory.Description = description;
+
+        Assert.Throws<DbUpdateConcurrencyException>(() =>
+        {
+            _unitOfWork.CategoryRepository.Update(newCategory);
+            _unitOfWork.SaveChanges();
+        });
     }
 
     [Theory]
@@ -117,7 +154,7 @@ public class CategoryRepositoryTests : RepositoryUnitTestBase
 
         var retrievedCategories = _unitOfWork.CategoryRepository.Set();
 
-        Assert.True(expectedSet.Last().Name == retrievedCategories.Last().Name && 
+        Assert.True(expectedSet.Last().Name == retrievedCategories.Last().Name &&
                     expectedSet.Last().Description == retrievedCategories.Last().Description
                 );
     }
