@@ -19,7 +19,7 @@ public class CategoryRepositoryTests : RepositoryUnitTestBase
     [InlineData("Category 2", "Description 2")]
     [InlineData("Category 3", "Description 3")]
     [InlineData("Category 4", "Description 4")]
-    public void Insert(string name, string description)
+    public void Inserted(string name, string description)
     {
         Category category = GetTestRecord(name, description);
         _unitOfWork.CategoryRepository.Insert(category);
@@ -28,13 +28,30 @@ public class CategoryRepositoryTests : RepositoryUnitTestBase
         Assert.NotNull(category.Name);
         Assert.True(category.Id > 0);
     }
+    [Theory]
+    [InlineData("Category 1", "Description 1")]
+    [InlineData("Category 2", "Description 2")]
+    [InlineData("Category 3", "Description 3")]
+    [InlineData("Category 4", "Description 4")]
+    public void NotInserted(string name, string description)
+    {
+        Category category = GetTestRecord(name, description);
+        _unitOfWork.CategoryRepository.Insert(category);
+        _unitOfWork.SaveChanges();
+
+        Category insertedCategory = _unitOfWork.CategoryRepository.Get(category.Id);
+        Assert.NotNull(insertedCategory); 
+        Assert.Equal(category.Name, insertedCategory.Name); 
+        Assert.Equal(category.Id, insertedCategory.Id); 
+    }
+
 
     [Theory]
     [InlineData("Category 1", "Description 1")]
     [InlineData("Category 2", "Description 2")]
     [InlineData("Category 3", "Description 3")]
     [InlineData("Category 4", "Description 4")]
-    public void Update(string name, string description)
+    public void Updated(string name, string description)
     {
         Category newCategory = GetTestRecord(name, description);
         _unitOfWork.CategoryRepository.Insert(newCategory);
@@ -50,6 +67,30 @@ public class CategoryRepositoryTests : RepositoryUnitTestBase
         Assert.NotNull(updatedCategory);
         Assert.True(updatedCategory.Name == "New Category 1" && updatedCategory.Description == "New Test Description.");
     }
+
+    [Theory]
+    [InlineData("Category 1", "Description 1")]
+    [InlineData("Category 2", "Description 2")]
+    [InlineData("Category 3", "Description 3")]
+    [InlineData("Category 4", "Description 4")]
+    public void NotUpdated(string name, string description)
+    {
+        Category category = GetTestRecord(name, description);
+        _unitOfWork.CategoryRepository.Insert(category);
+        _unitOfWork.SaveChanges();
+
+        category.Name = "New Category 1";
+        category.Description = "New Test Description.";
+
+        _unitOfWork.CategoryRepository.Update(category);
+        _unitOfWork.SaveChanges();
+
+        Category updatedCategory = _unitOfWork.CategoryRepository.Set(x => x.Id == category.Id).Single();
+
+        Assert.NotNull(updatedCategory);
+        Assert.True(category.Name == updatedCategory.Name && category.Description == updatedCategory.Description);
+    }
+
 
     [Theory]
     [InlineData("Category 1", "Description 1")]
