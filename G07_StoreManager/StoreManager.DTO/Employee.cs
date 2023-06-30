@@ -11,7 +11,7 @@ public sealed class Employee : Person
     public string Username { get; set; } = null!;
 
     [MaxLength(20)]
-    public string Password { get; set; } = null!; // todo: damiweret c# shi passwordis hashirebis funqcia.
+    public string Password { get; set; } = null!;
 
     public Employee? ReportsTo { get; set; }
 
