@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using StoreManager.Facade.Interfaces;
+using StoreManager.Facade.Interfaces.Repositories;
 using StoreManager.Repositories;
 
 namespace StoreManager.Tests;

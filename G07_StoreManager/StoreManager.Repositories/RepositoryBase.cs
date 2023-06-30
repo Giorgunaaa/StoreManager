@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using StoreManager.Facade.Interfaces;
+using StoreManager.Facade.Interfaces.Repositories;
 
 namespace StoreManager.Repositories;
 

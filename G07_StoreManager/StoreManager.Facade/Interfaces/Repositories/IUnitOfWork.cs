@@ -1,4 +1,4 @@
-﻿namespace StoreManager.Facade.Interfaces;
+﻿namespace StoreManager.Facade.Interfaces.Repositories;
 
 public interface IUnitOfWork : IDisposable
 {
