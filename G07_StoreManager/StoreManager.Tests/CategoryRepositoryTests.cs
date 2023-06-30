@@ -76,9 +76,6 @@ public class CategoryRepositoryTests : RepositoryUnitTestBase
     {
         Category newCategory = GetTestRecord(name, description);
 
-        newCategory.Name = name;
-        newCategory.Description = description;
-
         Assert.Throws<DbUpdateConcurrencyException>(() =>
         {
             _unitOfWork.CategoryRepository.Update(newCategory);
