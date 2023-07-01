@@ -6,12 +6,7 @@ namespace StoreManager.Tests;
 
 public class CategoryRepositoryTests : RepositoryUnitTestBase
 {
-    private readonly IUnitOfWork _unitOfWork;
-
-    public CategoryRepositoryTests(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-    }
+    public CategoryRepositoryTests(IUnitOfWork unitOfWork) : base(unitOfWork) { }
 
     [Theory]
     [InlineData("Category 1", "Description 1")]
