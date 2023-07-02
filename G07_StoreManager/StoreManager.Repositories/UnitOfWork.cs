@@ -1,4 +1,5 @@
-﻿using StoreManager.Facade.Interfaces.Repositories;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using StoreManager.Facade.Interfaces.Repositories;
 
 namespace StoreManager.Repositories;
 
@@ -13,6 +14,7 @@ public class UnitOfWork : IUnitOfWork
     private readonly Lazy<IOrderDetailsRepository> _orderDetailsRepositoryLazy;
     private readonly Lazy<IOrderRepository> _orderRepositoryLazy;
     private readonly Lazy<IProductRepository> _productRepositoryLazy;
+    private IDbContextTransaction? _transaction;
 
     public UnitOfWork(StoreManagerDbContext context)
     {
@@ -48,5 +50,36 @@ public class UnitOfWork : IUnitOfWork
         return _context.SaveChanges();
     }
 
-    public void Dispose() => _context.Dispose();
+    public void BeginTransaction() => _transaction = _context.Database.BeginTransaction();
+
+    public void CommitTransaction()
+    {
+        try
+        {
+            _transaction?.Commit();
+        }
+        catch
+        {
+            _transaction?.Rollback();
+            throw;
+        }
+        finally
+        {
+            _transaction?.Dispose();
+            _transaction = null;
+        }
+    }
+
+    public void RollbackTransaction()
+    {
+        _transaction?.Rollback();
+        _transaction?.Dispose();
+        _transaction = null;
+    }
+
+    public void Dispose()
+    {
+        _context.Dispose();
+        _transaction?.Dispose();
+    }
 }
