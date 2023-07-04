@@ -3,7 +3,7 @@ using StoreManager.Facade.Interfaces.Repositories;
 
 namespace StoreManager.Repositories;
 
-public sealed class CategoryRepository : RepositoryBase<Category>, ICategoryRepository
+internal sealed class CategoryRepository : RepositoryBase<Category>, ICategoryRepository
 {
     public CategoryRepository(StoreManagerDbContext context) : base(context) { }
 }

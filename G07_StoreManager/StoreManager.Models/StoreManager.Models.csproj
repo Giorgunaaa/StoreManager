@@ -6,9 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\StoreManager.Facade\StoreManager.Facade.csproj" />
-    <ProjectReference Include="..\StoreManager.Models\StoreManager.Models.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -3,7 +3,7 @@ using StoreManager.Facade.Interfaces.Services;
 
 namespace StoreManager.Facade.Interfaces.Services;
 
-public interface IEmployeeAccountService : ICommandService<Employee>
+public interface IEmployeeAccountService : IQueryService<Employee>
 {
     
 }
