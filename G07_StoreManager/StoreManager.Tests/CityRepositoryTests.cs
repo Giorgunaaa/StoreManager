@@ -23,10 +23,10 @@ public class CityRepositoryTests : RepositoryUnitTestBase
     }
 
     [Theory]
-    [InlineData("City 1")]
-    [InlineData("City 2")]
-    [InlineData("City 3")]
-    [InlineData("City 4")]
+    [InlineData("City 5")]
+    [InlineData("City 6")]
+    [InlineData("City 7")]
+    [InlineData("City 8")]
     public void NotInserted(string name)
     {
         City city = GetTestRecord(name);

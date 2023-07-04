@@ -23,10 +23,10 @@ public class CustomerRepositoryTests : RepositoryUnitTestBase
     }
 
     [Theory]
-    [InlineData("Firstname 1", "LastName 1", "UserName 1")]
-    [InlineData("Firstname 2", "LastName 2", "UserName 2")]
-    [InlineData("Firstname 3", "LastName 3", "UserName 3")]
-    [InlineData("Firstname 4", "LastName 4", "UserName 4")]
+    [InlineData("Firstname 9", "LastName 9", "UserName 9")]
+    [InlineData("Firstname 10", "LastName 10", "UserName 10")]
+    [InlineData("Firstname 11", "LastName 11", "UserName 11")]
+    [InlineData("Firstname 12", "LastName 12", "UserName 12")]
     public void NotInserted(string firstname, string lastName, string userName)
     {
         Customer customer = GetTestRecord(firstname, lastName, userName);
