@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using StoreManager.DTO;
+using StoreManager.Facade.Exceptions;
 using StoreManager.Facade.Interfaces.Repositories;
 using StoreManager.Facade.Interfaces.Services;
 using StoreManager.Models;
@@ -17,55 +18,34 @@ public sealed class EmployeeAccountService : IEmployeeAccountService
 
     public AuthorizedUserModel Login(string username, string password)
     {
-        if (string.IsNullOrEmpty(username))
-        {
-            throw new ArgumentException("Username cannot be null or empty.", nameof(username));
-        }
-
-        if (string.IsNullOrEmpty(password))
-        {
-            throw new ArgumentException("Password cannot be null or empty.", nameof(password));
-        }
+        if (string.IsNullOrEmpty(username)) throw new ArgumentException($"{nameof(username)} cannot be null or empty.", nameof(username));
+        if (string.IsNullOrEmpty(password)) throw new ArgumentException($"{nameof(password)} cannot be null or empty.", nameof(password));
 
         Employee? employee = _unitOfWork.EmployeeRepository
             .Set()
-            .Where(x => x.AccountDetails!.Username == username && x.AccountDetails.Password == password)
-            .SingleOrDefault();
+            .SingleOrDefault(x => x.AccountDetails!.Username == username && 
+                                  x.AccountDetails.Password == password && 
+                                  !x.IsDeleted);
 
-        if (employee == null)
-        {
-            throw new InvalidOperationException("Incorrect username or password");
-        }
-
-        return new AuthorizedUserModel(employee.Id, employee.AccountDetails!.Username);
+        return employee == null
+            ? throw new LoginException(username)
+            : new AuthorizedUserModel(employee.Id, employee.AccountDetails!.Username);
     }
 
-    public AuthorizedUserModel Register(Employee employee, string password)
+    public void Register(Employee employee, string password)
     {
-        if (employee == null)
-        {
-            throw new ArgumentNullException(nameof(employee));
-        }
-
-        if (string.IsNullOrEmpty(password))
-        {
-            throw new ArgumentException("Password cannot be null or empty.", nameof(password));
-        }
-        
+        if (employee == null) throw new ArgumentNullException(nameof(employee));
+        if (string.IsNullOrEmpty(password)) throw new ArgumentException("Password cannot be null or empty.", nameof(password));
+       
         employee.AccountDetails!.Password = password;
 
         _unitOfWork.EmployeeRepository.Insert(employee);
         _unitOfWork.SaveChanges();
-
-        return new AuthorizedUserModel(employee.Id, employee.AccountDetails!.Username);
     }
 
     public void Update(Employee employee)
     {
-        if (employee == null)
-        {
-            throw new ArgumentNullException(nameof(employee));
-        }
+        if (employee == null) throw new ArgumentNullException(nameof(employee));
 
         _unitOfWork.EmployeeRepository.Update(employee);
         _unitOfWork.SaveChanges();
