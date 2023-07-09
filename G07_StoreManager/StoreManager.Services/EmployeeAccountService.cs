@@ -1,9 +1,9 @@
-﻿using System.Linq.Expressions;
-using StoreManager.DTO;
+﻿using StoreManager.DTO;
 using StoreManager.Facade.Exceptions;
 using StoreManager.Facade.Interfaces.Repositories;
 using StoreManager.Facade.Interfaces.Services;
 using StoreManager.Models;
+using System.Linq.Expressions;
 
 namespace StoreManager.Services;
 
@@ -23,8 +23,9 @@ public sealed class EmployeeAccountService : IEmployeeAccountService
 
         Employee? employee = _unitOfWork.EmployeeRepository
             .Set()
-            .SingleOrDefault(x => x.AccountDetails!.Username == username && 
-                                  x.AccountDetails.Password == password && 
+            .SingleOrDefault(x => x.AccountDetails != null &&
+                                  x.AccountDetails.Username == username &&
+                                  x.AccountDetails.Password == password &&
                                   !x.IsDeleted);
 
         return employee == null
@@ -32,12 +33,10 @@ public sealed class EmployeeAccountService : IEmployeeAccountService
             : new AuthorizedUserModel(employee.Id, employee.AccountDetails!.Username);
     }
 
-    public void Register(Employee employee, string password)
+    public void Register(Employee employee)
     {
         if (employee == null) throw new ArgumentNullException(nameof(employee));
-        if (string.IsNullOrEmpty(password)) throw new ArgumentException("Password cannot be null or empty.", nameof(password));
-       
-        employee.AccountDetails!.Password = password;
+        if (employee.AccountDetails == null) throw new ArgumentNullException(nameof(employee.AccountDetails));
 
         _unitOfWork.EmployeeRepository.Insert(employee);
         _unitOfWork.SaveChanges();
@@ -47,13 +46,27 @@ public sealed class EmployeeAccountService : IEmployeeAccountService
     {
         if (employee == null) throw new ArgumentNullException(nameof(employee));
 
+        Employee? originalEmployee = _unitOfWork.EmployeeRepository
+            .Set()
+            .SingleOrDefault(x => x.Id == employee.Id &&
+                                  !x.IsDeleted);
+        if (originalEmployee == null) throw new NullReferenceException(nameof(originalEmployee));
+
+        employee.AccountDetails = originalEmployee.AccountDetails;
+
         _unitOfWork.EmployeeRepository.Update(employee);
         _unitOfWork.SaveChanges();
     }
 
-    public void Delete(int employeeId)
+    public void Deactivate(int employeeId)
     {
-        _unitOfWork.EmployeeRepository.Delete(employeeId);
+        Employee? employee = _unitOfWork.EmployeeRepository
+            .Set()
+            .SingleOrDefault(x => x.Id == employeeId && !x.IsDeleted);
+        if (employee == null) throw new NullReferenceException(nameof(employee));
+
+        employee.IsDeleted = true;
+        _unitOfWork.EmployeeRepository.Update(employee);
         _unitOfWork.SaveChanges();
     }
 
