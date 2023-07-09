@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StoreManager.DTO;
-using StoreManager.Facade.Interfaces;
 using StoreManager.Facade.Interfaces.Repositories;
 
 namespace StoreManager.Tests;
 
 public class CountryRepositoryTests : RepositoryUnitTestBase
 {
-    public CountryRepositoryTests(IUnitOfWork unitOfWork) : base(unitOfWork){ }
+    public CountryRepositoryTests(IUnitOfWork unitOfWork) : base(unitOfWork) { }
 
     [Theory]
     [InlineData("Country 1")]
