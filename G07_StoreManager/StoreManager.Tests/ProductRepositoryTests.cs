@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StoreManager.DTO;
-using StoreManager.Facade.Interfaces;
-using System.Diagnostics;
 using StoreManager.Facade.Interfaces.Repositories;
 
 namespace StoreManager.Tests;

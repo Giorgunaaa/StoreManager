@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using StoreManager.Services;
 
 namespace StoreManager.API.Controllers
 {
@@ -7,24 +6,11 @@ namespace StoreManager.API.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private readonly INumberGenerator _numberGenerator;
 
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
-
-        public WeatherForecastController(INumberGenerator numberGenerator)
-        {
-            _numberGenerator = numberGenerator;
-        }
-
-        [HttpGet]
-        [Route("GetNumber")]
-        public int GetNumber()
-        {
-            return _numberGenerator.GetNumber();
-        }
 
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
