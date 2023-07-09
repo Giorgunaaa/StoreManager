@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StoreManager.DTO;
-using StoreManager.Facade.Interfaces;
 using StoreManager.Facade.Interfaces.Repositories;
 
 namespace StoreManager.Tests;
@@ -51,13 +50,13 @@ public class EmployeeRepositoryTests : RepositoryUnitTestBase
         _unitOfWork.EmployeeRepository.Insert(newEmployee);
         _unitOfWork.SaveChanges();
 
-        newEmployee.Username = $"New {userName}";
+        newEmployee.AccountDetails!.Username = $"New {userName}";
         _unitOfWork.EmployeeRepository.Update(newEmployee);
         _unitOfWork.SaveChanges();
 
         Employee updatedEmployee = _unitOfWork.EmployeeRepository.Set(x => x.Id == newEmployee.Id).Single();
 
-        Assert.True(updatedEmployee.Username == newEmployee.Username);
+        Assert.True(updatedEmployee.AccountDetails!.Username == newEmployee.AccountDetails.Username);
     }
 
     [Theory]
@@ -121,7 +120,7 @@ public class EmployeeRepositoryTests : RepositoryUnitTestBase
         _unitOfWork.EmployeeRepository.Insert(newEmployee);
         _unitOfWork.SaveChanges();
 
-       Employee retrievedEmployee = _unitOfWork.EmployeeRepository.Get(newEmployee.Id);
+        Employee retrievedEmployee = _unitOfWork.EmployeeRepository.Get(newEmployee.Id);
 
         Assert.True(retrievedEmployee.Id == newEmployee.Id);
     }
@@ -144,8 +143,8 @@ public class EmployeeRepositoryTests : RepositoryUnitTestBase
 
         Assert.True(expectedSet.Last().FirstName == retrievedEmployees.Last().FirstName &&
                     expectedSet.Last().LastName == retrievedEmployees.Last().LastName &&
-                    expectedSet.Last().Username == retrievedEmployees.Last().Username &&
-                    expectedSet.Last().Password == retrievedEmployees.Last().Password
+                    expectedSet.Last().AccountDetails!.Username == retrievedEmployees.Last().AccountDetails!.Username &&
+                    expectedSet.Last().AccountDetails!.Password == retrievedEmployees.Last().AccountDetails!.Password
         );
     }
 
@@ -155,8 +154,11 @@ public class EmployeeRepositoryTests : RepositoryUnitTestBase
         {
             FirstName = firstname,
             LastName = lastName,
-            Username = userName,
-            Password = password
+            AccountDetails = new AccountDetails
+            {
+                Username = userName,
+                Password = password
+            }
         };
         return employee;
     }
