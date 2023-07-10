@@ -1,5 +1,6 @@
 ﻿using StoreManager.DTO;
 using StoreManager.Facade.Exceptions;
+using StoreManager.Facade.HelpExtentions;
 using StoreManager.Facade.Interfaces.Repositories;
 using StoreManager.Facade.Interfaces.Services;
 using StoreManager.Models;
@@ -25,7 +26,7 @@ public sealed class EmployeeAccountService : IEmployeeAccountService
             .Set()
             .SingleOrDefault(x => x.AccountDetails != null &&
                                   x.AccountDetails.Username == username &&
-                                  x.AccountDetails.Password == password &&
+                                  x.AccountDetails.Password == password.GetHash() &&
                                   !x.IsDeleted);
 
         return employee == null
@@ -38,6 +39,7 @@ public sealed class EmployeeAccountService : IEmployeeAccountService
         if (employee == null) throw new ArgumentNullException(nameof(employee));
         if (employee.AccountDetails == null) throw new ArgumentNullException(nameof(employee.AccountDetails));
 
+        employee.AccountDetails.Password = employee.AccountDetails.Password.GetHash();
         _unitOfWork.EmployeeRepository.Insert(employee);
         _unitOfWork.SaveChanges();
     }

@@ -126,10 +126,10 @@ public class EmployeeRepositoryTests : RepositoryUnitTestBase
     }
 
     [Theory]
-    [InlineData("Firstname 1", "LastName 1", "UserName 1", "Password 1")]
-    [InlineData("Firstname 2", "LastName 2", "UserName 2", "Password 2")]
-    [InlineData("Firstname 3", "LastName 3", "UserName 3", "Password 3")]
-    [InlineData("Firstname 4", "LastName 4", "UserName 4", "Password 4")]
+    [InlineData("Firstname 100", "LastName 100", "UserName 100", "Password 100")]
+    [InlineData("Firstname 101", "LastName 101", "UserName 101", "Password 101")]
+    [InlineData("Firstname 102", "LastName 102", "UserName 102", "Password 102")]
+    [InlineData("Firstname 103", "LastName 103", "UserName 103", "Password 103")]
     public void Set(string firstname, string lastName, string userName, string password)
     {
         Employee newEmployee = GetTestRecord(firstname, lastName, userName, password);
