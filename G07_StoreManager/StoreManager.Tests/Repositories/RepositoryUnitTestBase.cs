@@ -1,6 +1,6 @@
 using StoreManager.Facade.Interfaces.Repositories;
 
-namespace StoreManager.Tests;
+namespace StoreManager.Tests.Repositories;
 
 public abstract class RepositoryUnitTestBase : UnitTestBase
 {

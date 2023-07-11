@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using StoreManager.DTO;
 using StoreManager.Facade.Interfaces.Repositories;
 
-namespace StoreManager.Tests;
+namespace StoreManager.Tests.Repositories;
 
 public class CategoryRepositoryTests : RepositoryUnitTestBase
 {
