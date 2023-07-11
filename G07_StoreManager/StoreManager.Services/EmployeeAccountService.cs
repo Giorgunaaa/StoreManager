@@ -48,11 +48,9 @@ public sealed class EmployeeAccountService : IEmployeeAccountService
     {
         if (employee == null) throw new ArgumentNullException(nameof(employee));
 
-        Employee? originalEmployee = _unitOfWork.EmployeeRepository
+        Employee originalEmployee = _unitOfWork.EmployeeRepository
             .Set()
-            .SingleOrDefault(x => x.Id == employee.Id &&
-                                  !x.IsDeleted);
-        if (originalEmployee == null) throw new NullReferenceException(nameof(originalEmployee));
+            .Single(x => x.Id == employee.Id && !x.IsDeleted);
 
         employee.AccountDetails = originalEmployee.AccountDetails;
 
@@ -60,12 +58,11 @@ public sealed class EmployeeAccountService : IEmployeeAccountService
         _unitOfWork.SaveChanges();
     }
 
-    public void Deactivate(int employeeId)
+    public void Deactivate(int employeeId) 
     {
-        Employee? employee = _unitOfWork.EmployeeRepository
+        Employee employee = _unitOfWork.EmployeeRepository
             .Set()
-            .SingleOrDefault(x => x.Id == employeeId && !x.IsDeleted);
-        if (employee == null) throw new NullReferenceException(nameof(employee));
+            .Single(x => x.Id == employeeId && !x.IsDeleted);
 
         employee.IsDeleted = true;
         _unitOfWork.EmployeeRepository.Update(employee);
