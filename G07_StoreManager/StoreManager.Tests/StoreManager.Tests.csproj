@@ -25,9 +25,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\StoreManager.API\StoreManager.API.csproj" />
     <ProjectReference Include="..\StoreManager.DTO\StoreManager.DTO.csproj" />
     <ProjectReference Include="..\StoreManager.Facade\StoreManager.Facade.csproj" />
+    <ProjectReference Include="..\StoreManager.Models\StoreManager.Models.csproj" />
     <ProjectReference Include="..\StoreManager.Repositories\StoreManager.Repositories.csproj" />
+    <ProjectReference Include="..\StoreManager.Services\StoreManager.Services.csproj" />
   </ItemGroup>
 
 </Project>

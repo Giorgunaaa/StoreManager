@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StoreManager.DTO;
-using StoreManager.Facade.Interfaces;
 using StoreManager.Facade.Interfaces.Repositories;
 
 namespace StoreManager.Tests;
@@ -51,13 +50,13 @@ public class EmployeeRepositoryTests : RepositoryUnitTestBase
         _unitOfWork.EmployeeRepository.Insert(newEmployee);
         _unitOfWork.SaveChanges();
 
-        newEmployee.Username = $"New {userName}";
+        newEmployee.AccountDetails!.Username = $"New {userName}";
         _unitOfWork.EmployeeRepository.Update(newEmployee);
         _unitOfWork.SaveChanges();
 
         Employee updatedEmployee = _unitOfWork.EmployeeRepository.Set(x => x.Id == newEmployee.Id).Single();
 
-        Assert.True(updatedEmployee.Username == newEmployee.Username);
+        Assert.True(updatedEmployee.AccountDetails!.Username == newEmployee.AccountDetails.Username);
     }
 
     [Theory]
@@ -121,16 +120,16 @@ public class EmployeeRepositoryTests : RepositoryUnitTestBase
         _unitOfWork.EmployeeRepository.Insert(newEmployee);
         _unitOfWork.SaveChanges();
 
-       Employee retrievedEmployee = _unitOfWork.EmployeeRepository.Get(newEmployee.Id);
+        Employee retrievedEmployee = _unitOfWork.EmployeeRepository.Get(newEmployee.Id);
 
         Assert.True(retrievedEmployee.Id == newEmployee.Id);
     }
 
     [Theory]
-    [InlineData("Firstname 1", "LastName 1", "UserName 1", "Password 1")]
-    [InlineData("Firstname 2", "LastName 2", "UserName 2", "Password 2")]
-    [InlineData("Firstname 3", "LastName 3", "UserName 3", "Password 3")]
-    [InlineData("Firstname 4", "LastName 4", "UserName 4", "Password 4")]
+    [InlineData("Firstname 100", "LastName 100", "UserName 100", "Password 100")]
+    [InlineData("Firstname 101", "LastName 101", "UserName 101", "Password 101")]
+    [InlineData("Firstname 102", "LastName 102", "UserName 102", "Password 102")]
+    [InlineData("Firstname 103", "LastName 103", "UserName 103", "Password 103")]
     public void Set(string firstname, string lastName, string userName, string password)
     {
         Employee newEmployee = GetTestRecord(firstname, lastName, userName, password);
@@ -144,8 +143,8 @@ public class EmployeeRepositoryTests : RepositoryUnitTestBase
 
         Assert.True(expectedSet.Last().FirstName == retrievedEmployees.Last().FirstName &&
                     expectedSet.Last().LastName == retrievedEmployees.Last().LastName &&
-                    expectedSet.Last().Username == retrievedEmployees.Last().Username &&
-                    expectedSet.Last().Password == retrievedEmployees.Last().Password
+                    expectedSet.Last().AccountDetails!.Username == retrievedEmployees.Last().AccountDetails!.Username &&
+                    expectedSet.Last().AccountDetails!.Password == retrievedEmployees.Last().AccountDetails!.Password
         );
     }
 
@@ -155,8 +154,11 @@ public class EmployeeRepositoryTests : RepositoryUnitTestBase
         {
             FirstName = firstname,
             LastName = lastName,
-            Username = userName,
-            Password = password
+            AccountDetails = new AccountDetails
+            {
+                Username = userName,
+                Password = password
+            }
         };
         return employee;
     }
