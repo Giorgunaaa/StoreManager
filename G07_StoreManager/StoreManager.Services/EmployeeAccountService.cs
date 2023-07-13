@@ -34,31 +34,40 @@ public sealed class EmployeeAccountService : IEmployeeAccountService
             : new AuthorizedUserModel(employee.Id, employee.AccountDetails!.Username);
     }
 
-    public void Register(Employee employee)
+    public void Register(int id, string username, string password)
     {
-        if (employee == null) throw new ArgumentNullException(nameof(employee));
-        if (employee.AccountDetails == null) throw new ArgumentNullException(nameof(employee.AccountDetails));
+        if (username == null) throw new ArgumentNullException(nameof(username));
+        if (password == null) throw new ArgumentNullException(nameof(password));
 
-        employee.AccountDetails.Password = employee.AccountDetails.Password.GetHash();
+        Employee employee = _unitOfWork.EmployeeRepository
+            .Set()
+            .Single(x => x.Id == id && !x.IsDeleted);
+
+        employee.AccountDetails = new AccountDetails
+        {
+            Password = password.GetHash(),
+            Username = username
+        };
         _unitOfWork.EmployeeRepository.Insert(employee);
         _unitOfWork.SaveChanges();
     }
 
-    public void Update(Employee employee)
+    public void UpdatePassword(int id, string oldPassword, string newPassword)
     {
-        if (employee == null) throw new ArgumentNullException(nameof(employee));
+        if (oldPassword == null) throw new ArgumentNullException(nameof(oldPassword));
+        if (newPassword == null) throw new ArgumentNullException(nameof(newPassword));
 
-        Employee originalEmployee = _unitOfWork.EmployeeRepository
+        Employee employee = _unitOfWork.EmployeeRepository
             .Set()
-            .Single(x => x.Id == employee.Id && !x.IsDeleted);
+            .Single(x => x.Id == id && x.AccountDetails!.Password == oldPassword.GetHash() && !x.IsDeleted);
 
-        employee.AccountDetails = originalEmployee.AccountDetails;
+        employee.AccountDetails!.Password = newPassword;
 
         _unitOfWork.EmployeeRepository.Update(employee);
         _unitOfWork.SaveChanges();
     }
 
-    public void Deactivate(int employeeId) 
+    public void Deactivate(int employeeId)
     {
         Employee employee = _unitOfWork.EmployeeRepository
             .Set()
