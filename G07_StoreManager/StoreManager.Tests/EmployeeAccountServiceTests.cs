@@ -115,7 +115,7 @@ public class EmployeeAccountServiceTests
         };
 
         _employeeAccountService.Register(employee);
-        _employeeAccountService.Deactivate(employee.Id);
+        _employeeAccountService.Unregister(employee.Id);
 
         Assert.True(employee.IsDeleted);
     }

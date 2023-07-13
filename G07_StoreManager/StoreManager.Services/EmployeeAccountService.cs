@@ -4,7 +4,6 @@ using StoreManager.Facade.HelpExtentions;
 using StoreManager.Facade.Interfaces.Repositories;
 using StoreManager.Facade.Interfaces.Services;
 using StoreManager.Models;
-using System.Linq.Expressions;
 
 namespace StoreManager.Services;
 
@@ -67,29 +66,14 @@ public sealed class EmployeeAccountService : IEmployeeAccountService
         _unitOfWork.SaveChanges();
     }
 
-    public void Deactivate(int employeeId)
+    public void Unregister(int employeeId)
     {
         Employee employee = _unitOfWork.EmployeeRepository
             .Set()
             .Single(x => x.Id == employeeId && !x.IsDeleted);
 
-        employee.IsDeleted = true;
+        employee.AccountDetails = null;
         _unitOfWork.EmployeeRepository.Update(employee);
         _unitOfWork.SaveChanges();
-    }
-
-    Employee IQueryService<Employee>.Get(params object[] id)
-    {
-        throw new NotImplementedException();
-    }
-
-    IEnumerable<Employee> IQueryService<Employee>.Set(Expression<Func<Employee, bool>> predicate)
-    {
-        throw new NotImplementedException();
-    }
-
-    IEnumerable<Employee> IQueryService<Employee>.Set()
-    {
-        throw new NotImplementedException();
     }
 }
