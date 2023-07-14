@@ -6,7 +6,7 @@ namespace StoreManager.Repositories;
 
 public abstract class RepositoryBase<T> : IRepository<T> where T : class
 {
-    private readonly StoreManagerDbContext _context;
+    protected readonly StoreManagerDbContext _context;
     protected readonly DbSet<T> _dbSet;
 
     protected RepositoryBase(StoreManagerDbContext context)

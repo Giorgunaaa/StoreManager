@@ -14,14 +14,7 @@ public sealed class EmployeeService : IEmployeeService
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
-    public void Delete(Employee entity)
-    {
-        entity.IsDeleted = true;
-        _unitOfWork.EmployeeRepository.Update(entity);
-        _unitOfWork.SaveChanges();
-    }
-
-    public int? Insert(Employee entity)
+    public int Insert(Employee entity)
     {
         if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -41,6 +34,13 @@ public sealed class EmployeeService : IEmployeeService
 
         entity.AccountDetails = employee?.AccountDetails;
 
+        _unitOfWork.EmployeeRepository.Update(entity);
+        _unitOfWork.SaveChanges();
+    }
+
+    public void Delete(Employee entity)
+    {
+        entity.IsDeleted = true;
         _unitOfWork.EmployeeRepository.Update(entity);
         _unitOfWork.SaveChanges();
     }

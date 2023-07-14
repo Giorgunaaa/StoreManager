@@ -44,10 +44,10 @@ public sealed class EmployeeAccountService : IEmployeeAccountService
 
         employee.AccountDetails = new AccountDetails
         {
-            Password = password.GetHash(),
-            Username = username
+            Username = username,
+            Password = password.GetHash()
         };
-        _unitOfWork.EmployeeRepository.Insert(employee);
+        _unitOfWork.EmployeeRepository.Update(employee);
         _unitOfWork.SaveChanges();
     }
 
@@ -60,7 +60,7 @@ public sealed class EmployeeAccountService : IEmployeeAccountService
             .Set()
             .Single(x => x.Id == id && x.AccountDetails!.Password == oldPassword.GetHash() && !x.IsDeleted);
 
-        employee.AccountDetails!.Password = newPassword;
+        employee.AccountDetails!.Password = newPassword.GetHash();
 
         _unitOfWork.EmployeeRepository.Update(employee);
         _unitOfWork.SaveChanges();
@@ -71,9 +71,8 @@ public sealed class EmployeeAccountService : IEmployeeAccountService
         Employee employee = _unitOfWork.EmployeeRepository
             .Set()
             .Single(x => x.Id == employeeId && !x.IsDeleted);
-
-        employee.AccountDetails = null;
-        _unitOfWork.EmployeeRepository.Update(employee);
+        
+        _unitOfWork.EmployeeRepository.DeleteAccount(employee);
         _unitOfWork.SaveChanges();
     }
 }
