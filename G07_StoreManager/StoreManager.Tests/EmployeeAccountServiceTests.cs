@@ -1,5 +1,4 @@
 ﻿using StoreManager.DTO;
-using StoreManager.Facade.HelpExtentions;
 using StoreManager.Facade.Interfaces.Repositories;
 using StoreManager.Models;
 using StoreManager.Services;
@@ -116,7 +115,7 @@ public class EmployeeAccountServiceTests
         };
 
         _employeeAccountService.Register(employee);
-        _employeeAccountService.Deactivate(employee.Id);
+        _employeeAccountService.Unregister(employee.Id);
 
         Assert.True(employee.IsDeleted);
     }

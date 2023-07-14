@@ -2,7 +2,7 @@
 
 namespace StoreManager.Facade.Interfaces.Services;
 
-public interface IEmployeeAccountService
+public interface IProductService : IQueryService<Product>, ICommandService<Product>
 {
 
 }
