@@ -32,7 +32,14 @@ namespace StoreManager.Services
 
         public void Update(Category entity)
         {
-            throw new NotImplementedException();
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+
+            Category category = _unitOfWork.CategoryRepository
+                .Set()
+                .Single(x => x.Id == entity.Id && !x.IsDeleted);
+
+            _unitOfWork.CategoryRepository.Update(category);
+            _unitOfWork.SaveChanges();
         }
 
         public Category Get(params object[] id) => _unitOfWork.CategoryRepository.Set().Single(x => x.Id == Convert.ToInt32(id) && !x.IsDeleted);

@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 
 namespace StoreManager.Services;
 
-public sealed class ProductService : IProductCommandService
+public sealed class ProductService : IProductService
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -17,51 +17,14 @@ public sealed class ProductService : IProductCommandService
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
-
-    //public int? CreateProduct(Product product)
-    //{
-    //    if (product == null) throw new ArgumentNullException(nameof(product));
-
-    //    _unitOfWork.ProductRepository.Insert(product);
-    //    _unitOfWork.SaveChanges();
-    //}
-
-    //public void UpdateProduct(Product product)
-    //{
-    //    if (product == null) throw new ArgumentNullException(nameof(product));
-
-    //    Product existingProduct = _unitOfWork.ProductRepository
-    //        .Set()
-    //        .Single(x => x.Id == product.Id && !x.IsDeleted);
-
-    //    if (existingProduct == null)
-    //        throw new ArgumentNullException(nameof(existingProduct));
-
-    //    _unitOfWork.ProductRepository.Update(existingProduct);
-    //    _unitOfWork.SaveChanges();
-    //}
-
-    //public void DeleteProduct(int productId)
-    //{
-    //    Product product = _unitOfWork.ProductRepository
-    //        .Set()
-    //        .Single(x => x.Id == productId && !x.IsDeleted);
-
-    //    if (product == null)
-    //        throw new ArgumentNullException(nameof(product));
-
-    //    product.IsDeleted = true;
-
-    //    _unitOfWork.ProductRepository.Update(product);
-    //    _unitOfWork.SaveChanges();
-    //}
-
     public int? Insert(Product product)
     {
         if (product == null) throw new ArgumentNullException(nameof(product));
 
         _unitOfWork.ProductRepository.Insert(product);
         _unitOfWork.SaveChanges();
+
+        return product.Id;
     }
 
     public void Update(Product product)
@@ -72,27 +35,24 @@ public sealed class ProductService : IProductCommandService
             .Set()
             .Single(x => x.Id == product.Id && !x.IsDeleted);
 
-        if (existingProduct == null)
-            throw new ArgumentNullException(nameof(existingProduct));
-
         _unitOfWork.ProductRepository.Update(existingProduct);
         _unitOfWork.SaveChanges();
     }
 
-    public void Delete(int productId)
+    public void Delete(Product product)
     {
-        Product product = _unitOfWork.ProductRepository
-            .Set()
-            .Single(x => x.Id == product.Id && !x.IsDeleted);
-
-        if (product == null)
-            throw new ArgumentNullException(nameof(product));
+        if (product == null) throw new ArgumentNullException(nameof(product));
 
         product.IsDeleted = true;
-
         _unitOfWork.ProductRepository.Update(product);
         _unitOfWork.SaveChanges();
     }
+
+    public Product Get(params object[] id) => _unitOfWork.ProductRepository.Set().Single(x => x.Id == Convert.ToInt32(id) && !x.IsDeleted);
+   
+    public IEnumerable<Product> Set(Expression<Func<Product, bool>> predicate) => _unitOfWork.ProductRepository.Set(predicate);
+
+    public IEnumerable<Product> Set() => _unitOfWork.ProductRepository.Set();
 }
 
 
