@@ -2,7 +2,7 @@
 
 namespace StoreManager.Facade.Interfaces.Services;
 
-public interface IProductService : IQueryService<Product>, ICommandService<Product>
+public interface ICategoryQueryService:IQueryService<Category>
 {
 
 }
