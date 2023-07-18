@@ -1,7 +1,6 @@
 ﻿using StoreManager.DTO;
 using StoreManager.Facade.Interfaces.Repositories;
 using StoreManager.Facade.Interfaces.Services;
-using System.Linq.Expressions;
 
 namespace StoreManager.Services;
 
@@ -9,10 +8,7 @@ public sealed class CategoryCommandService : ICategoryCommandService
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public CategoryCommandService(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-    }
+    public CategoryCommandService(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 
     public int Insert(Category entity)
     {
