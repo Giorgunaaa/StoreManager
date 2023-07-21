@@ -10,4 +10,6 @@ public sealed class Customer : Person
 
     [Column(TypeName = "money")]
     public decimal AccountBalance { get; set; }
+
+    public AccountDetails? AccountDetails { get; set; }
 }
