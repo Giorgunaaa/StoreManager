@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StoreManager.DTO;
 
-namespace StoreManager.Facade.Interfaces.Services
+namespace StoreManager.Facade.Interfaces.Services;
+
+public interface ICountryQueryService : IQueryService<Country>
 {
-    internal class ICountryQueryService
-    {
-    }
+
 }
