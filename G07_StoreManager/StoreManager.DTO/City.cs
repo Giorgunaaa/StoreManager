@@ -11,6 +11,8 @@ public class City
     [MaxLength(25)]
     public string Name { get; set; } = null!;
 
+    public bool IsDeleted { get; set; }
+
     [Required]
     public Country Country { get; set; } = null!;
 
