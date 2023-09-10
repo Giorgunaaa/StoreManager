@@ -2,7 +2,7 @@
 
 namespace StoreManager.DTO;
 
-public class AccountDetails
+public class AccountDetails : IEntity
 {
     [Key]
     public int Id { get; set; }
@@ -14,4 +14,6 @@ public class AccountDetails
     [Required]
     [MaxLength(20)]
     public string Password { get; set; } = null!;
+
+    public bool IsDeleted { get; set; }
 }

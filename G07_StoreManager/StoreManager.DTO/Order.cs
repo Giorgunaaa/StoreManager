@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StoreManager.DTO;
 
-public class Order
+public class Order : IEntity
 {
     [Key]
     public int Id { get; set; }
@@ -17,6 +17,8 @@ public class Order
 
     [MaxLength(150)]
     public string? ShipAddress { get; set; }
+
+    public bool IsDeleted { get; set; }
 
     [Required]
     public Employee Employee { get; set; } = null!;

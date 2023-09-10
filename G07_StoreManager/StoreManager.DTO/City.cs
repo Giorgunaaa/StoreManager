@@ -2,7 +2,7 @@
 
 namespace StoreManager.DTO;
 
-public class City
+public class City : IEntity
 {
     [Key]
     public int Id { get; set; }

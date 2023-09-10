@@ -2,7 +2,7 @@
 
 namespace StoreManager.DTO;
 
-public class Category
+public class Category : IEntity
 {
     [Key]
     public int Id { get; set; }
