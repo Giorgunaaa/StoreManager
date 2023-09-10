@@ -3,7 +3,7 @@ using StoreManager.Facade.Interfaces.Repositories;
 
 namespace StoreManager.Repositories;
 
-public sealed class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRepository
+internal sealed class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRepository
 {
     public EmployeeRepository(StoreManagerDbContext context) : base(context) { }
 
