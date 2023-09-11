@@ -16,11 +16,11 @@ public abstract class QueryServiceBase<TEntity, TRepository> : IQueryService<TEn
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
     }
 
-    public TEntity Get(params object[] id) => _repository
+    public virtual TEntity Get(params object[] id) => _repository
         .Set()
         .Single(x => x.Id == Convert.ToInt32(id) && !x.IsDeleted);
 
-    public IEnumerable<TEntity> Set(Expression<Func<TEntity, bool>> predicate) => _repository.Set(predicate);
+    public virtual IEnumerable<TEntity> Set(Expression<Func<TEntity, bool>> predicate) => _repository.Set(predicate);
 
-    public IEnumerable<TEntity> Set() => _repository.Set();
+    public virtual IEnumerable<TEntity> Set() => _repository.Set();
 }
