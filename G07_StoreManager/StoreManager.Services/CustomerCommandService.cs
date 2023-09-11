@@ -4,26 +4,16 @@ using StoreManager.Facade.Interfaces.Services;
 
 namespace StoreManager.Services;
 
-public sealed class CustomerCommandService : ICustomerCommandService
+public sealed class CustomerCommandService : CommandServiceBase<Customer, ICustomerRepository>, ICustomerCommandService
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public CustomerCommandService(IUnitOfWork unitOfWork)
+    public CustomerCommandService(IUnitOfWork unitOfWork) : base(unitOfWork, unitOfWork.CustomerRepository)
     {
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
-    public int Insert(Customer entity)
-    {
-        if (entity == null) throw new ArgumentNullException(nameof(entity));
-
-        _unitOfWork.CustomerRepository.Insert(entity);
-        _unitOfWork.SaveChanges();
-
-        return entity.Id;
-    }
-
-    public void Update(Customer entity)
+    override public void Update(Customer entity)
     {
         if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -33,13 +23,6 @@ public sealed class CustomerCommandService : ICustomerCommandService
 
         entity.AccountDetails = customer?.AccountDetails;
 
-        _unitOfWork.CustomerRepository.Update(entity);
-        _unitOfWork.SaveChanges();
-    }
-
-    public void Delete(Customer entity)
-    {
-        entity.IsDeleted = true;
         _unitOfWork.CustomerRepository.Update(entity);
         _unitOfWork.SaveChanges();
     }

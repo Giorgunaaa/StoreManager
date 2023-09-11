@@ -4,26 +4,15 @@ using StoreManager.Facade.Interfaces.Services;
 
 namespace StoreManager.Services;
 
-public sealed class EmployeeCommandService : IEmployeeCommandService
+public sealed class EmployeeCommandService : CommandServiceBase<Employee, IEmployeeRepository>, IEmployeeCommandService
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public EmployeeCommandService(IUnitOfWork unitOfWork)
+    public EmployeeCommandService(IUnitOfWork unitOfWork) : base(unitOfWork, unitOfWork.EmployeeRepository)
     {
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
-
-    public int Insert(Employee entity)
-    {
-        if (entity == null) throw new ArgumentNullException(nameof(entity));
-
-        _unitOfWork.EmployeeRepository.Insert(entity);
-        _unitOfWork.SaveChanges();
-
-        return entity.Id;
-    }
-
-    public void Update(Employee entity)
+    override public void Update(Employee entity)
     {
         if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -33,13 +22,6 @@ public sealed class EmployeeCommandService : IEmployeeCommandService
 
         entity.AccountDetails = employee?.AccountDetails;
 
-        _unitOfWork.EmployeeRepository.Update(entity);
-        _unitOfWork.SaveChanges();
-    }
-
-    public void Delete(Employee entity)
-    {
-        entity.IsDeleted = true;
         _unitOfWork.EmployeeRepository.Update(entity);
         _unitOfWork.SaveChanges();
     }
