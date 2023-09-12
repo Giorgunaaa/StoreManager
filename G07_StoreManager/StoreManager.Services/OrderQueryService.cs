@@ -1,14 +1,13 @@
 ﻿using StoreManager.DTO;
 using StoreManager.Facade.Interfaces.Repositories;
-using StoreManager.Facade.Interfaces.Services;
 
 namespace StoreManager.Services;
 
-public sealed class CityQueryService : QueryServiceBase<City, ICityRepository>, ICityQueryService
+public class OrderQueryService : QueryServiceBase<Order, IOrderRepository>
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public CityQueryService(IUnitOfWork unitOfWork) : base(unitOfWork.CityRepository)
+    public OrderQueryService(IUnitOfWork unitOfWork) : base(unitOfWork.OrderRepository)
     {
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }

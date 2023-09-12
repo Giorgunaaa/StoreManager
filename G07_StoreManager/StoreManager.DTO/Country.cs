@@ -2,7 +2,7 @@
 
 namespace StoreManager.DTO;
 
-public class Country
+public class Country : IEntity
 {
     [Key]
     public int Id { get; set; }

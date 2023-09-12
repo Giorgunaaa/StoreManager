@@ -3,7 +3,7 @@ using StoreManager.Facade.Interfaces.Repositories;
 
 namespace StoreManager.Repositories;
 
-public sealed class CityRepository : RepositoryBase<City>, ICityRepository
+internal sealed class CityRepository : RepositoryBase<City>, ICityRepository
 {
     public CityRepository(StoreManagerDbContext context) : base(context) { }
 }

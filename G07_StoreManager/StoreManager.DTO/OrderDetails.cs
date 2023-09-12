@@ -21,6 +21,8 @@ public class OrderDetails
     [Column(TypeName = "decimal(18, 2)")]
     public decimal Discount { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     [Required]
     public Product Product { get; set; } = null!;
 

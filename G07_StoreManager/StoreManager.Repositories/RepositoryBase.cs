@@ -4,7 +4,7 @@ using StoreManager.Facade.Interfaces.Repositories;
 
 namespace StoreManager.Repositories;
 
-public abstract class RepositoryBase<T> : IRepository<T> where T : class
+internal abstract class RepositoryBase<T> : IRepository<T> where T : class
 {
     protected readonly StoreManagerDbContext _context;
     protected readonly DbSet<T> _dbSet;

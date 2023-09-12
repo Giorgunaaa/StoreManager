@@ -3,7 +3,7 @@ using StoreManager.Facade.Interfaces.Repositories;
 
 namespace StoreManager.Repositories;
 
-public sealed class CountryRepository : RepositoryBase<Country>, ICountryRepository
+internal sealed class CountryRepository : RepositoryBase<Country>, ICountryRepository
 {
     public CountryRepository(StoreManagerDbContext context) : base(context) { }
 }
