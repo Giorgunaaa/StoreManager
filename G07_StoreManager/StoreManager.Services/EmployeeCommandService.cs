@@ -12,13 +12,14 @@ public sealed class EmployeeCommandService : CommandServiceBase<Employee, IEmplo
     {
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
-    override public void Update(Employee entity)
+
+    public override void Update(Employee entity)
     {
         if (entity == null) throw new ArgumentNullException(nameof(entity));
 
         Employee? employee = _unitOfWork.EmployeeRepository
-            .Set()
-            .SingleOrDefault(x => x.Id == entity.Id && !x.IsDeleted);
+            .Set(x => x.Id == entity.Id && !x.IsDeleted)
+            .SingleOrDefault();
 
         entity.AccountDetails = employee?.AccountDetails;
 

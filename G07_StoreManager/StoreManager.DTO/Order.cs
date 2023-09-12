@@ -20,6 +20,7 @@ public class Order : IEntity
 
     public bool IsDeleted { get; set; }
 
+    //TODO: Modify to collection.
     [Required]
     public OrderDetails OrderDetails { get; set; } = null!;
 

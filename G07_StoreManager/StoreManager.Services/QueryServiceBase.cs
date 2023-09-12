@@ -1,7 +1,7 @@
-﻿using StoreManager.DTO;
+﻿using System.Linq.Expressions;
+using StoreManager.DTO;
 using StoreManager.Facade.Interfaces.Repositories;
 using StoreManager.Facade.Interfaces.Services;
-using System.Linq.Expressions;
 
 namespace StoreManager.Services;
 
@@ -17,8 +17,8 @@ public abstract class QueryServiceBase<TEntity, TRepository> : IQueryService<TEn
     }
 
     public virtual TEntity Get(params object[] id) => _repository
-        .Set()
-        .Single(x => x.Id == Convert.ToInt32(id) && !x.IsDeleted);
+	    .Set(x => x.Id == Convert.ToInt32(id) && !x.IsDeleted)
+	    .Single();
 
     public virtual IEnumerable<TEntity> Set(Expression<Func<TEntity, bool>> predicate) => _repository.Set(predicate);
 

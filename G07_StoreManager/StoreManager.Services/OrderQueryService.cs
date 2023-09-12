@@ -5,10 +5,11 @@ namespace StoreManager.Services;
 
 public class OrderQueryService : QueryServiceBase<Order, IOrderRepository>
 {
-    private readonly IUnitOfWork _unitOfWork;
+	public OrderQueryService(IUnitOfWork unitOfWork) : base(unitOfWork.OrderRepository)
+	{
 
-    public OrderQueryService(IUnitOfWork unitOfWork) : base(unitOfWork.OrderRepository)
-    {
-        _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-    }
+	}
+
+	public IEnumerable<Order> Set(DateTime fromDate, DateTime toDate) =>
+		Set(x => x.OrderDate >= fromDate && x.OrderDate <= toDate);
 }

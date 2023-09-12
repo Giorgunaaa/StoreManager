@@ -8,8 +8,8 @@ public abstract class CommandServiceBase<TEntity, TRepository> : ICommandService
     where TEntity : class, IEntity
     where TRepository : IRepository<TEntity>
 {
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IRepository<TEntity> _repository;
-    private IUnitOfWork _unitOfWork;
 
     public CommandServiceBase(IUnitOfWork unitOfWork, TRepository repository)
     {
