@@ -25,6 +25,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreManager.Facade", "Stor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreManager.Models", "StoreManager.Models\StoreManager.Models.csproj", "{720BD90F-34D4-4D7C-AD16-C57522C02711}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{B29CF539-5307-48AD-B07E-D93CE5C8D007}"
+	ProjectSection(SolutionItems) = preProject
+		CategoryCommandServiceTests.cs = CategoryCommandServiceTests.cs
+		CategoryQueryServiceTests.cs = CategoryQueryServiceTests.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +76,7 @@ Global
 		{F6053115-F4D2-468D-B5E9-3746429E4C51} = {C791DFF2-D6CC-41DE-99A0-CDD2A6874411}
 		{CB2BE08E-15AD-4F10-B85C-FA1C00C79974} = {4C02658C-1B7A-49F3-B293-E3251B763C6A}
 		{720BD90F-34D4-4D7C-AD16-C57522C02711} = {4C02658C-1B7A-49F3-B293-E3251B763C6A}
+		{B29CF539-5307-48AD-B07E-D93CE5C8D007} = {C791DFF2-D6CC-41DE-99A0-CDD2A6874411}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DA61D7FB-37B4-47E3-9FAE-033F08CC4E17}
