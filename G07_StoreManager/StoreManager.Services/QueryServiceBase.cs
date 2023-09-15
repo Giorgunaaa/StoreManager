@@ -16,7 +16,7 @@ public abstract class QueryServiceBase<TEntity, TRepository> : IQueryService<TEn
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
     }
 
-    public virtual TEntity Get(params object[] id) => _repository
+    public virtual TEntity Get(params object?[]? id) => _repository
 	    .Set(x => x.Id == Convert.ToInt32(id) && !x.IsDeleted)
 	    .Single();
 

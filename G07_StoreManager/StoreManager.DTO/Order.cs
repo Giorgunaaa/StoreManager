@@ -20,9 +20,8 @@ public class Order : IEntity
 
     public bool IsDeleted { get; set; }
 
-    //TODO: Modify to collection.
     [Required]
-    public OrderDetails OrderDetails { get; set; } = null!;
+    public ICollection<OrderDetails> OrderDetails { get; set; } = null!;
 
     [Required]
     public Employee Employee { get; set; } = null!;
