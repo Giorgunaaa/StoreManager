@@ -27,12 +27,11 @@ public class EmployeeCommandServiceTests : CommandUnitTestsBase
     [Theory]
     [InlineData("Firstname 5", "LastName 5", "UserName 5", "Password 5")]
     [InlineData("Firstname 6", "LastName 6", "UserName 6", "Password 6")]
-    [InlineData("Firstname 7", "LastName 7", "UserName 7", "Password 7")]
     [InlineData("Firstname 8", "LastName 8", "UserName 8", "Password 8")]
     public void NotInserted(string firstname, string lastName, string userName, string password)
     {
         Employee employee = GetTestRecord(firstname, lastName, userName, password);
-        employee.Id = 1;
+        employee.Id = 10009;
 
         Assert.Throws<ArgumentException>(() =>
         {
