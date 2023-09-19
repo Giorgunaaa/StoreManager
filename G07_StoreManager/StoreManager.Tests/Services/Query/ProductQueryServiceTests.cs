@@ -19,7 +19,9 @@ public class ProductQueryServiceTests : QueryUnitTestsBase
         _unitOfWork.ProductRepository.Insert(newProduct);
         _unitOfWork.SaveChanges();
 
-        Product retrievedProduct = _unitOfWork.ProductRepository.Get(newProduct.Id);
+        ProductQueryService productQueryService = new(_unitOfWork);
+
+        Product retrievedProduct = productQueryService.Get(newProduct.Id);
 
         Assert.True(retrievedProduct.Id == newProduct.Id);
     }
@@ -30,6 +32,7 @@ public class ProductQueryServiceTests : QueryUnitTestsBase
     [InlineData("Product 4", 4)]
     public void Set(string name, decimal price)
     {
+        ProductQueryService productQueryService = new(_unitOfWork);
         Product newProduct = GetTestRecord(name, price);
         List<Product> expectedSet = new();
         expectedSet.Add(newProduct);
@@ -37,7 +40,7 @@ public class ProductQueryServiceTests : QueryUnitTestsBase
         _unitOfWork.ProductRepository.Insert(newProduct);
         _unitOfWork.SaveChanges();
 
-        var retrievedProducts = _unitOfWork.ProductRepository.Set();
+        var retrievedProducts = productQueryService.Set();
 
         Assert.True(expectedSet.Last().Name == retrievedProducts.Last().Name &&
                     expectedSet.Last().Price == retrievedProducts.Last().Price
@@ -50,6 +53,7 @@ public class ProductQueryServiceTests : QueryUnitTestsBase
     [InlineData("Product 4", 4)]
     public void ExpressionSet(string name, decimal price)
     {
+        ProductQueryService productQueryService = new(_unitOfWork);
         Product newProduct = GetTestRecord(name, price);
         List<Product> expectedSet = new();
         expectedSet.Add(newProduct);
@@ -57,7 +61,7 @@ public class ProductQueryServiceTests : QueryUnitTestsBase
         _unitOfWork.ProductRepository.Insert(newProduct);
         _unitOfWork.SaveChanges();
 
-        var retrievedProducts = _unitOfWork.ProductRepository.Set(x => x.Name == name);
+        var retrievedProducts = productQueryService.Set(x => x.Name == name);
 
         Assert.True(expectedSet.Last().Name == retrievedProducts.Last().Name &&
                     expectedSet.Last().Price == retrievedProducts.Last().Price

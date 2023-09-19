@@ -6,8 +6,6 @@ namespace StoreManager.Tests.Services.Query;
 
 public class CityQueryServiceTests : QueryUnitTestsBase
 {
-    //private City city;
-
     public CityQueryServiceTests(IUnitOfWork unitOfWork) : base(unitOfWork) { }
 
     [Theory]
@@ -23,9 +21,9 @@ public class CityQueryServiceTests : QueryUnitTestsBase
 
         CityQueryService cityQueryService = new(_unitOfWork);
 
-        City retrievedCity = cityQueryService.Get(newCity.Name);
+        City retrievedCity = cityQueryService.Get(newCity.Id);
 
-        Assert.True(retrievedCity.Name == newCity.Name);
+        Assert.True(retrievedCity.Id == newCity.Id);
     }
     [Theory]
     [InlineData("City 1")]
@@ -43,10 +41,10 @@ public class CityQueryServiceTests : QueryUnitTestsBase
         _unitOfWork.CityRepository.Insert(newCity);
         _unitOfWork.SaveChanges();
 
-        var retrievedCitys = cityQueryService.Set();
+        var retrievedCities = cityQueryService.Set();
 
-        Assert.True(expectedSet.Last().Name == retrievedCitys.Last().Name 
-                );
+        Assert.True(expectedSet.Last().Name == retrievedCities.Last().Name
+                   );
     }
 
     [Theory]
@@ -65,10 +63,10 @@ public class CityQueryServiceTests : QueryUnitTestsBase
         _unitOfWork.CityRepository.Insert(newCity);
         _unitOfWork.SaveChanges();
 
-        var retrievedCitys = cityQueryService.Set(x => x.Name == name);
+        var retrievedCities = cityQueryService.Set(x => x.Name == name);
 
-        Assert.True(expectedSet.Last().Name == retrievedCitys.Last().Name 
-                );
+        Assert.True(expectedSet.Last().Name == retrievedCities.Last().Name
+                   );
     }
 
     private static City GetTestRecord(string name)
