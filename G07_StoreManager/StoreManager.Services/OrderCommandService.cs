@@ -10,4 +10,8 @@ public class OrderCommandService : CommandServiceBase<Order, IOrderRepository>, 
     {
 
     }
+
+    public override void Update(Order entity) => throw new MethodAccessException();
+
+    public override void Delete(Order entity) => throw new MethodAccessException();
 }

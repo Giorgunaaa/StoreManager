@@ -48,6 +48,29 @@ public class CategoryQueryServiceTests : QueryUnitTestsBase
                 );
     }
 
+    [Theory]
+    [InlineData("Category 1", "Description 1")]
+    [InlineData("Category 2", "Description 2")]
+    [InlineData("Category 3", "Description 3")]
+    [InlineData("Category 4", "Description 4")]
+    public void ExpressionSet(string name, string description)
+    {
+        CategoryQueryService categoryQueryService = new(_unitOfWork);
+
+        Category newCategory = GetTestRecord(name, description);
+        List<Category> expectedSet = new();
+        expectedSet.Add(newCategory);
+
+        _unitOfWork.CategoryRepository.Insert(newCategory);
+        _unitOfWork.SaveChanges();
+
+        var retrievedCategories = categoryQueryService.Set(x => x.Name == name);
+
+        Assert.True(expectedSet.Last().Name == retrievedCategories.Last().Name &&
+                    expectedSet.Last().Description == retrievedCategories.Last().Description
+                );
+    }
+
 
     private static Category GetTestRecord(string name, string description)
     {
