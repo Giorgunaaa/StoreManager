@@ -16,8 +16,8 @@ public abstract class QueryServiceBase<TEntity, TRepository> : IQueryService<TEn
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
     }
 
-    public virtual TEntity Get(params object?[]? id) => _repository
-	    .Set(x => x.Id == Convert.ToInt32(id) && !x.IsDeleted)
+    public virtual TEntity Get(int id) => _repository
+	    .Set(x => x.Id == id && !x.IsDeleted)
 	    .Single();
 
     public virtual IEnumerable<TEntity> Set(Expression<Func<TEntity, bool>> predicate) => _repository.Set(predicate);

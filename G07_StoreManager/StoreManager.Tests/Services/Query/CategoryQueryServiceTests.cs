@@ -25,6 +25,7 @@ public class CategoryQueryServiceTests : QueryUnitTestsBase
 
         Assert.True(retrievedCategory.Id == newCategory.Id);
     }
+
     [Theory]
     [InlineData("Category 1", "Description 1")]
     [InlineData("Category 2", "Description 2")]

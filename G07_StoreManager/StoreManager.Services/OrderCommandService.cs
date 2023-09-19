@@ -11,7 +11,16 @@ public class OrderCommandService : CommandServiceBase<Order, IOrderRepository>, 
 
     }
 
-    public override void Update(Order entity) => throw new MethodAccessException();
+    public override int Insert(Order entity)
+    {
+	    if (entity.OrderDetails == null || !entity.OrderDetails.Any())
+	    {
+		    throw new ArgumentException("Order is empty.");
+	    }
+	    return base.Insert(entity);
+    }
 
-    public override void Delete(Order entity) => throw new MethodAccessException();
+    public override void Update(Order entity) => throw new NotSupportedException();
+
+    public override void Delete(Order entity) => throw new NotSupportedException();
 }

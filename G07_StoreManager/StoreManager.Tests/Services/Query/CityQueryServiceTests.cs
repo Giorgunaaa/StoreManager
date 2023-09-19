@@ -25,6 +25,7 @@ public class CityQueryServiceTests : QueryUnitTestsBase
 
         Assert.True(retrievedCity.Id == newCity.Id);
     }
+
     [Theory]
     [InlineData("City 1")]
     [InlineData("City 2")]
@@ -43,8 +44,7 @@ public class CityQueryServiceTests : QueryUnitTestsBase
 
         var retrievedCities = cityQueryService.Set();
 
-        Assert.True(expectedSet.Last().Name == retrievedCities.Last().Name
-                   );
+        Assert.True(expectedSet.Last().Name == retrievedCities.Last().Name);
     }
 
     [Theory]
@@ -65,8 +65,7 @@ public class CityQueryServiceTests : QueryUnitTestsBase
 
         var retrievedCities = cityQueryService.Set(x => x.Name == name);
 
-        Assert.True(expectedSet.Last().Name == retrievedCities.Last().Name
-                   );
+        Assert.True(expectedSet.Last().Name == retrievedCities.Last().Name);
     }
 
     private static City GetTestRecord(string name)
