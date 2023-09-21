@@ -27,6 +27,9 @@ internal abstract class RepositoryBase<T> : IRepository<T> where T : class
     public void Insert(T entity) =>
         _dbSet.Add(entity);
 
+    public void InsertRange(ICollection<T> entities) =>
+        _dbSet.AddRange(entities);
+
     public void Update(T entity)
     {
         _dbSet.Attach(entity);

@@ -9,6 +9,7 @@ public interface IRepository<TEntity> where TEntity : class
     IQueryable<TEntity> Set();
 
     void Insert(TEntity entity);
+    void InsertRange(ICollection<TEntity> entities);
     void Update(TEntity entity);
     void Delete(TEntity entity);
     void Delete(params object?[]? keyValues);

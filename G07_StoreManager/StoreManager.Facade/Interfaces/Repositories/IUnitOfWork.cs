@@ -12,4 +12,7 @@ public interface IUnitOfWork : IDisposable
     IProductRepository ProductRepository { get; }
 
     int SaveChanges();
+    void BeginTransaction();
+    void CommitTransaction();
+    void RollbackTransaction();
 }
