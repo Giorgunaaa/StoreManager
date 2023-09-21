@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StoreManager.DTO;
 
@@ -16,4 +17,10 @@ public class AccountDetails : IEntity
     public string Password { get; set; } = null!;
 
     public bool IsDeleted { get; set; }
+
+    [ForeignKey("Customer")]
+    public int CustomerId { get; set; }
+
+    [ForeignKey("Employee")]
+    public int EmployeeId { get; set; }
 }

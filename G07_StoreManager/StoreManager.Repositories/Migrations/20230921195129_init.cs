@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -31,7 +32,8 @@ namespace StoreManager.Repositories.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -108,6 +110,7 @@ namespace StoreManager.Repositories.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CountryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -122,16 +125,46 @@ namespace StoreManager.Repositories.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AccountDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Username = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CustomerId = table.Column<int>(type: "int", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccountDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AccountDetails_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AccountDetails_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderDate = table.Column<DateTime>(type: "datetime", nullable: true),
+                    OrderDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     ShippedDate = table.Column<DateTime>(type: "datetime", nullable: true),
                     ShipAddress = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
-                    EmployeeId = table.Column<int>(type: "int", nullable: true),
-                    CustomerId = table.Column<int>(type: "int", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    CustomerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -140,12 +173,14 @@ namespace StoreManager.Repositories.Migrations
                         name: "FK_Orders_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Orders_Employees_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "Employees",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -167,27 +202,6 @@ namespace StoreManager.Repositories.Migrations
                     table.ForeignKey(
                         name: "FK_CategoryProduct_Products_ProductsId",
                         column: x => x.ProductsId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProductDinamicFields",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductDinamicFields", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProductDinamicFields_Products_ProductId",
-                        column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -224,7 +238,9 @@ namespace StoreManager.Repositories.Migrations
                     OrderId = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "money", nullable: false),
-                    Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -242,6 +258,24 @@ namespace StoreManager.Repositories.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccountDetails_CustomerId",
+                table: "AccountDetails",
+                column: "CustomerId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccountDetails_EmployeeId",
+                table: "AccountDetails",
+                column: "EmployeeId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccountDetails_Username",
+                table: "AccountDetails",
+                column: "Username",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_CategoryProduct_ProductsId",
@@ -277,16 +311,14 @@ namespace StoreManager.Repositories.Migrations
                 name: "IX_Orders_EmployeeId",
                 table: "Orders",
                 column: "EmployeeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductDinamicFields_ProductId",
-                table: "ProductDinamicFields",
-                column: "ProductId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AccountDetails");
+
             migrationBuilder.DropTable(
                 name: "CategoryProduct");
 
@@ -295,9 +327,6 @@ namespace StoreManager.Repositories.Migrations
 
             migrationBuilder.DropTable(
                 name: "OrderDetails");
-
-            migrationBuilder.DropTable(
-                name: "ProductDinamicFields");
 
             migrationBuilder.DropTable(
                 name: "Categories");

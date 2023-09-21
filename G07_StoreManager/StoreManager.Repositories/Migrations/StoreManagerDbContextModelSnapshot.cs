@@ -52,6 +52,47 @@ namespace StoreManager.Repositories.Migrations
                     b.ToTable("CityEmployee");
                 });
 
+            modelBuilder.Entity("StoreManager.DTO.AccountDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId")
+                        .IsUnique();
+
+                    b.HasIndex("EmployeeId")
+                        .IsUnique();
+
+                    b.HasIndex("Username")
+                        .IsUnique();
+
+                    b.ToTable("AccountDetails");
+                });
+
             modelBuilder.Entity("StoreManager.DTO.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -88,6 +129,9 @@ namespace StoreManager.Repositories.Migrations
                     b.Property<int>("CountryId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(25)
@@ -107,6 +151,9 @@ namespace StoreManager.Repositories.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -225,13 +272,16 @@ namespace StoreManager.Repositories.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CustomerId")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("EmployeeId")
+                    b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("OrderDate")
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime");
 
                     b.Property<string>("ShipAddress")
@@ -261,8 +311,14 @@ namespace StoreManager.Repositories.Migrations
                     b.Property<decimal>("Discount")
                         .HasColumnType("decimal(18, 2)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("money");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
                     b.HasKey("OrderId", "ProductId");
 
@@ -299,35 +355,6 @@ namespace StoreManager.Repositories.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("StoreManager.DTO.ProductDinamicField", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SerializedValue")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)")
-                        .HasColumnName("Value");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductDinamicFields");
-                });
-
             modelBuilder.Entity("CategoryProduct", b =>
                 {
                     b.HasOne("StoreManager.DTO.Category", null)
@@ -358,6 +385,21 @@ namespace StoreManager.Repositories.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("StoreManager.DTO.AccountDetails", b =>
+                {
+                    b.HasOne("StoreManager.DTO.Customer", null)
+                        .WithOne("AccountDetails")
+                        .HasForeignKey("StoreManager.DTO.AccountDetails", "CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StoreManager.DTO.Employee", null)
+                        .WithOne("AccountDetails")
+                        .HasForeignKey("StoreManager.DTO.AccountDetails", "EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("StoreManager.DTO.City", b =>
                 {
                     b.HasOne("StoreManager.DTO.Country", "Country")
@@ -382,11 +424,15 @@ namespace StoreManager.Repositories.Migrations
                 {
                     b.HasOne("StoreManager.DTO.Customer", "Customer")
                         .WithMany()
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("StoreManager.DTO.Employee", "Employee")
                         .WithMany()
-                        .HasForeignKey("EmployeeId");
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Customer");
 
@@ -396,7 +442,7 @@ namespace StoreManager.Repositories.Migrations
             modelBuilder.Entity("StoreManager.DTO.OrderDetails", b =>
                 {
                     b.HasOne("StoreManager.DTO.Order", "Order")
-                        .WithMany()
+                        .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -412,25 +458,26 @@ namespace StoreManager.Repositories.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("StoreManager.DTO.ProductDinamicField", b =>
-                {
-                    b.HasOne("StoreManager.DTO.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("StoreManager.DTO.Country", b =>
                 {
                     b.Navigation("Cities");
                 });
 
+            modelBuilder.Entity("StoreManager.DTO.Customer", b =>
+                {
+                    b.Navigation("AccountDetails");
+                });
+
             modelBuilder.Entity("StoreManager.DTO.Employee", b =>
                 {
+                    b.Navigation("AccountDetails");
+
                     b.Navigation("ReportsFrom");
+                });
+
+            modelBuilder.Entity("StoreManager.DTO.Order", b =>
+                {
+                    b.Navigation("OrderDetails");
                 });
 #pragma warning restore 612, 618
         }
