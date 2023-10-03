@@ -1,23 +1,36 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StoreManager.DTO;
 using StoreManager.Facade.Interfaces.Services;
+using StoreManager.Models;
 
-namespace StoreManager.API.Controllers
+namespace StoreManager.API.Controllers;
+
+[Route("api/v1/[controller]")]
+[ApiController]
+public class CategoryController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CategoryController : ControllerBase
-    {
-        private readonly ICategoryCommandService _categoryCommandService;
+	private readonly ICategoryQueryService _categoryQueryService;
+	private readonly ICategoryCommandService _categoryCommandService;
 
-        public CategoryController(ICategoryCommandService categoryCommandService)
-        {
-            _categoryCommandService = categoryCommandService;
-        }
+	public CategoryController(ICategoryQueryService categoryQueryService, ICategoryCommandService categoryCommandService)
+	{
+		_categoryQueryService = categoryQueryService;
+		_categoryCommandService = categoryCommandService;
+	}
 
-        public void Insert(Category category)
-        {
-            _categoryCommandService.Insert(category);
-        }
-    }
+	//TODO: Modify to models.
+	[HttpGet]
+	[Route("{id}")]
+	public Category Get(int id)
+	{
+		//return _categoryQueryService.Get(id);
+		return new Category();
+	}
+
+	[HttpPost]
+	public int Insert(CategoryModel model)
+	{
+		//_categoryCommandService.Insert(category);
+		return 1;
+	}
 }

@@ -6,7 +6,7 @@ var configuration = builder.Configuration;
 builder.Services.AddControllers();
 builder.ConfigureDependency(configuration);
 
-builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddEndpointsApiExplorer(); //TODO: Research why we need this.
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();

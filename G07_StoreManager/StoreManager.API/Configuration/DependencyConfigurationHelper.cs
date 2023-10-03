@@ -11,6 +11,7 @@ namespace StoreManager.API.Configuration
         public static void ConfigureDependency(this WebApplicationBuilder builder, ConfigurationManager configuration)
         {
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddTransient<ICategoryQueryService, CategoryQueryService>();
             builder.Services.AddTransient<ICategoryCommandService, CategoryCommandService>();
             builder.Services.AddDbContext<StoreManagerDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("StoreManager")));
