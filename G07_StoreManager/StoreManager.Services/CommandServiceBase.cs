@@ -43,4 +43,6 @@ public abstract class CommandServiceBase<TEntity, TRepository> : ICommandService
         _repository.Update(entity);
         _unitOfWork.SaveChanges();
     }
+
+    public virtual void Delete(int id) => Delete(_repository.Set(x => x.Id == id).Single());
 }
