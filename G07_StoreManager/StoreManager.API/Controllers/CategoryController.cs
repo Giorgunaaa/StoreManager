@@ -14,54 +14,30 @@ public class CategoryController : ControllerBase
     private readonly ICategoryCommandService _categoryCommandService;
     private readonly IMapper _mapper;
 
-    public CategoryController(ICategoryQueryService categoryQueryService, ICategoryCommandService categoryCommandService)
+    public CategoryController(ICategoryQueryService categoryQueryService, ICategoryCommandService categoryCommandService, IMapper mapper)
     {
         _categoryQueryService = categoryQueryService;
         _categoryCommandService = categoryCommandService;
-        _mapper = ConfigureMapper().CreateMapper();
-    }
-
-    private MapperConfiguration ConfigureMapper()
-    {
-        return new MapperConfiguration(cfg =>
-        {
-            cfg.CreateMap<Category, CategoryModel>();
-            cfg.CreateMap<CategoryModel, Category>();
-        });
+        _mapper = mapper;
     }
 
     [HttpGet]
     [Route("{id}")]
-    public CategoryModel Get(int id)
-    {
-        return _mapper.Map<CategoryModel>(_categoryQueryService.Get(id));
-    }
+    public CategoryModel Get(int id) => _mapper.Map<CategoryModel>(_categoryQueryService.Get(id));
 
     [HttpPost]
-    public int Insert(CategoryModel model)
-    {
-        _categoryCommandService.Insert(_mapper.Map<Category>(model));
-
-        return 1;
-    }
+    public int Insert(CategoryModel model) => _categoryCommandService.Insert(_mapper.Map<Category>(model));
 
     [HttpPut]
     [Route("{id}")]
-    public int Update(int id, CategoryModel model)
+    public void Update(int id, CategoryModel model)
     {
         var category = _mapper.Map<Category>(model);
         category.Id = id;
         _categoryCommandService.Update(category);
-
-        return 1;
     }
 
     [HttpDelete]
     [Route("{id}")]
-    public int Delete(int id)
-    {
-        _categoryCommandService.Delete(id);
-
-        return 1;
-    }
+    public void Delete(int id) => _categoryCommandService.Delete(id);
 }
