@@ -14,6 +14,8 @@ internal static class DependencyConfigurationHelper
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         builder.Services.AddTransient<ICategoryQueryService, CategoryQueryService>();
         builder.Services.AddTransient<ICategoryCommandService, CategoryCommandService>();
+        builder.Services.AddTransient<IProductQueryService, ProductQueryService>();
+        builder.Services.AddTransient<IProductCommandService, ProductCommandService>();
         builder.Services.AddDbContext<StoreManagerDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("StoreManager")));
     }
