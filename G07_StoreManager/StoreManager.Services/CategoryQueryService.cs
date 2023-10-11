@@ -6,7 +6,7 @@ namespace StoreManager.Services;
 
 public sealed class CategoryQueryService : QueryServiceBase<Category, ICategoryRepository>, ICategoryQueryService
 {
-	private readonly IUnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
 
     public CategoryQueryService(IUnitOfWork unitOfWork) : base(unitOfWork.CategoryRepository)
     {
@@ -15,11 +15,11 @@ public sealed class CategoryQueryService : QueryServiceBase<Category, ICategoryR
 
     public IEnumerable<Category> Search(string text)
     {
-	    if (text == null) throw new ArgumentNullException(nameof(text));
+        if (text == null) throw new ArgumentNullException(nameof(text));
 
-	    return _unitOfWork
-		    .CategoryRepository
-		    .Set()
-		    .Where(x => x.Name.Contains(text) || x.Description.Contains(text));
+        return _unitOfWork
+            .CategoryRepository
+            .Set()
+            .Where(x => x.Name.Contains(text) || x.Description != null && x.Description.Contains(text));
     }
 }
