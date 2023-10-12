@@ -12,4 +12,9 @@ public sealed class CountryQueryService : QueryServiceBase<Country, ICountryRepo
     {
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
+
+    public IEnumerable<Country> Search(string text)
+    {
+        throw new NotImplementedException();
+    }
 }
