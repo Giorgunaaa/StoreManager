@@ -10,5 +10,6 @@ public class MapperProfileConfiguration : Profile
     {
         CreateMap<Category, CategoryModel>().ReverseMap();
         CreateMap<Product, ProductModel>().ReverseMap();
+        CreateMap<Country, CountryModel>().ReverseMap();
     }
 }
