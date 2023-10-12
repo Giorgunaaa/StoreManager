@@ -12,4 +12,9 @@ public sealed class EmployeeQueryService : QueryServiceBase<Employee, IEmployeeR
     {
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
+
+    public IEnumerable<Employee> Search(string text)
+    {
+        throw new NotImplementedException();
+    }
 }
