@@ -32,13 +32,13 @@ public class ProductController : ControllerBase
     .Select(x => _mapper.Map<ProductModel>(x));
 
     [HttpPost]
-    public int Insert(ProductModel model) => _productCommandService.Insert(_mapper.Map<Customer>(model));
+    public int Insert(ProductModel model) => _productCommandService.Insert(_mapper.Map<Product>(model));
 
     [HttpPut]
     [Route("{id}")]
     public void Update(int id, ProductModel model)
     {
-        var product = _mapper.Map<Customer>(model);
+        var product = _mapper.Map<Product>(model);
         product.Id = id;
         _productCommandService.Update(product);
     }

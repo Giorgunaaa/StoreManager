@@ -7,7 +7,7 @@ public class StoreManagerDbContext : DbContext
 {
     public StoreManagerDbContext(DbContextOptions<StoreManagerDbContext> options) : base(options) { }
 
-    public DbSet<Customer> Products { get; set; } = null!;
+    public DbSet<Product> Products { get; set; } = null!;
     public DbSet<Category> Categories { get; set; } = null!;
     public DbSet<Employee> Employees { get; set; } = null!;
     public DbSet<AccountDetails> AccountDetails { get; set; } = null!;

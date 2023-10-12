@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StoreManager.DTO;
 
-public class Customer : IEntity
+public class Product : IEntity
 {
     [Key]
     public int Id { get; set; }

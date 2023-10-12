@@ -4,7 +4,7 @@ using StoreManager.Facade.Interfaces.Services;
 
 namespace StoreManager.Services;
 
-public sealed class ProductCommandService : CommandServiceBase<Customer, IProductRepository>, IProductCommandService
+public sealed class ProductCommandService : CommandServiceBase<Product, IProductRepository>, IProductCommandService
 {
     private readonly IUnitOfWork _unitOfWork;
 

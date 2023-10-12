@@ -4,7 +4,7 @@ using StoreManager.Facade.Interfaces.Services;
 
 namespace StoreManager.Services;
 
-public sealed class ProductQueryService : QueryServiceBase<Customer, IProductRepository>, IProductQueryService
+public sealed class ProductQueryService : QueryServiceBase<Product, IProductRepository>, IProductQueryService
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -13,7 +13,7 @@ public sealed class ProductQueryService : QueryServiceBase<Customer, IProductRep
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
-    public IEnumerable<Customer> Search(string text)
+    public IEnumerable<Product> Search(string text)
     {
         if (text == null) throw new ArgumentNullException(nameof(text));
 

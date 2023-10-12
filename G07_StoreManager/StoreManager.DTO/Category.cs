@@ -16,5 +16,5 @@ public class Category : IEntity
 
     public bool IsDeleted { get; set; }
 
-    public ICollection<Customer>? Products { get; set; }
+    public ICollection<Product>? Products { get; set; }
 }

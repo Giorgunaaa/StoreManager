@@ -16,7 +16,7 @@ public class ProductCommandServiceTests : CommandUnitTestsBase
     [InlineData("Product 4", 4)]
     public void Insert(string name, decimal price)
     {
-        Customer product = GetTestRecord(name ,price);
+        Product product = GetTestRecord(name ,price);
         ProductCommandService productCommandService = new(_unitOfWork);
         productCommandService.Insert(product);
 
@@ -31,7 +31,7 @@ public class ProductCommandServiceTests : CommandUnitTestsBase
     [InlineData("Product 4", 4)]
     public void NotInserted(string name,decimal price)
     {
-        Customer product = GetTestRecord(name,  price);
+        Product product = GetTestRecord(name,  price);
        product.Id = 1;
 
         Assert.Throws<ArgumentException>(() =>
@@ -50,7 +50,7 @@ public class ProductCommandServiceTests : CommandUnitTestsBase
     {
         ProductCommandService productCommandService = new(_unitOfWork);
 
-        Customer newProduct = GetTestRecord(name, price);
+        Product newProduct = GetTestRecord(name, price);
         productCommandService.Insert(newProduct);
 
         newProduct.Name = $"New {name}";
@@ -58,7 +58,7 @@ public class ProductCommandServiceTests : CommandUnitTestsBase
 
         productCommandService.Update(newProduct);
 
-        Customer updatedProduct = _unitOfWork.ProductRepository.Set(x => x.Id == newProduct.Id).Single();
+        Product updatedProduct = _unitOfWork.ProductRepository.Set(x => x.Id == newProduct.Id).Single();
 
         Assert.True(updatedProduct.Name == newProduct.Name && updatedProduct.Price == newProduct.Price);
     }
@@ -70,7 +70,7 @@ public class ProductCommandServiceTests : CommandUnitTestsBase
     [InlineData("Product 4", 4)]
     public void NotUpdated(string name, decimal price)
     {
-        Customer newProduct = GetTestRecord(name, price);
+        Product newProduct = GetTestRecord(name, price);
 
         Assert.Throws<DbUpdateConcurrencyException>(() =>
         {
@@ -88,16 +88,16 @@ public class ProductCommandServiceTests : CommandUnitTestsBase
     {
        ProductCommandService productCommandService = new(_unitOfWork);
 
-       Customer product = GetTestRecord(name, price);
+       Product product = GetTestRecord(name, price);
        productCommandService.Insert(product);
 
        productCommandService.Delete(product);
 
         Assert.True(_unitOfWork.ProductRepository.Set(x => x.Id == product.Id).Single().IsDeleted);
     }
-    private static Customer GetTestRecord(string name,decimal price)
+    private static Product GetTestRecord(string name,decimal price)
     {
-        Customer product = new()
+        Product product = new()
         {
             Name = name,
             Price = price

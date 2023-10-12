@@ -15,7 +15,7 @@ public class ProductRepositoryTests : RepositoryUnitTestBase
     [InlineData("Product 4", 4)]
     public void Insert(string name, decimal price)
     {
-        Customer product = GetTestRecord(name, price);
+        Product product = GetTestRecord(name, price);
         _unitOfWork.ProductRepository.Insert(product);
         _unitOfWork.SaveChanges();
 
@@ -29,7 +29,7 @@ public class ProductRepositoryTests : RepositoryUnitTestBase
     [InlineData("Product 4", 4)]
     public void NotInserted(string name, decimal price)
     {
-        Customer product = GetTestRecord(name, price);
+        Product product = GetTestRecord(name, price);
         product.Id = 1;
 
         Assert.Throws<ArgumentException>(() =>
@@ -46,7 +46,7 @@ public class ProductRepositoryTests : RepositoryUnitTestBase
     [InlineData("Product 4", 4)]
     public void Update(string name, decimal price)
     {
-        Customer newProduct = GetTestRecord(name, price);
+        Product newProduct = GetTestRecord(name, price);
         _unitOfWork.ProductRepository.Insert(newProduct);
         _unitOfWork.SaveChanges();
 
@@ -55,7 +55,7 @@ public class ProductRepositoryTests : RepositoryUnitTestBase
         _unitOfWork.ProductRepository.Update(newProduct);
         _unitOfWork.SaveChanges();
 
-        Customer updatedProduct = _unitOfWork.ProductRepository.Set(x => x.Id == newProduct.Id).Single();
+        Product updatedProduct = _unitOfWork.ProductRepository.Set(x => x.Id == newProduct.Id).Single();
 
         Assert.True(updatedProduct.Name == newProduct.Name && updatedProduct.Price == newProduct.Price);
     }
@@ -67,7 +67,7 @@ public class ProductRepositoryTests : RepositoryUnitTestBase
     [InlineData("Product 4", 4)]
     public void NotUpdated(string name, decimal price)
     {
-        Customer newProduct = GetTestRecord(name, price);
+        Product newProduct = GetTestRecord(name, price);
 
         Assert.Throws<DbUpdateConcurrencyException>(() =>
         {
@@ -83,7 +83,7 @@ public class ProductRepositoryTests : RepositoryUnitTestBase
     [InlineData("Product 4", 4)]
     public void DeleteByObject(string name, decimal price)
     {
-        Customer product = GetTestRecord(name, price);
+        Product product = GetTestRecord(name, price);
         _unitOfWork.ProductRepository.Insert(product);
         _unitOfWork.SaveChanges();
 
@@ -100,7 +100,7 @@ public class ProductRepositoryTests : RepositoryUnitTestBase
     [InlineData("Product 4", 4)]
     public void DeleteById(string name, decimal price)
     {
-        Customer product = GetTestRecord(name, price);
+        Product product = GetTestRecord(name, price);
         _unitOfWork.ProductRepository.Insert(product);
         _unitOfWork.SaveChanges();
 
@@ -117,11 +117,11 @@ public class ProductRepositoryTests : RepositoryUnitTestBase
     [InlineData("Product 4", 4)]
     public void GetById(string name, decimal price)
     {
-        Customer newProduct = GetTestRecord(name, price);
+        Product newProduct = GetTestRecord(name, price);
         _unitOfWork.ProductRepository.Insert(newProduct);
         _unitOfWork.SaveChanges();
 
-        Customer retrievedProduct = _unitOfWork.ProductRepository.Get(newProduct.Id);
+        Product retrievedProduct = _unitOfWork.ProductRepository.Get(newProduct.Id);
 
         Assert.True(retrievedProduct.Id == newProduct.Id);
     }
@@ -133,8 +133,8 @@ public class ProductRepositoryTests : RepositoryUnitTestBase
     [InlineData("Product 4", 4)]
     public void Set(string name, decimal price)
     {
-        Customer newProduct = GetTestRecord(name, price);
-        List<Customer> expectedSet = new();
+        Product newProduct = GetTestRecord(name, price);
+        List<Product> expectedSet = new();
         expectedSet.Add(newProduct);
 
         _unitOfWork.ProductRepository.Insert(newProduct);
@@ -147,9 +147,9 @@ public class ProductRepositoryTests : RepositoryUnitTestBase
             );
     }
 
-    private static Customer GetTestRecord(string name, decimal price)
+    private static Product GetTestRecord(string name, decimal price)
     {
-        Customer product = new()
+        Product product = new()
         {
             Name = name,
             Price = price
