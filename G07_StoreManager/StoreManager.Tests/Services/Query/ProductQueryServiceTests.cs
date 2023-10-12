@@ -15,13 +15,13 @@ public class ProductQueryServiceTests : QueryUnitTestsBase
     [InlineData("Product 4", 4)]
     public void Get(string name, decimal price)
     {
-        Product newProduct = GetTestRecord(name, price);
+        Customer newProduct = GetTestRecord(name, price);
         _unitOfWork.ProductRepository.Insert(newProduct);
         _unitOfWork.SaveChanges();
 
         ProductQueryService productQueryService = new(_unitOfWork);
 
-        Product retrievedProduct = productQueryService.Get(newProduct.Id);
+        Customer retrievedProduct = productQueryService.Get(newProduct.Id);
 
         Assert.True(retrievedProduct.Id == newProduct.Id);
     }
@@ -33,8 +33,8 @@ public class ProductQueryServiceTests : QueryUnitTestsBase
     public void Set(string name, decimal price)
     {
         ProductQueryService productQueryService = new(_unitOfWork);
-        Product newProduct = GetTestRecord(name, price);
-        List<Product> expectedSet = new();
+        Customer newProduct = GetTestRecord(name, price);
+        List<Customer> expectedSet = new();
         expectedSet.Add(newProduct);
 
         _unitOfWork.ProductRepository.Insert(newProduct);
@@ -54,8 +54,8 @@ public class ProductQueryServiceTests : QueryUnitTestsBase
     public void ExpressionSet(string name, decimal price)
     {
         ProductQueryService productQueryService = new(_unitOfWork);
-        Product newProduct = GetTestRecord(name, price);
-        List<Product> expectedSet = new();
+        Customer newProduct = GetTestRecord(name, price);
+        List<Customer> expectedSet = new();
         expectedSet.Add(newProduct);
 
         _unitOfWork.ProductRepository.Insert(newProduct);
@@ -67,9 +67,9 @@ public class ProductQueryServiceTests : QueryUnitTestsBase
                     expectedSet.Last().Price == retrievedProducts.Last().Price
             );
     }
-    private static Product GetTestRecord(string name, decimal price)
+    private static Customer GetTestRecord(string name, decimal price)
     {
-        Product product = new()
+        Customer product = new()
         {
             Name = name,
             Price = price

@@ -24,7 +24,7 @@ public class OrderDetails
     public bool IsDeleted { get; set; }
 
     [Required]
-    public Product Product { get; set; } = null!;
+    public Customer Product { get; set; } = null!;
 
     [Required]
     public Order Order { get; set; } = null!;

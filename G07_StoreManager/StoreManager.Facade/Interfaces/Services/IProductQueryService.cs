@@ -2,7 +2,7 @@
 
 namespace StoreManager.Facade.Interfaces.Services;
 
-public interface IProductQueryService : IQueryService<Product>
+public interface IProductQueryService : IQueryService<Customer>
 {
-    IEnumerable<Product> Search(string text);
+    IEnumerable<Customer> Search(string text);
 }

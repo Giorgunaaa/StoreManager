@@ -2,7 +2,7 @@
 
 namespace StoreManager.Facade.Interfaces.Services;
 
-public interface IProductCommandService : ICommandService<Product>
+public interface IProductCommandService : ICommandService<Customer>
 {
 
 }

@@ -2,7 +2,7 @@
 
 namespace StoreManager.Facade.Interfaces.Repositories;
 
-public interface IProductRepository : IRepository<Product>
+public interface IProductRepository : IRepository<Customer>
 {
 
 }
