@@ -32,11 +32,11 @@ public class CityController : ControllerBase
         .Select(x => _mapper.Map<CityModel>(x));
 
     [HttpPost]
-    public int insert(CityModel model) => _cityCommandService.Insert(_mapper.Map<City>(model));
+    public int Insert(CityModel model) => _cityCommandService.Insert(_mapper.Map<City>(model));
 
     [HttpPut]
     [Route("{id}")]
-    public void update(int id, CityModel model)
+    public void Update(int id, CityModel model)
     {
         var city = _mapper.Map<City>(model);
         city.Id = id;
@@ -45,5 +45,5 @@ public class CityController : ControllerBase
 
     [HttpDelete]
     [Route("{id}")]
-    public void delete(int id) => _cityCommandService.Delete(id);
+    public void Delete(int id) => _cityCommandService.Delete(id);
 }

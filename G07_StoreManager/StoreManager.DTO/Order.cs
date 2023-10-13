@@ -5,26 +5,26 @@ namespace StoreManager.DTO;
 
 public class Order : IEntity
 {
-    [Key]
-    public int Id { get; set; }
+	[Key]
+	public int Id { get; set; }
 
-    [Required]
-    [Column(TypeName = "datetime")]
-    public DateTime OrderDate { get; set; }
+	[Required]
+	[Column(TypeName = "datetime")]
+	public DateTime OrderDate { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime? ShippedDate { get; set; }
+	[Column(TypeName = "datetime")]
+	public DateTime? ShippedDate { get; set; }
 
-    [MaxLength(150)]
-    public string? ShipAddress { get; set; }
+	[MaxLength(150)]
+	public string? ShipAddress { get; set; }
 
-    public bool IsDeleted { get; set; }
-    
-    public ICollection<OrderDetails>? OrderDetails { get; set; }
+	public bool IsDeleted { get; set; }
 
-    [Required]
-    public Employee Employee { get; set; } = null!;
+	public ICollection<OrderDetails>? OrderDetails { get; set; }
 
-    [Required]
-    public Customer Customer { get; set; } = null!;
+	[Required]
+	public Employee Employee { get; set; } = null!;
+
+	[Required]
+	public Customer Customer { get; set; } = null!;
 }

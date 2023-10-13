@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using StoreManager.DTO;
 using StoreManager.Facade.Interfaces.Services;
 using StoreManager.Models;
-using StoreManager.Services;
 
 namespace StoreManager.API.Controllers;
 
@@ -13,7 +12,7 @@ public class CountryController : ControllerBase
 {
     private readonly ICountryQueryService _countryQueryService;
     private readonly ICountryCommandService _countryCommandService;
-    private IMapper _mapper;
+    private readonly IMapper _mapper;
 
     public CountryController(ICountryQueryService countryQueryService, ICountryCommandService countryCommandService, IMapper mapper)
     {
