@@ -16,8 +16,13 @@ internal static class DependencyConfigurationHelper
         builder.Services.AddTransient<ICategoryCommandService, CategoryCommandService>();
         builder.Services.AddTransient<IProductQueryService, ProductQueryService>();
         builder.Services.AddTransient<IProductCommandService, ProductCommandService>();
+<<<<<<< HEAD
         builder.Services.AddTransient<ICountryQueryService, CountryQueryService>();
         builder.Services.AddTransient<ICountryCommandService, CountryCommandService>();
+=======
+        builder.Services.AddTransient<ICityQueryService, CityQueryService>();
+        builder.Services.AddTransient<ICityCommandService, CityCommandService>();
+>>>>>>> store-manager-#19
         builder.Services.AddDbContext<StoreManagerDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("StoreManager")));
     }
