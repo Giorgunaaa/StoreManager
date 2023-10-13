@@ -10,10 +10,7 @@ public class MapperProfileConfiguration : Profile
     {
         CreateMap<Category, CategoryModel>().ReverseMap();
         CreateMap<Product, ProductModel>().ReverseMap();
-<<<<<<< HEAD
         CreateMap<Country, CountryModel>().ReverseMap();
-=======
         CreateMap<City, CityModel>().ReverseMap();
->>>>>>> store-manager-#19
     }
 }
