@@ -12,4 +12,14 @@ public sealed class ProductQueryService : QueryServiceBase<Product, IProductRepo
     {
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
+
+    public IEnumerable<Product> Search(string text)
+    {
+        if (text == null) throw new ArgumentNullException(nameof(text));
+
+        return _unitOfWork
+            .ProductRepository
+            .Set()
+            .Where(x => x.Name.Contains(text) || x.Description.Contains(text));
+    }
 }
