@@ -10,41 +10,39 @@ namespace StoreManager.API.Controllers;
 [ApiController]
 public class CategoryController : ControllerBase
 {
-	private readonly ICategoryQueryService _categoryQueryService;
-	private readonly ICategoryCommandService _categoryCommandService;
-	private readonly IMapper _mapper;
+    private readonly ICategoryQueryService _categoryQueryService;
+    private readonly ICategoryCommandService _categoryCommandService;
+    private readonly IMapper _mapper;
 
-	public CategoryController(ICategoryQueryService categoryQueryService, ICategoryCommandService categoryCommandService, IMapper mapper)
-	{
-		_categoryQueryService = categoryQueryService;
-		_categoryCommandService = categoryCommandService;
-		_mapper = mapper;
-	}
+    public CategoryController(ICategoryQueryService categoryQueryService, ICategoryCommandService categoryCommandService, IMapper mapper)
+    {
+        _categoryQueryService = categoryQueryService;
+        _categoryCommandService = categoryCommandService;
+        _mapper = mapper;
+    }
 
-	[HttpGet]
-	[Route("{id}")]
-	public CategoryModel Get(int id) => _mapper.Map<CategoryModel>(_categoryQueryService.Get(id));
+    [HttpGet]
+    [Route("get/{id}")]
+    public CategoryModel Get(int id) => _mapper.Map<CategoryModel>(_categoryQueryService.Get(id));
 
-	//TODO: Add pager functionality.
-	[HttpGet]
-	[Route("search/{text}")]
-	public IEnumerable<CategoryModel> Search(string text) => _categoryQueryService
-		.Search(text)
-		.Select(x => _mapper.Map<CategoryModel>(x));
+    //TODO: Add pager functionality.
+    [HttpGet]
+    [Route("search/{text}")]
+    public IEnumerable<CategoryModel> Search(string text) => _mapper.Map<IEnumerable<CategoryModel>>(_categoryQueryService.Search(text));
 
-	[HttpPost]
-	public int Insert(CategoryModel model) => _categoryCommandService.Insert(_mapper.Map<Category>(model));
+    [HttpPost]
+    public int Insert(CategoryModel model) => _categoryCommandService.Insert(_mapper.Map<Category>(model));
 
-	[HttpPut]
-	[Route("{id}")]
-	public void Update(int id, CategoryModel model)
-	{
-		var category = _mapper.Map<Category>(model);
-		category.Id = id;
-		_categoryCommandService.Update(category);
-	}
+    [HttpPut]
+    [Route("{id}")]
+    public void Update(int id, CategoryModel model)
+    {
+        var category = _mapper.Map<Category>(model);
+        category.Id = id;
+        _categoryCommandService.Update(category);
+    }
 
-	[HttpDelete]
-	[Route("{id}")]
-	public void Delete(int id) => _categoryCommandService.Delete(id);
+    [HttpDelete]
+    [Route("{id}")]
+    public void Delete(int id) => _categoryCommandService.Delete(id);
 }
