@@ -12,5 +12,7 @@ public class MapperProfileConfiguration : Profile
         CreateMap<Product, ProductModel>().ReverseMap();
         CreateMap<Country, CountryModel>().ReverseMap();
         CreateMap<City, CityModel>().ReverseMap();
+        CreateMap<Employee, EmployeeModel>().ReverseMap();
+        CreateMap<Customer, CustomerModel>().ReverseMap();
     }
 }
