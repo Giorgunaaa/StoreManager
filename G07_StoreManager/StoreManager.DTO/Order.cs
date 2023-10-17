@@ -18,6 +18,8 @@ public class Order : IEntity
 	[MaxLength(150)]
 	public string? ShipAddress { get; set; }
 
+	public OrderStatus Status { get; set; }
+
 	public bool IsDeleted { get; set; }
 
 	public ICollection<OrderDetails>? OrderDetails { get; set; }
@@ -27,4 +29,10 @@ public class Order : IEntity
 
 	[Required]
 	public Customer Customer { get; set; } = null!;
+}
+
+public enum OrderStatus : byte
+{
+	Pending = 0,
+	Completed = 1,
 }
