@@ -1,5 +1,6 @@
 using Serilog;
 using StoreManager.API.Configuration;
+using StoreManager.API.GlobalExceptionHandler;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -11,7 +12,11 @@ var logger = new LoggerConfiguration()
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<GlobalExceptionFilter>();
+});
+
 builder.ConfigureDependency(configuration);
 
 builder.Services.AddEndpointsApiExplorer();
