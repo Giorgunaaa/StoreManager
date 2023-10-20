@@ -7,4 +7,4 @@ public record OrderModel(
 	string? ShipAddress, 
 	IEnumerable<OrderDetailsModel> Details);
 
-public record OrderDetailsModel(int Id, int ProductId);
+public record OrderDetailsModel(int Id, int ProductId, decimal Price, int Quantity, decimal Discount, ProductModel Product );
