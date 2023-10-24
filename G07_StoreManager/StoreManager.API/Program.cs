@@ -5,14 +5,8 @@ using StoreManager.API.ExceptionHandler;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
-var logger = new LoggerConfiguration()
-    .WriteTo.Console(restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information)
-    .WriteTo.File("logs/log-.txt",
-        restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information,
-        rollingInterval: RollingInterval.Day)
-    .CreateLogger();
+Log.Logger.ConfigureLogger();
 
-builder.Logging.AddSerilog(logger);
 builder.Host.UseSerilog();
 
 builder.Services.AddControllers();
@@ -29,8 +23,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseSerilogRequestLogging();
 
+app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
