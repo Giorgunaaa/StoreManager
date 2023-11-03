@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StoreManager.DTO\StoreManager.DTO.csproj" />
+    <ProjectReference Include="..\StoreManager.Models\StoreManager.Models.csproj" />
   </ItemGroup>
 
 </Project>

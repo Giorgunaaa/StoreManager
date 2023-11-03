@@ -34,6 +34,8 @@ internal static class DependencyConfigurationHelper
         builder.Services.AddTransient<IOrderQueryService, OrderQueryService>();
         builder.Services.AddTransient<IOrderCommandService, OrderCommandService>();
 
+        builder.Services.AddTransient<IAccountService, CustomerAccountService>();
+
         builder.Services.AddDbContext<StoreManagerDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("StoreManager")));
     }

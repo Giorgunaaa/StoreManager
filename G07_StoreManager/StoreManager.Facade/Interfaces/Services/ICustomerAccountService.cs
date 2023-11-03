@@ -1,8 +1,8 @@
-﻿using StoreManager.DTO;
+﻿using StoreManager.Models;
 
 namespace StoreManager.Facade.Interfaces.Services;
 
-public interface ICustomerAccountService
+public interface ICustomerAccountService : IAccountService
 {
 
 }
