@@ -15,6 +15,15 @@ public sealed class EmployeeQueryService : QueryServiceBase<Employee, IEmployeeR
 
     public IEnumerable<Employee> Search(string text)
     {
-        throw new NotImplementedException();
+        if (text == null) throw new ArgumentNullException(nameof(text));
+
+        return _unitOfWork
+            .EmployeeRepository
+            .Set()
+            .Where(x => x.FirstName.Contains(text) ||
+                        x.LastName.Contains(text) ||
+                        (x.Phone != null && x.Phone.Contains(text)) ||
+                        (x.Email != null && x.Email.Contains(text))
+            );
     }
 }

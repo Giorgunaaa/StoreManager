@@ -20,6 +20,8 @@ public sealed class ProductQueryService : QueryServiceBase<Product, IProductRepo
         return _unitOfWork
             .ProductRepository
             .Set()
-            .Where(x => x.Name.Contains(text) || x.Description.Contains(text));
+            .Where(x => x.Name.Contains(text) || 
+                        (x.Description != null && x.Description.Contains(text))
+            );
     }
 }

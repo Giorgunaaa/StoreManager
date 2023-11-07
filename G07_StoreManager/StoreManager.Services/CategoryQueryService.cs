@@ -20,6 +20,8 @@ public sealed class CategoryQueryService : QueryServiceBase<Category, ICategoryR
         return _unitOfWork
             .CategoryRepository
             .Set()
-            .Where(x => x.Name.Contains(text) || x.Description != null && x.Description.Contains(text));
+            .Where(x => x.Name.Contains(text) || 
+                        (x.Description != null && x.Description.Contains(text))
+            );
     }
 }
