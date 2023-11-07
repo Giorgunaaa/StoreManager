@@ -15,6 +15,15 @@ public sealed class CustomerQueryService : QueryServiceBase<Customer, ICustomerR
 
     public IEnumerable<Customer> Search(string text)
     {
-        throw new NotImplementedException();
+        if (text == null) throw new ArgumentNullException(nameof(text));
+
+        return _unitOfWork
+            .CustomerRepository
+            .Set()
+            .Where(x => x.FirstName.Contains(text) || 
+                        x.LastName.Contains(text) || 
+                        (x.Phone != null && x.Phone.Contains(text)) ||
+                        (x.Email != null && x.Email.Contains(text))
+            );
     }
 }

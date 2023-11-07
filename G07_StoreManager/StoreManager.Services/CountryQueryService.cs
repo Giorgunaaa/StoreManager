@@ -15,6 +15,11 @@ public sealed class CountryQueryService : QueryServiceBase<Country, ICountryRepo
 
     public IEnumerable<Country> Search(string text)
     {
-        throw new NotImplementedException();
+        if (text == null) throw new ArgumentNullException(nameof(text));
+
+        return _unitOfWork
+            .CountryRepository
+            .Set()
+            .Where(x => x.Name.Contains(text));
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-namespace StoreManager.Facade.Exceptions;
+﻿namespace StoreManager.Facade.Exceptions;
 
 public class LoginException : Exception
 {
