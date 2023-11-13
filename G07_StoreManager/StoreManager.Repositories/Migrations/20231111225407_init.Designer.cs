@@ -12,7 +12,7 @@ using StoreManager.Repositories;
 namespace StoreManager.Repositories.Migrations
 {
     [DbContext(typeof(StoreManagerDbContext))]
-    [Migration("20230921195129_init")]
+    [Migration("20231111225407_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace StoreManager.Repositories.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.5")
+                .HasAnnotation("ProductVersion", "7.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -63,10 +63,10 @@ namespace StoreManager.Repositories.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CustomerId")
+                    b.Property<int?>("Customer")
                         .HasColumnType("int");
 
-                    b.Property<int>("EmployeeId")
+                    b.Property<int?>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
@@ -74,8 +74,8 @@ namespace StoreManager.Repositories.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -84,11 +84,9 @@ namespace StoreManager.Repositories.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId")
-                        .IsUnique();
-
                     b.HasIndex("EmployeeId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[EmployeeId] IS NOT NULL");
 
                     b.HasIndex("Username")
                         .IsUnique();
@@ -176,8 +174,8 @@ namespace StoreManager.Repositories.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal>("AccountBalance")
-                        .HasColumnType("money");
+                    b.Property<int?>("AccountDetailsId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Address")
                         .HasMaxLength(150)
@@ -185,6 +183,11 @@ namespace StoreManager.Repositories.Migrations
 
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(25)
@@ -207,12 +210,9 @@ namespace StoreManager.Repositories.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("varchar");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("AccountDetailsId");
 
                     b.ToTable("Customers", (string)null);
                 });
@@ -293,6 +293,9 @@ namespace StoreManager.Repositories.Migrations
 
                     b.Property<DateTime?>("ShippedDate")
                         .HasColumnType("datetime");
+
+                    b.Property<byte>("Status")
+                        .HasColumnType("tinyint");
 
                     b.HasKey("Id");
 
@@ -390,17 +393,9 @@ namespace StoreManager.Repositories.Migrations
 
             modelBuilder.Entity("StoreManager.DTO.AccountDetails", b =>
                 {
-                    b.HasOne("StoreManager.DTO.Customer", null)
-                        .WithOne("AccountDetails")
-                        .HasForeignKey("StoreManager.DTO.AccountDetails", "CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("StoreManager.DTO.Employee", null)
                         .WithOne("AccountDetails")
-                        .HasForeignKey("StoreManager.DTO.AccountDetails", "EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StoreManager.DTO.AccountDetails", "EmployeeId");
                 });
 
             modelBuilder.Entity("StoreManager.DTO.City", b =>
@@ -412,6 +407,15 @@ namespace StoreManager.Repositories.Migrations
                         .IsRequired();
 
                     b.Navigation("Country");
+                });
+
+            modelBuilder.Entity("StoreManager.DTO.Customer", b =>
+                {
+                    b.HasOne("StoreManager.DTO.AccountDetails", "AccountDetails")
+                        .WithMany()
+                        .HasForeignKey("AccountDetailsId");
+
+                    b.Navigation("AccountDetails");
                 });
 
             modelBuilder.Entity("StoreManager.DTO.Employee", b =>
@@ -464,11 +468,6 @@ namespace StoreManager.Repositories.Migrations
             modelBuilder.Entity("StoreManager.DTO.Country", b =>
                 {
                     b.Navigation("Cities");
-                });
-
-            modelBuilder.Entity("StoreManager.DTO.Customer", b =>
-                {
-                    b.Navigation("AccountDetails");
                 });
 
             modelBuilder.Entity("StoreManager.DTO.Employee", b =>

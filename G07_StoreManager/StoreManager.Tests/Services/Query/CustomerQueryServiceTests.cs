@@ -47,7 +47,7 @@ public class CustomerQueryServiceTests : QueryUnitTestsBase
 
         Assert.True(expectedSet.Last().FirstName == retrievedCustomers.Last().FirstName &&
                     expectedSet.Last().LastName == retrievedCustomers.Last().LastName &&
-                    expectedSet.Last().UserName == retrievedCustomers.Last().UserName
+                    expectedSet.Last().DisplayName == retrievedCustomers.Last().DisplayName
                     );
     }
 
@@ -71,7 +71,7 @@ public class CustomerQueryServiceTests : QueryUnitTestsBase
 
         Assert.True(expectedSet.Last().FirstName == retrievedCustomers.Last().FirstName &&
                     expectedSet.Last().LastName == retrievedCustomers.Last().LastName &&
-                    expectedSet.Last().UserName == retrievedCustomers.Last().UserName
+                    expectedSet.Last().DisplayName == retrievedCustomers.Last().DisplayName
                    );
     }
 
@@ -81,7 +81,7 @@ public class CustomerQueryServiceTests : QueryUnitTestsBase
         {
             FirstName = firstname,
             LastName = lastName,
-            UserName = userName,
+            DisplayName = userName,
         };
         return customer;
     }

@@ -50,13 +50,13 @@ public class CustomerRepositoryTests : RepositoryUnitTestBase
         _unitOfWork.CustomerRepository.Insert(newCustomer);
         _unitOfWork.SaveChanges();
 
-        newCustomer.UserName = $"New {userName}";
+        newCustomer.DisplayName = $"New {userName}";
         _unitOfWork.CustomerRepository.Update(newCustomer);
         _unitOfWork.SaveChanges();
 
         Customer updatedCustomer = _unitOfWork.CustomerRepository.Set(x => x.Id == newCustomer.Id).Single();
 
-        Assert.True(updatedCustomer.UserName == newCustomer.UserName);
+        Assert.True(updatedCustomer.DisplayName == newCustomer.DisplayName);
     }
 
     [Theory]
@@ -143,7 +143,7 @@ public class CustomerRepositoryTests : RepositoryUnitTestBase
 
         Assert.True(expectedSet.Last().FirstName == retrievedCustomers.Last().FirstName &&
                     expectedSet.Last().LastName == retrievedCustomers.Last().LastName &&
-                    expectedSet.Last().UserName == retrievedCustomers.Last().UserName
+                    expectedSet.Last().DisplayName == retrievedCustomers.Last().DisplayName
         );
     }
 
@@ -153,7 +153,7 @@ public class CustomerRepositoryTests : RepositoryUnitTestBase
         {
             FirstName = firstname,
             LastName = lastName,
-            UserName = userName,
+            DisplayName = userName,
         };
         return customer;
     }

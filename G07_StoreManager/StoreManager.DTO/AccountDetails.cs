@@ -13,14 +13,14 @@ public class AccountDetails : IEntity
     public string Username { get; set; } = null!;
 
     [Required]
-    [MaxLength(20)]
+    [MaxLength(64)]
     public string Password { get; set; } = null!;
 
     public bool IsDeleted { get; set; }
 
     [ForeignKey("Customer")]
-    public int CustomerId { get; set; }
+    public int? Customer { get; set; }
 
     [ForeignKey("Employee")]
-    public int EmployeeId { get; set; }
+    public int? EmployeeId { get; set; }
 }

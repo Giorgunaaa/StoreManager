@@ -53,13 +53,13 @@ public class CustomerCommandServiceTests : CommandUnitTestsBase
         CustomerCommandService customerCommandService = new(_unitOfWork);
         customerCommandService.Insert(newCustomer);
 
-        newCustomer.UserName = $"New {userName}";
+        newCustomer.DisplayName = $"New {userName}";
 
         customerCommandService.Update(newCustomer);
 
         Customer updatedCustomer = _unitOfWork.CustomerRepository.Set(x => x.Id == newCustomer.Id).Single();
 
-        Assert.True(updatedCustomer.UserName == newCustomer.UserName);
+        Assert.True(updatedCustomer.DisplayName == newCustomer.DisplayName);
     }
 
     [Theory]
@@ -101,7 +101,7 @@ public class CustomerCommandServiceTests : CommandUnitTestsBase
         {
             FirstName = firstname,
             LastName = lastName,
-            UserName = userName,
+            DisplayName = userName,
         };
         return customer;
     }

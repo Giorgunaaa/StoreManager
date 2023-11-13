@@ -41,27 +41,6 @@ namespace StoreManager.Repositories.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Customers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    AccountBalance = table.Column<decimal>(type: "money", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime", nullable: false),
-                    Phone = table.Column<string>(type: "varchar(15)", maxLength: 15, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
-                    Address = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Customers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Employees",
                 columns: table => new
                 {
@@ -131,56 +110,19 @@ namespace StoreManager.Repositories.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Username = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CustomerId = table.Column<int>(type: "int", nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                    Customer = table.Column<int>(type: "int", nullable: true),
+                    EmployeeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AccountDetails", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AccountDetails_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_AccountDetails_Employees_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "Employees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Orders",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderDate = table.Column<DateTime>(type: "datetime", nullable: false),
-                    ShippedDate = table.Column<DateTime>(type: "datetime", nullable: true),
-                    ShipAddress = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false),
-                    CustomerId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Orders_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Orders_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -232,6 +174,63 @@ namespace StoreManager.Repositories.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Customers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DisplayName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    AccountDetailsId = table.Column<int>(type: "int", nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime", nullable: false),
+                    Phone = table.Column<string>(type: "varchar(15)", maxLength: 15, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Customers_AccountDetails_AccountDetailsId",
+                        column: x => x.AccountDetailsId,
+                        principalTable: "AccountDetails",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderDate = table.Column<DateTime>(type: "datetime", nullable: false),
+                    ShippedDate = table.Column<DateTime>(type: "datetime", nullable: true),
+                    ShipAddress = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
+                    Status = table.Column<byte>(type: "tinyint", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    CustomerId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Orders_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OrderDetails",
                 columns: table => new
                 {
@@ -260,16 +259,11 @@ namespace StoreManager.Repositories.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AccountDetails_CustomerId",
-                table: "AccountDetails",
-                column: "CustomerId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AccountDetails_EmployeeId",
                 table: "AccountDetails",
                 column: "EmployeeId",
-                unique: true);
+                unique: true,
+                filter: "[EmployeeId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccountDetails_Username",
@@ -291,6 +285,11 @@ namespace StoreManager.Repositories.Migrations
                 name: "IX_CityEmployee_EmployeesId",
                 table: "CityEmployee",
                 column: "EmployeesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Customers_AccountDetailsId",
+                table: "Customers",
+                column: "AccountDetailsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_ReportsToId",
@@ -317,9 +316,6 @@ namespace StoreManager.Repositories.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AccountDetails");
-
-            migrationBuilder.DropTable(
                 name: "CategoryProduct");
 
             migrationBuilder.DropTable(
@@ -345,6 +341,9 @@ namespace StoreManager.Repositories.Migrations
 
             migrationBuilder.DropTable(
                 name: "Customers");
+
+            migrationBuilder.DropTable(
+                name: "AccountDetails");
 
             migrationBuilder.DropTable(
                 name: "Employees");
