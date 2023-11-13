@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using StoreManager.API.Controllers;
 using StoreManager.Facade.Interfaces.Repositories;
 using StoreManager.Facade.Interfaces.Services;
 using StoreManager.Repositories;
@@ -34,7 +35,9 @@ internal static class DependencyConfigurationHelper
         builder.Services.AddTransient<IOrderQueryService, OrderQueryService>();
         builder.Services.AddTransient<IOrderCommandService, OrderCommandService>();
 
-        builder.Services.AddTransient<IAccountService, CustomerAccountService>();
+        builder.Services.AddTransient<ICustomerAccountService, CustomerAccountService>();
+
+        builder.Services.AddSingleton<TokenBlacklist>();
 
         builder.Services.AddDbContext<StoreManagerDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("StoreManager")));

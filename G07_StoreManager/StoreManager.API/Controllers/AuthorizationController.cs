@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using StoreManager.DTO;
 using StoreManager.Facade.Interfaces.Services;
 using StoreManager.Models;
 using System.IdentityModel.Tokens.Jwt;
@@ -12,20 +14,22 @@ namespace StoreManager.API.Controllers;
 [ApiController]
 public class AuthorizationController : ControllerBase
 {
-    private readonly IAccountService _accountService;
+    private readonly ICustomerAccountService _customerAccountService;
     private readonly IConfiguration _configuration;
+    private readonly TokenBlacklist _tokenBlacklist;
 
-    public AuthorizationController(IAccountService accountService, IConfiguration configuration)
+    public AuthorizationController(ICustomerAccountService accountService, IConfiguration configuration, TokenBlacklist tokenBlacklist)
     {
-        _accountService = accountService;
+        _customerAccountService = accountService;
         _configuration = configuration;
+        _tokenBlacklist = tokenBlacklist;
     }
 
     [HttpPost]
     [Route("login")]
     public IActionResult Login(LoginModel model)
     {
-        if (model.Username == "Admin" && model.Password == "admin")
+        if (_customerAccountService.Login(model.Username, model.Password).Username == model.Username)
         {
             var stringToken = GetToken(model.Username);
 
@@ -35,14 +39,28 @@ public class AuthorizationController : ControllerBase
     }
 
     [HttpPost]
-    [Route("register")]
-    public IActionResult Register(RegisterModel model) // In progress.
+    [Route("logout")]
+    [Authorize]
+    public IActionResult Logout()
     {
-        var serviceProvider = HttpContext.RequestServices;
-        var customerController = serviceProvider.GetService<CustomerController>();
+        var token = HttpContext.Request.Headers["Authorization"];
+        _tokenBlacklist.RevokeToken(token!);
 
-        int customerId = customerController!.Insert(new CustomerModel(0, model.FirstName, model.LastName));
-        _accountService.Register(customerId, model.FirstName, model.LastName);
+        return Ok("Logout successful");
+    }
+
+    [HttpPost]
+    [Route("register")]
+    public IActionResult Register(RegisterModel model)
+    {
+        _customerAccountService.Register(model.Username, model.Password,
+            new Customer
+            {
+                DisplayName = model.Username,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                DateOfBirth = model.DateOfBirth
+            });
 
         return Ok();
     }
@@ -73,4 +91,13 @@ public class AuthorizationController : ControllerBase
 
         return tokenHandler.WriteToken(token);
     }
+}
+
+public class TokenBlacklist // Temporarily here
+{
+    private HashSet<string> revokedTokens = new HashSet<string>();
+
+    public void RevokeToken(string token) => revokedTokens.Add(token);
+
+    public bool IsTokenRevoked(string token) => revokedTokens.Contains(token);
 }

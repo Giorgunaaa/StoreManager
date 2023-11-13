@@ -22,32 +22,29 @@ public sealed class CustomerAccountService : ICustomerAccountService
         if (string.IsNullOrEmpty(password)) throw new ArgumentException($"{nameof(password)} cannot be null or empty.", nameof(password));
 
         Customer? customer = _unitOfWork.CustomerRepository
-            .Set()
-            .SingleOrDefault(x => x.AccountDetails != null &&
-                                  x.AccountDetails.Username == username &&
-                                  x.AccountDetails.Password == password.GetHash() &&
-                                  !x.IsDeleted);
+            .Set(x => x.AccountDetails != null &&
+                      x.AccountDetails.Username == username &&
+                      x.AccountDetails.Password == password.GetHash() &&
+                      !x.IsDeleted)
+            .SingleOrDefault();
 
         return customer == null
             ? throw new LoginException(username)
-            : new AuthorizedUserModel(customer.Id,customer.AccountDetails!.Username);
+            : new AuthorizedUserModel(customer.Id, username);
     }
 
-    public void Register(int id, string username, string password)
+    public void Register(string username, string password, Customer customer)
     {
         if (username == null) throw new ArgumentNullException(nameof(username));
         if (password == null) throw new ArgumentNullException(nameof(password));
-
-        Customer customer = _unitOfWork.CustomerRepository
-            .Set()
-            .Single(x => x.Id == id && !x.IsDeleted);
+        if (customer == null) throw new ArgumentNullException(nameof(customer));
 
         customer.AccountDetails = new AccountDetails
         {
             Username = username,
             Password = password.GetHash()
         };
-        _unitOfWork.CustomerRepository.Update(customer);
+        _unitOfWork.CustomerRepository.Insert(customer);
         _unitOfWork.SaveChanges();
     }
 
@@ -57,8 +54,8 @@ public sealed class CustomerAccountService : ICustomerAccountService
         if (newPassword == null) throw new ArgumentNullException(nameof(newPassword));
 
         Customer customer = _unitOfWork.CustomerRepository
-            .Set()
-            .Single(x => x.Id == id && x.AccountDetails!.Password == oldPassword.GetHash() && !x.IsDeleted);
+            .Set(x => x.Id == id && x.AccountDetails!.Password == oldPassword.GetHash() && !x.IsDeleted)
+            .Single();
 
         customer.AccountDetails!.Password = newPassword.GetHash();
 
@@ -69,8 +66,8 @@ public sealed class CustomerAccountService : ICustomerAccountService
     public void Unregister(int customerId)
     {
         Customer customer = _unitOfWork.CustomerRepository
-            .Set()
-            .Single(x => x.Id == customerId && !x.IsDeleted);
+            .Set(x => x.Id == customerId && !x.IsDeleted)
+            .Single();
 
         _unitOfWork.CustomerRepository.DeleteAccount(customer);
         _unitOfWork.SaveChanges();

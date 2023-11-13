@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StoreManager.DTO;
 using StoreManager.Facade.Interfaces.Services;
@@ -8,6 +9,7 @@ namespace StoreManager.API.Controllers;
 
 [Route("api/v1/[controller]")]
 [ApiController]
+[Authorize]
 public class CustomerController : ControllerBase
 {
     private readonly ICustomerQueryService _customerQueryService;
