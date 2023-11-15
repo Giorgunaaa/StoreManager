@@ -3,7 +3,6 @@ using StoreManager.Facade.Exceptions;
 using StoreManager.Facade.HelpExtentions;
 using StoreManager.Facade.Interfaces.Repositories;
 using StoreManager.Facade.Interfaces.Services;
-using StoreManager.Models;
 
 namespace StoreManager.Services;
 
@@ -16,21 +15,20 @@ public sealed class EmployeeAccountService : IEmployeeAccountService
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
-    public AuthorizedUserModel Login(string username, string password)
+    public void Login(string username, string password)
     {
         if (string.IsNullOrEmpty(username)) throw new ArgumentException($"{nameof(username)} cannot be null or empty.", nameof(username));
         if (string.IsNullOrEmpty(password)) throw new ArgumentException($"{nameof(password)} cannot be null or empty.", nameof(password));
 
         Employee? employee = _unitOfWork.EmployeeRepository
-            .Set()
-            .SingleOrDefault(x => x.AccountDetails != null &&
-                                  x.AccountDetails.Username == username &&
-                                  x.AccountDetails.Password == password.GetHash() &&
-                                  !x.IsDeleted);
+            .Set(x => x.AccountDetails != null &&
+                      x.AccountDetails.Username == username &&
+                      x.AccountDetails.Password == password.GetHash() &&
+                      !x.IsDeleted)
+            .SingleOrDefault();
 
-        return employee == null
-            ? throw new LoginException(username)
-            : new AuthorizedUserModel(employee.Id, employee.AccountDetails!.Username);
+        if (employee == null)
+            throw new LoginException(username);
     }
 
     public void Register(int id, string username, string password)
@@ -71,7 +69,7 @@ public sealed class EmployeeAccountService : IEmployeeAccountService
         Employee employee = _unitOfWork.EmployeeRepository
             .Set()
             .Single(x => x.Id == employeeId && !x.IsDeleted);
-        
+
         _unitOfWork.EmployeeRepository.DeleteAccount(employee);
         _unitOfWork.SaveChanges();
     }

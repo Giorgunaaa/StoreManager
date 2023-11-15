@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using StoreManager.DTO;
 using StoreManager.Facade.Interfaces.Services;
 using StoreManager.Models;
@@ -29,13 +30,17 @@ public class AuthorizationController : ControllerBase
     [Route("login")]
     public IActionResult Login(LoginModel model)
     {
-        if (_customerAccountService.Login(model.Username, model.Password).Username == model.Username)
+        try
         {
-            var stringToken = GetToken(model.Username);
+            _customerAccountService.Login(model.Username, model.Password);
 
-            return Ok(stringToken);
+            return Ok(GetToken(model.Username));
         }
-        return Unauthorized();
+        catch (Exception ex)
+        {
+            Log.Error(ex, $"{ex.Message}");
+            return Unauthorized();
+        }
     }
 
     [HttpPost]
@@ -87,7 +92,7 @@ public class AuthorizationController : ControllerBase
         };
         var tokenHandler = new JwtSecurityTokenHandler();
         var token = tokenHandler.CreateToken(tokenDescriptor);
-        var jwtToken = tokenHandler.WriteToken(token);
+        tokenHandler.WriteToken(token);
 
         return tokenHandler.WriteToken(token);
     }
@@ -95,9 +100,9 @@ public class AuthorizationController : ControllerBase
 
 public class TokenBlacklist // Temporarily here
 {
-    private HashSet<string> revokedTokens = new HashSet<string>();
+    private readonly HashSet<string> _revokedTokens = new HashSet<string>();
 
-    public void RevokeToken(string token) => revokedTokens.Add(token);
+    public void RevokeToken(string token) => _revokedTokens.Add(token);
 
-    public bool IsTokenRevoked(string token) => revokedTokens.Contains(token);
+    public bool IsTokenRevoked(string token) => _revokedTokens.Contains(token);
 }

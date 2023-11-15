@@ -3,7 +3,6 @@ using StoreManager.Facade.Exceptions;
 using StoreManager.Facade.HelpExtentions;
 using StoreManager.Facade.Interfaces.Repositories;
 using StoreManager.Facade.Interfaces.Services;
-using StoreManager.Models;
 
 namespace StoreManager.Services;
 
@@ -16,7 +15,7 @@ public sealed class CustomerAccountService : ICustomerAccountService
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
-    public AuthorizedUserModel Login(string username, string password)
+    public void Login(string username, string password)
     {
         if (string.IsNullOrEmpty(username)) throw new ArgumentException($"{nameof(username)} cannot be null or empty.", nameof(username));
         if (string.IsNullOrEmpty(password)) throw new ArgumentException($"{nameof(password)} cannot be null or empty.", nameof(password));
@@ -28,9 +27,8 @@ public sealed class CustomerAccountService : ICustomerAccountService
                       !x.IsDeleted)
             .SingleOrDefault();
 
-        return customer == null
-            ? throw new LoginException(username)
-            : new AuthorizedUserModel(customer.Id, username);
+        if (customer == null)
+            throw new LoginException(username);
     }
 
     public void Register(string username, string password, Customer customer)
