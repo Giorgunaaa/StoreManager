@@ -17,31 +17,25 @@ public class AuthorizationController : ControllerBase
     private readonly ICustomerAccountService _customerAccountService;
     private readonly IConfiguration _configuration;
     private readonly TokenBlacklist _tokenBlacklist;
-    private readonly ILogger _logger;
 
-    public AuthorizationController(ICustomerAccountService accountService, IConfiguration configuration, TokenBlacklist tokenBlacklist, ILogger logger)
+    public AuthorizationController(ICustomerAccountService accountService, IConfiguration configuration, TokenBlacklist tokenBlacklist)
     {
         _customerAccountService = accountService;
         _configuration = configuration;
         _tokenBlacklist = tokenBlacklist;
-        _logger = logger;
     }
 
     [HttpPost]
     [Route("login")]
     public IActionResult Login(LoginModel model)
     {
-        try
+        if (_customerAccountService.Login(model.Username, model.Password).Username == model.Username)
         {
-            _customerAccountService.Login(model.Username, model.Password);
+            var stringToken = GetToken(model.Username);
 
-            return Ok(GetToken(model.Username));
+            return Ok(stringToken);
         }
-        catch (Exception ex)
-        {
-            _logger.LogError($"{ex.Message}");
-            return Unauthorized();
-        }
+        return Unauthorized();
     }
 
     [HttpPost]
@@ -93,7 +87,7 @@ public class AuthorizationController : ControllerBase
         };
         var tokenHandler = new JwtSecurityTokenHandler();
         var token = tokenHandler.CreateToken(tokenDescriptor);
-        tokenHandler.WriteToken(token);
+        var jwtToken = tokenHandler.WriteToken(token);
 
         return tokenHandler.WriteToken(token);
     }
@@ -101,9 +95,9 @@ public class AuthorizationController : ControllerBase
 
 public class TokenBlacklist // Temporarily here
 {
-    private readonly HashSet<string> _revokedTokens = new();
+    private HashSet<string> revokedTokens = new HashSet<string>();
 
-    public void RevokeToken(string token) => _revokedTokens.Add(token);
+    public void RevokeToken(string token) => revokedTokens.Add(token);
 
-    public bool IsTokenRevoked(string token) => _revokedTokens.Contains(token);
+    public bool IsTokenRevoked(string token) => revokedTokens.Contains(token);
 }

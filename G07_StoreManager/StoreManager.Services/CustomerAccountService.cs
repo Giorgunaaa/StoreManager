@@ -16,7 +16,7 @@ public sealed class CustomerAccountService : ICustomerAccountService
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
-    public void Login(string username, string password)
+    public AuthorizedUserModel Login(string username, string password)
     {
         if (string.IsNullOrEmpty(username)) throw new ArgumentException($"{nameof(username)} cannot be null or empty.", nameof(username));
         if (string.IsNullOrEmpty(password)) throw new ArgumentException($"{nameof(password)} cannot be null or empty.", nameof(password));
@@ -28,8 +28,9 @@ public sealed class CustomerAccountService : ICustomerAccountService
                       !x.IsDeleted)
             .SingleOrDefault();
 
-        if (customer == null)
-            throw new LoginException(username);
+        return customer == null
+            ? throw new LoginException(username)
+            : new AuthorizedUserModel(customer.Id, username);
     }
 
     public void Register(string username, string password, Customer customer)
