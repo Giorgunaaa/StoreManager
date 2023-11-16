@@ -37,8 +37,6 @@ internal static class DependencyConfigurationHelper
 
         builder.Services.AddTransient<ICustomerAccountService, CustomerAccountService>();
 
-        builder.Services.AddSingleton<TokenBlacklist>();
-
         builder.Services.AddDbContext<StoreManagerDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("StoreManager")));
     }

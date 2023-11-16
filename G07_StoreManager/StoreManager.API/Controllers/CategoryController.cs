@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using StoreManager.API.JwtToken;
 using StoreManager.DTO;
 using StoreManager.Facade.Interfaces.Services;
 using StoreManager.Models;
@@ -9,7 +9,7 @@ namespace StoreManager.API.Controllers;
 
 [Route("api/v1/[controller]")]
 [ApiController]
-[Authorize]
+[JwtTokenAuthorization]
 public class CategoryController : ControllerBase
 {
     private readonly ICategoryQueryService _categoryQueryService;

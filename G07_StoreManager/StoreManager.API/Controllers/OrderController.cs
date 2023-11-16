@@ -1,14 +1,15 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using StoreManager.API.JwtToken;
 using StoreManager.DTO;
 using StoreManager.Facade.Interfaces.Services;
 using StoreManager.Models;
-using StoreManager.Services;
 
 namespace StoreManager.API.Controllers;
 
 [Route("api/v1/[controller]")]
 [ApiController]
+[JwtTokenAuthorization]
 public class OrderController : ControllerBase
 {
     private readonly IOrderQueryService _orderQueryService;

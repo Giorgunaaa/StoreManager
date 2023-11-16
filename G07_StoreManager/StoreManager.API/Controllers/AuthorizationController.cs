@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using StoreManager.API.JwtToken;
 using StoreManager.DTO;
 using StoreManager.Facade.Interfaces.Services;
 using StoreManager.Models;
@@ -17,13 +19,11 @@ public class AuthorizationController : ControllerBase
 {
     private readonly ICustomerAccountService _customerAccountService;
     private readonly IConfiguration _configuration;
-    private readonly TokenBlacklist _tokenBlacklist;
 
-    public AuthorizationController(ICustomerAccountService accountService, IConfiguration configuration, TokenBlacklist tokenBlacklist)
+    public AuthorizationController(ICustomerAccountService accountService, IConfiguration configuration)
     {
         _customerAccountService = accountService;
         _configuration = configuration;
-        _tokenBlacklist = tokenBlacklist;
     }
 
     [HttpPost]
@@ -49,7 +49,7 @@ public class AuthorizationController : ControllerBase
     public IActionResult Logout()
     {
         var token = HttpContext.Request.Headers["Authorization"];
-        _tokenBlacklist.RevokeToken(token!);
+        TokenBlackList.RevokeToken(token!);
 
         return Ok("Logout successful");
     }
@@ -96,13 +96,4 @@ public class AuthorizationController : ControllerBase
 
         return tokenHandler.WriteToken(token);
     }
-}
-
-public class TokenBlacklist // Temporarily here
-{
-    private readonly HashSet<string> _revokedTokens = new HashSet<string>();
-
-    public void RevokeToken(string token) => _revokedTokens.Add(token);
-
-    public bool IsTokenRevoked(string token) => _revokedTokens.Contains(token);
 }

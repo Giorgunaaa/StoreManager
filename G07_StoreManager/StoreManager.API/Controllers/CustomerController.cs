@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using StoreManager.API.JwtToken;
 using StoreManager.DTO;
 using StoreManager.Facade.Interfaces.Services;
 using StoreManager.Models;
@@ -9,7 +9,7 @@ namespace StoreManager.API.Controllers;
 
 [Route("api/v1/[controller]")]
 [ApiController]
-[Authorize]
+[JwtTokenAuthorization]
 public class CustomerController : ControllerBase
 {
     private readonly ICustomerQueryService _customerQueryService;
@@ -30,8 +30,8 @@ public class CustomerController : ControllerBase
     [HttpGet]
     [Route("search/{text}")]
     public IEnumerable<CustomerModel> Search(string text) => _customerQueryService
-	    .Search(text)
-	    .Select(x => _mapper.Map<CustomerModel>(x));
+        .Search(text)
+        .Select(x => _mapper.Map<CustomerModel>(x));
 
     [HttpPost]
     public int Insert(CustomerModel model) => _customerCommandService.Insert(_mapper.Map<Customer>(model));
