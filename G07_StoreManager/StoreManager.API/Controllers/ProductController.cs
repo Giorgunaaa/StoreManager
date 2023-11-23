@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StoreManager.API.JwtToken;
 using StoreManager.DTO;
@@ -48,4 +49,8 @@ public class ProductController : ControllerBase
     [HttpDelete]
     [Route("{id}")]
     public void Delete(int id) => _productCommandService.Delete(id);
+
+    [HttpGet]
+    [AllowAnonymous]
+    public IActionResult GetAll() => Ok(_productQueryService.Set().Select(x => _mapper.Map<ProductModel>(x)));
 }
