@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\StoreManager.Repositories\StoreManager.Repositories.csproj" />
     <ProjectReference Include="..\StoreManager.Services\StoreManager.Services.csproj" />
   </ItemGroup>

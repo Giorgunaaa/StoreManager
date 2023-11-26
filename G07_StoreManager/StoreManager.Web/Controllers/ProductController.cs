@@ -1,17 +1,37 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using StoreManager.DTO;
+using StoreManager.Facade.Interfaces.Services;
+using StoreManager.Web.Models;
 
-namespace StoreManager.Web.Controllers
+namespace StoreManager.Web.Controllers;
+
+public class ProductController : Controller
 {
-    public class ProductController : Controller
-    {
-        public IActionResult Index()
-        {
-            return View();
-        }
+    private readonly IProductQueryService _productQueryService;
+    private readonly IMapper _mapper;
 
-        public IActionResult Details(int id)
+    public ProductController(IProductQueryService productQueryService)
+    {
+        _productQueryService = productQueryService;
+        var config = new MapperConfiguration(cfg =>
         {
-            return View();
-        }
+            cfg.CreateMap<Product, ProductModel>().ReverseMap();
+        });
+
+        _mapper = config.CreateMapper();
+    }
+
+    public IActionResult Index()
+    {
+        var products = _mapper.Map<IEnumerable<ProductModel>>(_productQueryService.Search(""));
+
+
+        return View(products);
+    }
+
+    public IActionResult Details(int id)
+    {
+        return View();
     }
 }

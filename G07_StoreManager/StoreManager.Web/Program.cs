@@ -1,3 +1,5 @@
+using StoreManager.Web.Configuration;
+
 namespace StoreManager.Web
 {
     public class Program
@@ -8,6 +10,7 @@ namespace StoreManager.Web
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.ConfigureDependency(builder.Configuration);
 
             var app = builder.Build();
 

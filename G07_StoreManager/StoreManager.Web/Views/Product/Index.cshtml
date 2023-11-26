@@ -1,3 +1,17 @@
-﻿@{
-	ViewData["Title"] = "Products";
+﻿@using StoreManager.Web.Models;
+@model IEnumerable<ProductModel>
+
+@{
+    ViewData["Title"] = "Products";
 }
+
+<div class="product-list">
+    @foreach (var product in Model)
+    {
+        <div class="product-details">
+            <div class="product-title">@product.Name</div>
+            <div class="product-id">Id:@product.Id</div>
+            <p>@product.Description</p>
+        </div>
+    }
+</div>
