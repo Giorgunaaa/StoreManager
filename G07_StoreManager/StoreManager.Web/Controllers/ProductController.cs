@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using StoreManager.DTO;
 using StoreManager.Facade.Interfaces.Services;
 using StoreManager.Web.Models;
+using System.Collections.Generic;
 
 namespace StoreManager.Web.Controllers;
 
@@ -32,6 +33,13 @@ public class ProductController : Controller
 
     public IActionResult Details(int id)
     {
-        return View();
+        var product = _mapper.Map<ProductModel>(_productQueryService.Set(p => p.Id == id).SingleOrDefault());
+
+        if (product == null)
+        {
+            return NotFound();
+        }
+
+        return View(product);
     }
 }
