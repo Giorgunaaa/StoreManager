@@ -10,11 +10,14 @@ namespace StoreManager.Web.Controllers;
 public class ProductController : Controller
 {
     private readonly IProductQueryService _productQueryService;
+    private readonly IProductCommandService _productCommandService;
     private readonly IMapper _mapper;
 
-    public ProductController(IProductQueryService productQueryService)
+    public ProductController(IProductQueryService productQueryService, IProductCommandService productCommandService)
     {
         _productQueryService = productQueryService;
+        _productCommandService = productCommandService;
+
         var config = new MapperConfiguration(cfg =>
         {
             cfg.CreateMap<Product, ProductModel>().ReverseMap();
@@ -41,5 +44,18 @@ public class ProductController : Controller
         }
 
         return View(product);
+    }
+
+    [HttpPost]
+    public IActionResult Edit(ProductModel editedProduct)
+    {
+        if (ModelState.IsValid)
+        {
+            _productCommandService.Update(_mapper.Map<Product>(editedProduct));
+
+            return RedirectToAction("Details", new { id = editedProduct.Id });
+        }
+
+        return View(editedProduct);
     }
 }
