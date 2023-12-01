@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using StoreManager.DTO;
 using StoreManager.Facade.Interfaces.Services;
 using StoreManager.Web.Models;
-using System.Collections.Generic;
 
 namespace StoreManager.Web.Controllers;
 
@@ -30,14 +29,12 @@ public class ProductController : Controller
     {
         var products = _mapper.Map<IEnumerable<ProductModel>>(_productQueryService.Search(""));
 
-
         return View(products);
     }
 
     public IActionResult Details(int id)
     {
         var product = _mapper.Map<ProductModel>(_productQueryService.Set(p => p.Id == id).SingleOrDefault());
-
         if (product == null)
         {
             return NotFound();
@@ -47,15 +44,15 @@ public class ProductController : Controller
     }
 
     [HttpPost]
-    public IActionResult Edit(ProductModel editedProduct)
+    public IActionResult Edit(ProductModel model)
     {
         if (ModelState.IsValid)
         {
-            _productCommandService.Update(_mapper.Map<Product>(editedProduct));
+            _productCommandService.Update(_mapper.Map<Product>(model));
 
-            return RedirectToAction("Details", new { id = editedProduct.Id });
+            return RedirectToAction("Details", new { id = model.Id });
         }
 
-        return View(editedProduct);
+        return View(model);
     }
 }
