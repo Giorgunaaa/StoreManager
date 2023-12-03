@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using StoreManager.DTO;
 using StoreManager.Facade.Interfaces.Services;
 using StoreManager.Web.Models;
@@ -53,6 +54,22 @@ public class ProductController : Controller
             return RedirectToAction("Details", new { id = model.Id });
         }
 
-        return View(model);
+        return BadRequest(new { Model = model, Message = "Invalid model" });
+    }
+
+    [HttpGet]
+    public IActionResult Add() => View();
+
+    [HttpPost]
+    public IActionResult Add(ProductModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            _productCommandService.Insert(_mapper.Map<Product>(model));
+
+            return RedirectToAction("Index");
+        }
+
+        return BadRequest(new { Model = model, Message = "Invalid model" });
     }
 }
